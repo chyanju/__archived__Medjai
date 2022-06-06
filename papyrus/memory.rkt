@@ -88,12 +88,15 @@
 (struct memory (
     data ; vector of vectors
     frozen ; bool
+    ; from MemorySegmentManager
+    nsegs ; (n_segments) int
 ) #:mutable #:transparent #:reflection-name 'memory)
 
 (define (make-memory)
     (memory
-        (list->vector (for/list ([_ (range config:segcap)] null)))
+        (list->vector (for/list ([_ (range config:segcap)]) null))
         #f
+        0
     )
 )
 
@@ -120,7 +123,7 @@
     (define l0 (let ([t0 (vector-ref p seg0)])
         (cond
             [(null? t0)
-                (vector-set! p (list->vector (for/list ([_ (range config:offcap)] null))))
+                (vector-set! p (list->vector (for/list ([_ (range config:offcap)]) null)))
                 (vector-ref p seg0)
             ]
             [else t0]
@@ -176,8 +179,17 @@
     )
 )
 
-; (MemorySegmentManager:add)
-(define (add-segment p)
+; for MemorySegmentManager
+(define (add-segment p #:size [size null])
     (tokamak:typed p memory?)
-    (tokamak:error "not implemented")
+    (tokamak:typed size integer? null?)
+    (let ([segment-index (memory-nsegs p)])
+        (set-memory-nsegs! p (+ 1 segment-index))
+        (when (! (null? size))
+            ; (fixme) call finalize
+            (void)
+        )
+        ; return
+        (rv segment-index 0)
+    )
 )

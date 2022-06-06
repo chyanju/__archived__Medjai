@@ -5,7 +5,9 @@
     (prefix-in tokamak: "./tokamak.rkt")
     (prefix-in memory: "./memory.rkt")
     (prefix-in config: "./config.rkt")
+    (prefix-in program: "./program.rkt")
 )
+(provide (all-defined-out))
 
 ; ============================= ;
 ; ======== CairoRunner ======== ;
@@ -19,7 +21,7 @@
     initfp ; (initial_fp) rv or null (init)
     initap ; (initial_ap) rv or null (init)
     initpc ; (initial_pc) rv or null (init)
-    finapc ; (final_pc) rv or null (init)
+    finalpc ; (final_pc) rv or null (init)
 ) #:mutable #:transparent #:reflection-name 'runner)
 
 (define (make-runner #:prog prog #:mem mem)
@@ -29,9 +31,9 @@
     (runner prog mem null null null null null null)
 )
 
-; (initialize_segments)
-(define (init-segs p #:pbase [pbase null])
+(define (initialize-segments p #:pbase [pbase null])
     (tokamak:typed p runner?)
+    (tokamak:typed pbase memory:rv? null?)
     (let ([mem (runner-mem p)])
         ; program segment
         (set-runner-pbase! p
@@ -47,51 +49,52 @@
     )
 )
 
-; (initialize_main_entrypoint)
-(define (init-mainent p)
+(define (initialize-main-entrypoint p)
     (tokamak:typed p runner?)
     ; (fixme) extremely simplified
     (define stack (list ))
     (let ([prog (runner-prog p)][mem (runner-mem p)])
-        (define retfp (memory:add-segment mem))
+        (define return-fp (memory:add-segment mem))
         (define main (program:program-main prog))
         ; return
-        (init-funent p main stack #:)
+        (initialize-function-entrypoint p main stack #:return-fp return-fp)
     )
 )
 
-; (initialize_function_entrypoint)
-(define (init-funent p ent args #:retfp [retfp (memory:rv 0 0)])
+(define (initialize-function-entrypoint p entrypoint args #:return-fp [return-fp (memory:rv 0 0)])
     (tokamak:typed p runner?)
-    (tokamak:typed ent string? integer?)
+    (tokamak:typed entrypoint string? integer?)
     (tokamak:typed args list?)
+    (tokamak:typed return-fp memory:rv? integer?)
     (let ([mem (runner-mem p)])
         (define end (memory:add-segment mem))
-        (define stack (append args (list retfp end)))
-        (init-state p ent stack)
-        (set-runner-initfp! p (+ (runner-ebase p) (length stack)))
-        (set-runner-initap! p (+ (runner-ebase p) (length stack)))
+        (define stack (append args (list return-fp end)))
+        (initialize-state p entrypoint stack)
+        (set-runner-initfp! p (memory:rvadd (runner-ebase p) (length stack)))
+        (set-runner-initap! p (memory:rvadd (runner-ebase p) (length stack)))
         (set-runner-finalpc! p end)
         ; return
         end
     )
 )
 
-(define (init-state p ent stack)
+(define (initialize-state p entrypoint stack)
     (tokamak:typed p runner?)
-    (tokamak:typed ent string? integer?)
+    (tokamak:typed entrypoint string? integer?)
     (tokamak:typed stack list?)
-    (set-runner-initpc! p (+ (runner-pbase p) (topc ent)))
+    (set-runner-initpc! p (memory:rvadd (runner-pbase p) (topc p entrypoint)))
     ; (fixme) load program
     ; (fixme) load data
 )
 
-(define (topc p lp)
+(define (topc p lop)
     (tokamak:typed p runner?)
-    (tokamak:typed lp string? integer?)
+    (tokamak:typed lop string? integer?)
     ; return
-    (if (string? lp)
-        (program:get-label (runner-prog p) lp)
-        lp
+    (if (string? lop)
+        ; (fixme)
+        ; (program:get-label (runner-prog p) lop)
+        0
+        lop
     )
 )

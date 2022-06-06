@@ -18,13 +18,13 @@
 
 ; used for forced break out of the execution
 (define (println-and-exit msg . fmts)
-    (printf "[tokamak:exit] ~a\n" (apply format (cons msg fmts)))
+    (printf (format "[tokamak:exit] ~a\n" (apply format (cons msg fmts))))
     ; (exit 0)
 )
 
 ; used for throwing tokamak error with message
 (define (println-and-error msg . fmts)
-    (error "[tokamak:error] ~a\n" (apply format (cons msg fmts)))
+    (error (format "[tokamak:error] ~a\n" (apply format (cons msg fmts))))
     ; (exit 0)
 )
 
