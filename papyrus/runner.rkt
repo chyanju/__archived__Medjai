@@ -28,7 +28,7 @@
     runend ; (_run_ended) bool
     segfin ; (_segments_finalized) bool
     acaddrs ; (fixme) (accessed_addresses) set[rv]
-    
+
     ; implicitly defined, all initialized to null
     pbase ; (program_base) rv / int
     ebase ; (execution_base) rv / int
@@ -36,6 +36,7 @@
     initap ; (initial_ap) rv / int
     initfp ; (initial_fp) rv / int
     vm ; vm
+    epm ; (execution_public_memory) list[int]
 ) #:mutable #:transparent #:reflection-name 'runner)
 
 ; raw constructor
@@ -44,6 +45,7 @@
     #:ambs ambs #:mem mem #:soffs soffs #:finalpc finalpc #:runend runend
     #:segfin segfin #:acaddrs acaddrs
     #:pbase pbase #:ebase ebase #:initpc initpc #:initap initap #:initfp initfp #:vm vm
+    #:epm epm
     )
     ; return
     (runner 
@@ -51,6 +53,7 @@
         ambs mem soffs finalpc runend
         segfin acaddrs
         pbase ebase initpc initap initfp vm
+        epm
     )
 )
 
@@ -86,6 +89,7 @@
         #:ambs ambs0 #:mem mem0 #:soffs soffs0 #:finalpc finalpc0 #:runend runend0
         #:segfin segfin0 #:acaddrs acaddrs0
         #:pbase null #:ebase null #:initpc null #:initap null #:initfp null #:vm null
+        #:epm null
     )
 )
 
@@ -101,15 +105,15 @@
     )
 )
 
-(define (initialize-segments p #:pbase [pbase null])
+(define (initialize-segments p #:program-base [program-base null])
     (tokamak:typed p runner?)
-    (tokamak:typed pbase memory:rv? null?)
+    (tokamak:typed program-base memory:rv? null?)
     (let ([mem (runner-mem p)])
         ; program segment
         (set-runner-pbase! p
-            (if (null? pbase)
+            (if (null? program-base)
                 (memory:add-segment mem)
-                pbase
+                program-base
             )
         )
         ; execution segment
@@ -119,9 +123,10 @@
     )
 )
 
+; (fixme) extremely simplified
 (define (initialize-main-entrypoint p)
     (tokamak:typed p runner?)
-    ; (fixme) extremely simplified
+    (set-runner-epm! p null)
     (define stack (list ))
     (let ([prog (runner-prog p)][mem (runner-mem p)])
         (define return-fp (memory:add-segment mem))

@@ -12,12 +12,17 @@
     (cons 'program-input null)
 )))
 
-(define prog (program:load-program (hash-ref args 'program)))
-; (define initmem (memory:make-memory))
-; (define rn (runner:make-runner #:prog prog #:mem initmem))
-; (runner:initialize-segments rn)
-; (define end (runner:initialize-main-entrypoint rn))
-; (define program-input (let ([pi (hash-ref args 'program-input)])
-;     (if (null? pi) (make-hash) pi)
-; ))
-; (runner:initialize-vm rn (make-hash (list (cons 'program-input program-input))))
+(define program (program:load-program (hash-ref args 'program)))
+(define initial-memory (memory:make-memory
+    #:prime (program:program-prime program)))
+(define runner (runner:make-runner
+    #:prog program #:mem initial-memory))
+(runner:initialize-segments runner)
+(define end (runner:initialize-main-entrypoint runner))
+(define program-input (let ([pi (hash-ref args 'program-input)])
+    (if (null? pi) (make-hash) pi)
+))
+(runner:initialize-vm
+    runner
+    (make-hash (list (cons 'program-input program-input)))
+)

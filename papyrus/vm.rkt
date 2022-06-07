@@ -78,7 +78,7 @@
     (define prog0 prog)
     (define mem0 (context:context-mem cntx))
     ; (fixme) tell apart StrippedProgram and Program
-    (when (program:program? prog0) (load-program prog0 pbase0))
+    (when (program:program? prog0) (load-program prime0 prog0 pbase0))
     (define autodd0 (make-hash))
     (define slocals0 (if (! (null? slocals))
         slocals
@@ -103,12 +103,13 @@
 
 ; (VirtualMachineBase.load_program)
 ; yeah the vm also has a load_program method
-(define (load-program p program program-base)
-    (tokamak:typed p vm?)
+(define (load-program self.prime program program-base)
+    (tokamak:typed self.prime integer?)
     (tokamak:typed program program:program?)
     (tokamak:typed program-base memory:rv? integer?)
-    (assert (equal? (vm-prime p) (program:program-prime program))
+    (assert (equal? self.prime (program:program-prime program))
         (format "unexpected prime for loaded program: ~a != ~a."
-        (program:program-prime program) (vm-prime p)))
-    ; (fixme) actually model this when necessary
+        (program:program-prime program) self.prime))
+    ; (fixme) skipped a few
 )
+

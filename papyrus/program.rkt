@@ -21,7 +21,6 @@
     prime ; int
     data ; list[int]
     builtins ; list[str]
-    main ; int or null
 
     ; Program
     hints ; dict[int,list[hint]]
@@ -36,12 +35,12 @@
 ; raw constructor
 (define (new-program
     ; ProgramBase
-    #:prime prime #:data data #:builtins builtins #:main main
+    #:prime prime #:data data #:builtins builtins
     ; Program
     #:hints hints #:mscope mscope #:ids ids #:refmgr refmgr #:attrs attrs #:dbg dbg
     )
     ; return
-    (program prime data builtins main hints mscope ids refmgr attrs dbg)
+    (program prime data builtins hints mscope ids refmgr attrs dbg)
 )
 
 ; (cairo_runner.load_program) + (Program.load)
@@ -51,10 +50,9 @@
     (define js0 (string->jsexpr (file->string jspath)))
     ; return
     (new-program
-        #:prime (hash-ref js0 'prime)
+        #:prime (string->number (substring (hash-ref js0 'prime) 2) 16) ; hex remove leading "0x"
         #:data (hash-ref js0 'data)
         #:builtins (hash-ref js0 'builtins)
-        #:main null ; (fixme) where is this initialized?
         #:hints (hash-ref js0 'hints)
         #:mscope null ; (fixme) need to parse (hash-ref js0 'main_scope)
         #:ids null ; (fixme) need to parse (hash-ref js0 'identifiers)
@@ -62,4 +60,11 @@
         #:attrs null ; (fixme) need to parse (hash-ref js0 'attributes)
         #:dbg null ; (fixme) need to parse (hasr-ref js0 'debug_info)
     )
+)
+
+; property: main
+(define (program-main p)
+    (tokamak:typed p program?)
+    ; (fixme) need to correctly model this
+    0
 )
