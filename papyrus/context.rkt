@@ -3,7 +3,7 @@
 ;   |- RunContext
 (require
     (prefix-in tokamak: "./tokamak.rkt")
-    (prefix-in config: "./config.rkt")
+    (prefix-in memory: "./memory.rkt")
 )
 (provide (all-defined-out))
 
@@ -13,25 +13,22 @@
 ; (RunContext)
 (struct context (
     mem ; (memory) memory
-    pc ap fp ; rv or int
+    pc ap fp ; rv / int
     prime ; int
 ) #:mutable #:transparent #:reflection-name 'context)
 
-(define (make-context #:mem mem #:pc pc #:ap ap #:fp fp #:prime prime)
+; raw constructor
+(define (new-context #:mem mem #:pc pc #:ap ap #:fp fp #:prime prime)
+    ; return
     (context mem pc ap fp prime)
 )
-
-; (get_instruction_encoding)
-; (define (get-instenc p)
-;     (tokamak:typed p context?)
-;     (let ([mem (context-mem p)] [pc (context-pc p)] [prime (context-prime p)])
-;         (define instenc (memory-ref mem pc))
-;         (tokamak:typed instenc bv?)
-;         (define imm-addr (modulo (+ 1 pc) prime))
-;         (define optional-imm (let ([i0 (memory-ref mem imm-addr)])
-;             (if (not (bv? i0)) null i0)
-;         ))
-;         ; return
-;         (values instenc optional-imm)
-;     )
-; )
+; constructor
+(define (make-context #:mem mem #:pc pc #:ap ap #:fp fp #:prime prime)
+    (tokamak:typed mem memory:memory?)
+    (tokamak:typed pc memory:rv? integer?)
+    (tokamak:typed ap memory:rv? integer?)
+    (tokamak:typed fp memory:rv? integer?)
+    (tokamak:typed prime integer?)
+    ; return
+    (new-context #:mem mem #:pc pc #:ap ap #:fp fp #:prime prime)
+)

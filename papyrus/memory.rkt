@@ -77,30 +77,80 @@
     )
 )
 
+; pass on, no need to check types
 (define (rvle self other) (|| (rvlt self other) (rveq self other)))
 (define (rvge self other) (! (rvlt self other)))
 (define (rvgt self other) (! (rvle self other)))
 
-; =================================================== ;
-; ======== MemoryDict + MemorySegmentManager ======== ;
-; =================================================== ;
-; (MemoryDict + MemorySegmentManager)
+; ========================================================================= ;
+; ======== MemoryDict + MemorySegmentManager + ValidatedMemoryDict ======== ;
+; ========================================================================= ;
+; (MemoryDict + MemorySegmentManager + ValidatedMemoryDict)
 (struct memory (
+
+    ; MemoryDict
     data ; vector of vectors
-    frozen ; bool
-    ; from MemorySegmentManager
+    frozen ; (_frozen) bool
+    rrules ; (relocation_rules) dict[int,rv]
+
+    ; MemorySegmentManager
+    ; (memory) is data, no need to include
+    prime ; int
     nsegs ; (n_segments) int
+    ntsegs ; (n_temp_segments) int
+    ssizes ; (_segment_sizes) dict[int,int]
+    susizes ; (_segment_used_sizes) dict[int,int] or null
+    pmoffs ; (public_memory_offsets) dict[int,list[tup[int,int]]]
+
+    ; ValidatedMemoryDict
+    vrules ; (fixme) (__validation_rules) dict[int,list[tuple[ValidationRule,tuple]]]
+    vaddrs ; (fixme) (__validated_addresses) set[rv]
+
 ) #:mutable #:transparent #:reflection-name 'memory)
 
-(define (make-memory)
-    (memory
-        (list->vector (for/list ([_ (range config:segcap)]) null))
-        #f
-        0
+; raw constructor
+(define (new-memory
+    ; MemoryDict
+    #:data data #:frozen frozen #:rrules rrules
+    ; MemorySegmentManager
+    #:prime prime #:nsegs nsegs #:ntsegs ntsegs #:ssizes ssizes
+    #:susizes susizes #:pmoffs pmoffs
+    ; ValidatedMemoryDict
+    #:vrules vrules #:vaddrs vaddrs
+    )
+    ; return
+    (memory data frozen rrules prime nsegs ntsegs ssizes susizes pmoffs vrules vaddrs)
+)
+
+; constructor
+(define (make-memory
+    #:values [values null] ; MemoryDict
+    #:prime prime ; MemorySegmentManager
+    )
+    (tokamak:typed values list? null?)
+    (tokamak:typed prime integer?)
+
+    ; (fixme) you need a correct way to convert values into data
+    (when (! (null? values)) (tokamak:error "not implemented"))
+    (define data0 (list->vector (for/list ([_ (range config:segcap)]) null)))
+
+    ; return
+    (new-memory
+        #:data data0
+        #:frozen #f
+        #:rrules (make-hash)
+        #:prime prime
+        #:nsegs 0
+        #:ntsegs 0
+        #:ssizes (make-hash)
+        #:susizes null
+        #:pmoffs null
+        #:vrules (make-hash) ; (fixme)
+        #:vaddrs null ; (fixme)
     )
 )
 
-; internal core method
+; MemoryDict method, internal core method
 (define (data-ref p addr)
     (tokamak:typed p vector?) ; p is the memory data
     (tokamak:typed addr rv? integer?) ; for integer, treat it as seg=0
@@ -114,6 +164,7 @@
     l1
 )
 
+; MemoryDict method, internal core method
 (define (data-set-default! p key [default null])
     (tokamak:typed p vector?) ; p is the memory data
     (tokamak:typed key rv? integer?) ; for integer, treat it as seg=0
@@ -134,6 +185,7 @@
     default
 )
 
+; MemoryDict method
 (define (check-element num name)
     (tokamak:typed num rv? integer?)
     (tokamak:typed name string?)
@@ -141,11 +193,18 @@
         (tokamak:error "~a must be nonnegative, got: ~a." name num))
 )
 
+; MemoryDict method
 (define (verify-same-value addr current value)
+    (tokamak:typed addr rv? integer?)
+    (tokamak:typed current rv? integer?)
+    (tokamak:typed value rv? integer?)
+    ; (fixme) this may cause exception if current or value is rv
+    ;         since equal? is not overloaded here
     (when (! (equal? current value))
         (tokamak:error "inconsistency memory error, addr: ~a, current: ~a, value: ~a." addr current value))
 )
 
+; MemoryDict method
 (define (memory-ref p addr)
     (tokamak:typed p memory?)
     (check-element addr "memory address")
@@ -154,6 +213,7 @@
     (relocate-value value)
 )
 
+; MemoryDict method
 (define (memory-set! p addr value)
     (tokamak:typed p memory?)
     (when (memory-frozen p)
@@ -166,6 +226,7 @@
     (verify-same-value addr current value)
 )
 
+; MemoryDict method
 (define (relocate-value value)
     (tokamak:typed value rv? integer?)
     (cond
@@ -179,12 +240,13 @@
     )
 )
 
+; MemoryDict method
 (define (validate-existing-memory p)
     (tokamak:typed p memory?)
     ; (fixme) add implementation
 )
 
-; from MemorySegmentManager
+; MemorySegmentManager method
 (define (add-segment p #:size [size null])
     (tokamak:typed p memory?)
     (tokamak:typed size integer? null?)

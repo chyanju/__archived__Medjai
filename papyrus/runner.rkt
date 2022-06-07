@@ -17,22 +17,76 @@
 ; (CairoRunner)
 (struct runner (
     prog ; (program) program
-    mem ; (memory) memory
-    pbase ; (program_base) rv or null (init)
-    ebase ; (execution_base) rv or null (init)
-    initfp ; (initial_fp) rv or null (init)
-    initap ; (initial_ap) rv or null (init)
-    initpc ; (initial_pc) rv or null (init)
-    finalpc ; (final_pc) rv or null (init)
-    vm ; vm or null (init)
-    brunners ; (fixme) (builtin_runners) null
+    layout ; str
+    brunners ; (fixme) (builtin_runners) dict[str,BuiltinRunner]
+    osteps ; (original_steps) ??
+    pfmode ; (proof_mode) bool
+    ambs ; (allow_missing_builtins) bool
+    mem ; (memory+segments) memory
+    soffs ; (segment_offsets) dict[int,int]
+    finalpc ; (final_pc) rv / int
+    runend ; (_run_ended) bool
+    segfin ; (_segments_finalized) bool
+    acaddrs ; (fixme) (accessed_addresses) set[rv]
+    
+    ; implicitly defined, all initialized to null
+    pbase ; (program_base) rv / int
+    ebase ; (execution_base) rv / int
+    initpc ; (initial_pc) rv / int
+    initap ; (initial_ap) rv / int
+    initfp ; (initial_fp) rv / int
+    vm ; vm
 ) #:mutable #:transparent #:reflection-name 'runner)
 
-(define (make-runner #:prog prog #:mem mem)
-    (tokamak:typed prog program:program?)
-    (tokamak:typed mem memory:memory?)
+; raw constructor
+(define (new-runner
+    #:prog prog #:layout layout #:brunners brunners #:osteps osteps #:pfmode pfmode
+    #:ambs ambs #:mem mem #:soffs soffs #:finalpc finalpc #:runend runend
+    #:segfin segfin #:acaddrs acaddrs
+    #:pbase pbase #:ebase ebase #:initpc initpc #:initap initap #:initfp initfp #:vm vm
+    )
     ; return
-    (runner prog mem null null null null null null null null)
+    (runner 
+        prog layout brunners osteps pfmode
+        ambs mem soffs finalpc runend
+        segfin acaddrs
+        pbase ebase initpc initap initfp vm
+    )
+)
+
+; constructor
+(define (make-runner
+    #:prog prog #:layout [layout "plain"] #:mem [mem null]
+    #:pfmode [pfmode null] #:ambs [ambs null]
+    )
+    (tokamak:typed prog program:program?)
+    (tokamak:typed layout string?)
+    (tokamak:typed mem memory:memory? null?)
+    (tokamak:typed pfmode boolean? null?)
+    (tokamak:typed ambs boolean? null?)
+    (define prog0 prog)
+    (define layout0 layout)
+    (define brunners0 (make-hash))
+    (define osteps0 null)
+    (define pfmode0 (if (null? pfmode) #f pfmode))
+    (define ambs0 (if (null? ambs) #f ambs))
+    ; (fixme) here we skip a bit
+    (define mem0 (if (null? mem)
+        (memory:make-memory #:prime (program:program-prime prog))
+        mem
+    ))
+    (define soffs0 null)
+    (define finalpc0 null)
+    (define runend0 #f)
+    (define segfin0 #f)
+    (define acaddrs0 null)
+    ; return
+    (new-runner
+        #:prog prog0 #:layout layout0 #:brunners brunners0 #:osteps osteps0 #:pfmode pfmode0
+        #:ambs ambs0 #:mem mem0 #:soffs soffs0 #:finalpc finalpc0 #:runend runend0
+        #:segfin segfin0 #:acaddrs acaddrs0
+        #:pbase null #:ebase null #:initpc null #:initap null #:initfp null #:vm null
+    )
 )
 
 (define (topc p lop)

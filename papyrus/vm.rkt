@@ -5,48 +5,110 @@
     (prefix-in tokamak: "./tokamak.rkt")
     (prefix-in context: "./context.rkt")
     (prefix-in memory: "./memory.rkt")
+    (prefix-in program: "./program.rkt")
 )
 (provide (all-defined-out))
 
 ; ================================ ;
 ; ======== VirtualMachine ======== ;
 ; ================================ ;
-; (VirtualMachine)
+; (VirtualMachineBase) -> (VirtualMachine)
 (struct vm (
+
+    ; VirtualMachineBase
+    prime ; int
+    brunners ; (fixme) (builtin_runners) dict[str,BuiltinRunner]
+    excopes ; (exec_scopes) list[dict]
+    hints ; (fixme) dict[rv,list[CompiledHint]]
+    hpi ; (fixme) (hint_pc_and_index) dict[int,tuple[rv,int]]
+    idi ; (fixme) (instruction_debug_info) dict[rv,InstructionLocation]
+    dfc ; (debug_file_contents) dict[str,str]
+    ema ; (fixme) (error_message_attributes) list[VmAttributeScope]
     prog ; (program) program
-    cntx ; (run_context) context
-    hlocals ; (fixme) (hint_locals) null
-    slocals ; (fixme) (static_locals) null
-    brunners ; (fixme) (builtin_runners) null
-    pbase ; (program_base) null
-    ; from VirtualMachineBase
     mem ; (validated_memory) memory
-    ; stateful vars
+    autodd ; (fixme) (auto_deduction) dict[int,list[tuple[Rule,tuple]]]
+    slocals ; (static_locals) dict[str,Any]
+
+    ; VirtualMachine
+    cntx ; (run_context) context
+    acaddrs ; (fixme) (accessed_addresses) set[rv]
+    trace ; (fixme) list[TraceEntry[rv]]
     currstep ; (current_step) int
+    skipiexec ; (skip_instruction_execution) bool
+
 ) #:mutable #:transparent #:reflection-name 'vm)
 
-; (fixme) dramatically simplified
-(define (make-vm #:prog prog #:cntx cntx #:hlocals hlocals
-                 #:slocals [slocals null] #:brunners [brunners null] #:pbase [pbase null])
+; raw constructor
+(define (new-vm
+    ; VirtualMachineBase
+    #:prime prime #:brunners brunners #:excopes excopes #:hints hints
+    #:hpi hpi #:idi idi #:dfc dfc #:ema ema
+    #:prog prog #:mem mem #:autodd autodd #:slocals slocals
+    ; VirtualMachine
+    #:cntx cntx #:acaddrs acaddrs #:trace trace
+    #:currstep currstep #:skipiexec skipiexec
+    )
+    ; return
+    (vm prime brunners excopes hints hpi idi dfc ema prog mem autodd slocals
+        cntx acaddrs trace currstep skipiexec)
+)
+
+; constructor
+(define (make-vm #:prog prog #:cntx cntx #:hlocals hlocals #:slocals [slocals null]
+                 #:brunners [brunners null] #:pbase [pbase null])
+    (tokamak:typed prog program:program?)
+    (tokamak:typed cntx context:context?)
+    (tokamak:typed hlocals hash?)
+    (tokamak:typed slocals hash? null?)
+    (tokamak:typed brunners hash? null?)
+    (tokamak:typed pbase memory:rv? integer? null?)
+    (define cntx0 cntx)
     (define pbase0 (if (null? pbase) (context:context-pc cntx) pbase))
     (define brunners0 (if (null? brunners) (make-hash) brunners))
-    (define mem (context:context-mem cntx))
-    (define currstep 0)
+    ; base init starts ==>
+    (define prime0 (program:program-prime prog))
+    ; brunners is fine
+    (define excopes0 null)
+    ; (fixme) call enter_scope
+    (define hints0 (make-hash))
+    (define hpi0 (make-hash))
+    (define idi0 (make-hash))
+    (define dfc0 (make-hash))
+    (define ema0 null)
+    (define prog0 prog)
+    (define mem0 (context:context-mem cntx))
+    ; (fixme) tell apart StrippedProgram and Program
+    (when (program:program? prog0) (load-program prog0 pbase0))
+    (define autodd0 (make-hash))
+    (define slocals0 (if (! (null? slocals))
+        slocals
+        (make-hash (list
+            (cons 'PRIME prime0)
+            (cons 'fadd (lambda (a b p) (modulo (+ a b) p)))
+            ; (fixme) add the remainings
+        ))
+    ))
+    ; <== base init ends
+    (define acaddrs0 null)
+    (define trace0 null)
+    (define currstep0 0)
+    (define skipiexec0 #f)
     ; return
-    (vm prog cntx hlocals slocals brunners0 pbase0 mem currstep)
+    (new-vm
+        #:prime prime0 #:brunners brunners0 #:excopes excopes0 #:hints hints0 #:hpi hpi0
+        #:idi idi0 #:dfc dfc0 #:ema ema0 #:prog prog0 #:mem mem0 #:autodd autodd0 #:slocals slocals0
+        #:cntx cntx0 #:acaddrs acaddrs0 #:trace trace0 #:currstep currstep0 #:skipiexec skipiexec0
+    )
 )
 
-(define (validate-existing-memory p)
+; (VirtualMachineBase.load_program)
+; yeah the vm also has a load_program method
+(define (load-program p program program-base)
     (tokamak:typed p vm?)
-    (memory:validate-existing-memory (vm-mem p))
+    (tokamak:typed program program:program?)
+    (tokamak:typed program-base memory:rv? integer?)
+    (assert (equal? (vm-prime p) (program:program-prime program))
+        (format "unexpected prime for loaded program: ~a != ~a."
+        (program:program-prime program) (vm-prime p)))
+    ; (fixme) actually model this when necessary
 )
-
-; (define (decode-currinst p)
-;     (tokamak:typed p vm?)
-;     (let ([context (vm-context p)])
-;         (define-values (instenc imm) (comp:get-instenc context))
-;         (define inst (enc:decode-inst instenc imm))
-;         ; return
-;         inst
-;     )
-; )
