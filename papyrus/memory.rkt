@@ -179,7 +179,12 @@
     )
 )
 
-; for MemorySegmentManager
+(define (validate-existing-memory p)
+    (tokamak:typed p memory?)
+    ; (fixme) add implementation
+)
+
+; from MemorySegmentManager
 (define (add-segment p #:size [size null])
     (tokamak:typed p memory?)
     (tokamak:typed size integer? null?)

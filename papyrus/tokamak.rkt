@@ -25,6 +25,7 @@
 ; used for throwing tokamak error with message
 (define (println-and-error msg . fmts)
     (error (format "[tokamak:error] ~a\n" (apply format (cons msg fmts))))
+    (error error) ; intended error for trace to locate the cause
     ; (exit 0)
 )
 

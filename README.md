@@ -11,6 +11,11 @@ This is a development README.
 
 ## Useful Commands
 
+```bash
+racket ./cairo-run.rkt
+racket -l errortrace -t ./cairo-run.rkt
+```
+
 ### Cairo Quick Commands
 
 ```bash

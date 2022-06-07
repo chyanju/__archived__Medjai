@@ -6,6 +6,8 @@
     (prefix-in memory: "./memory.rkt")
     (prefix-in config: "./config.rkt")
     (prefix-in program: "./program.rkt")
+    (prefix-in context: "./context.rkt")
+    (prefix-in vm: "./vm.rkt")
 )
 (provide (all-defined-out))
 
@@ -22,13 +24,27 @@
     initap ; (initial_ap) rv or null (init)
     initpc ; (initial_pc) rv or null (init)
     finalpc ; (final_pc) rv or null (init)
+    vm ; vm or null (init)
+    brunners ; (fixme) (builtin_runners) null
 ) #:mutable #:transparent #:reflection-name 'runner)
 
 (define (make-runner #:prog prog #:mem mem)
     (tokamak:typed prog program:program?)
     (tokamak:typed mem memory:memory?)
     ; return
-    (runner prog mem null null null null null null)
+    (runner prog mem null null null null null null null null)
+)
+
+(define (topc p lop)
+    (tokamak:typed p runner?)
+    (tokamak:typed lop string? integer?)
+    ; return
+    (if (string? lop)
+        ; (fixme)
+        ; (program:get-label (runner-prog p) lop)
+        0
+        lop
+    )
 )
 
 (define (initialize-segments p #:pbase [pbase null])
@@ -87,14 +103,22 @@
     ; (fixme) load data
 )
 
-(define (topc p lop)
+(define (initialize-vm p hint-locals #:static-locals [static-locals null])
     (tokamak:typed p runner?)
-    (tokamak:typed lop string? integer?)
-    ; return
-    (if (string? lop)
-        ; (fixme)
-        ; (program:get-label (runner-prog p) lop)
-        0
-        lop
-    )
+    (tokamak:typed hint-locals hash?)
+    (tokamak:typed static-locals hash? null?)
+    (define cntx (context:make-context
+        #:mem (runner-mem p)
+        #:pc (runner-initpc p)
+        #:ap (runner-initap p)
+        #:fp (runner-initfp p)
+        #:prime (program:program-prime (runner-prog p))
+    ))
+    (define sl (if (null? static-locals) (make-hash) static-locals))
+    (define vm (vm:make-vm
+        #:prog (runner-prog p) #:cntx cntx #:hlocals hint-locals
+        #:slocals sl #:brunners (runner-brunners p) #:pbase (runner-pbase p)
+    ))
+    (set-runner-vm! p vm)
+    ; (fixme) skipped a few
 )
