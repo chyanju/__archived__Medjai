@@ -2,6 +2,7 @@
 ; this module simulates the functionalities as in encode.py
 (require
     (prefix-in tokamak: "./tokamak.rkt")
+    (prefix-in utils: "./utils.rkt")
     (prefix-in config: "./config.rkt")
     (prefix-in instruction: "./instruction.rkt")
 )
@@ -25,23 +26,20 @@
 (define OPCODE-ASSERT-EQ-BIT 14)
 ; (define RESERVED-BIT 15)
 
-; helper for (not (zero? p))
-(define (false? p) (zero? p))
-(define (true? p) (! (false? p)))
-
 (define (decode-instruction enc #:imm [imm null])
-    (tokamak:log "decoding ~a." enc)
+    (tokamak:log "decode-instruction | enc: ~a, imm: ~a" enc imm)
     (tokamak:typed enc integer?)
     (tokamak:typed imm integer? null?)
     (let-values ([(flags off0-enc off1-enc off2-enc) (instruction:decode-instruction-values enc)])
-        (define dst-register (if (true? (bitwise-and (arithmetic-shift flags DST-REG-BIT) 1)) 'fp 'ap))
-        (define op0-register (if (true? (bitwise-and (arithmetic-shift flags OP0-REG-BIT) 1)) 'fp 'ap))
+        (tokamak:log "    flags: ~a, off0-enc: ~a, off1-enc: ~a, off2-enc: ~a" flags off0-enc off1-enc off2-enc)
+        (define dst-register (if (utils:true? (bitwise-and (utils:shift-right flags DST-REG-BIT) 1)) 'fp 'ap))
+        (define op0-register (if (utils:true? (bitwise-and (utils:shift-right flags OP0-REG-BIT) 1)) 'fp 'ap))
 
         ; get op1
         (define op1-addr-pat (list
-            (bitwise-and (arithmetic-shift flags OP1-IMM-BIT) 1)
-            (bitwise-and (arithmetic-shift flags OP1-AP-BIT) 1)
-            (bitwise-and (arithmetic-shift flags OP1-FP-BIT) 1)
+            (bitwise-and (utils:shift-right flags OP1-IMM-BIT) 1)
+            (bitwise-and (utils:shift-right flags OP1-AP-BIT) 1)
+            (bitwise-and (utils:shift-right flags OP1-FP-BIT) 1)
         ))
         (define op1-addr (cond
             [(equal? op1-addr-pat (list 1 0 0)) 'imm]
@@ -61,9 +59,9 @@
 
         ; get pc_update
         (define pc-update-pat (list
-            (bitwise-and (arithmetic-shift flags PC-JUMP-ABS-BIT) 1)
-            (bitwise-and (arithmetic-shift flags PC-JUMP-REL-BIT) 1)
-            (bitwise-and (arithmetic-shift flags PC-JNZ-BIT) 1)
+            (bitwise-and (utils:shift-right flags PC-JUMP-ABS-BIT) 1)
+            (bitwise-and (utils:shift-right flags PC-JUMP-REL-BIT) 1)
+            (bitwise-and (utils:shift-right flags PC-JNZ-BIT) 1)
         ))
         (define pc-update (cond
             [(equal? pc-update-pat (list 1 0 0)) 'jump]
@@ -75,8 +73,8 @@
 
         ; get res
         (define res-pat (list
-            (bitwise-and (arithmetic-shift flags RES-ADD-BIT) 1)
-            (bitwise-and (arithmetic-shift flags RES-MUL-BIT) 1)
+            (bitwise-and (utils:shift-right flags RES-ADD-BIT) 1)
+            (bitwise-and (utils:shift-right flags RES-MUL-BIT) 1)
         ))
         (define res (cond
             [(equal? res-pat (list 1 0)) 'add]
@@ -91,9 +89,9 @@
 
         ; get opcode
         (define opcode-pat (list
-            (bitwise-and (arithmetic-shift flags OPCODE-CALL-BIT) 1)
-            (bitwise-and (arithmetic-shift flags OPCODE-RET-BIT) 1)
-            (bitwise-and (arithmetic-shift flags OPCODE-ASSERT-EQ-BIT) 1)
+            (bitwise-and (utils:shift-right flags OPCODE-CALL-BIT) 1)
+            (bitwise-and (utils:shift-right flags OPCODE-RET-BIT) 1)
+            (bitwise-and (utils:shift-right flags OPCODE-ASSERT-EQ-BIT) 1)
         ))
         (define opcode (cond
             [(equal? opcode-pat (list 1 0 0)) 'call]
@@ -105,8 +103,8 @@
 
         ; get ap_update
         (define ap-update-pat (list
-            (bitwise-and (arithmetic-shift flags AP-ADD-BIT) 1)
-            (bitwise-and (arithmetic-shift flags AP-ADD1-BIT) 1)
+            (bitwise-and (utils:shift-right flags AP-ADD-BIT) 1)
+            (bitwise-and (utils:shift-right flags AP-ADD1-BIT) 1)
         ))
         (define ap-update-init (cond
             [(equal? ap-update-pat (list 1 0)) 'add]

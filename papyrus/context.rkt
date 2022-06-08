@@ -85,7 +85,7 @@
             [(equal? 'ap sym) (context-ap p)]
             [(equal? 'fp sym) (context-fp p)]
             [(equal? 'imm sym)
-                (assert (equal? 1 (instruction:instruction-off2)) "in immediate mode, off2 should be 1.")
+                (assert (equal? 1 (instruction:instruction-off2 instruction)) "in immediate mode, off2 should be 1.")
                 (context-pc p)
             ]
             [(equal? 'op0 sym)

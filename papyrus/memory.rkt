@@ -160,9 +160,11 @@
     (define seg0 (if (integer? addr) 0 (rv-seg addr)))
     (define off0 (if (integer? addr) addr (rv-off addr)))
     (define l0 (vector-ref p seg0))
+    ; (fixme) for l0, it's NOT ok to return null, since you need to initialize a segment first
     (when (null? l0) (tokamak:error "l0 is null, given addr: ~a." addr))
     (define l1 (vector-ref l0 off0))
-    (when (null? l1) (tokamak:error "l1 is null, given addr: ~a." addr))
+    ; (note) for l1 it's ok to return null, e.g., compute_operands allows pre-fetch of null
+    ; (when (null? l1) (tokamak:error "l1 is null, given addr: ~a." addr))
     ; return
     l1
 )
@@ -241,15 +243,13 @@
 
 ; MemoryDict method
 (define (relocate-value value)
-    (tokamak:typed value rv? integer?)
+    (tokamak:typed value rv? integer? null?)
     (cond
-        [(integer? value) value]
-        [else (let ([seg (rv-seg value)])
-            (cond
-                [(>= seg 0) value]
-                [else (tokamak:error "not implemented")]
-            )
-        )]
+        [(! (rv? value)) value]
+        [(>= (rv-seg value) 0) value]
+        [else ; skipped a few
+            value
+        ]
     )
 )
 

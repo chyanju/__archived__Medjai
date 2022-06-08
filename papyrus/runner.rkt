@@ -165,9 +165,10 @@
     (tokamak:typed entrypoint string? integer?)
     (tokamak:typed stack list?)
     (set-runner-initpc! p (memory:rvadd (runner-pbase p) (topc p entrypoint)))
-    ; (tokamak:log "program data is: ~a" (program:program-data (runner-prog p)))
+    (tokamak:log "program data is: ~a" (program:program-data (runner-prog p)))
+    (tokamak:log "stack is: ~a" stack)
     (load-data p (runner-pbase p) (program:program-data (runner-prog p))) ; load program
-    ; (load-data p (runner-ebase p) stack) ; load stack
+    (load-data p (runner-ebase p) stack) ; load stack
 )
 
 (define (load-data p ptr data)
@@ -215,6 +216,8 @@
     ; ; start the loop
     ; (do-step)
     ; for debugging
+    (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
+    (vm-step p)
     (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
     (vm-step p)
     ; (context:set-context-pc! (vm:vm-cntx (runner-vm p)) (memory:rv 0 1))

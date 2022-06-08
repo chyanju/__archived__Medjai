@@ -3,6 +3,7 @@
 ;   |- Instruction
 (require
     (prefix-in tokamak: "./tokamak.rkt")
+    (prefix-in utils: "./utils.rkt")
     (prefix-in config: "./config.rkt")
 )
 (provide (all-defined-out))
@@ -83,9 +84,9 @@
     (assert (<= 0 encoded-instruction))
     (assert (< encoded-instruction (expt 2 (+ (* 3 OFFSET-BITS) N-FLAGS))))
     (define off0 (bitwise-and encoded-instruction (- (expt 2 OFFSET-BITS) 1)))
-    (define off1 (bitwise-and (arithmetic-shift encoded-instruction OFFSET-BITS) (- (expt 2 OFFSET-BITS) 1)))
-    (define off2 (bitwise-and (arithmetic-shift encoded-instruction (expt 2 OFFSET-BITS)) (- (expt 2 OFFSET-BITS) 1)))
-    (define flags-val (arithmetic-shift encoded-instruction (* 3 OFFSET-BITS)))
+    (define off1 (bitwise-and (utils:shift-right encoded-instruction OFFSET-BITS) (- (expt 2 OFFSET-BITS) 1)))
+    (define off2 (bitwise-and (utils:shift-right encoded-instruction (* 2 OFFSET-BITS)) (- (expt 2 OFFSET-BITS) 1)))
+    (define flags-val (utils:shift-right encoded-instruction (* 3 OFFSET-BITS)))
     ; return
     (values flags-val off0 off1 off2)
 )
