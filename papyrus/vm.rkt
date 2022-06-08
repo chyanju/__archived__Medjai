@@ -148,7 +148,107 @@
     ; (fixme) will call compute-operands
     (define-values (operands operands-mem-addresses)
         (compute-operands p instruction))
-    (void)
+    ; (fixme) skipped a lot here
+    ; update registers
+    (update-registers p instruction operands)
+    (set-vm-currstep! p (+ 1 (vm-currstep p)))
+)
+
+(define (update-registers p instruction operands)
+    (tokamak:typed p vm?)
+    (tokamak:typed instruction instruction:instruction?)
+    (tokamak:typed operands instruction:operands?)
+    ; update fp
+    (let ([fp (context:context-fp (vm-cntx p))]
+          [fp-update (instruction:instruction-fp instruction)]
+          [ap (context:context-ap (vm-cntx p))])
+        (cond
+            [(equal? 'ap+2 fp-update)
+                (context:set-context-fp! (vm-cntx p)
+                    (memory:rvadd ap 2))
+            ]
+            [(equal? 'dst fp-update)
+                (context:set-context-fp! (vm-cntx p)
+                    (instruction:operands-dst operands))
+            ]
+            [(! (equal? 'regular fp-update))
+                (tokamak:error "invalid fp_update value")
+            ]
+        )
+    )
+
+    ; update ap
+    (let ([ap (context:context-ap (vm-cntx p))]
+          [ap-update (instruction:instruction-ap instruction)])
+        (cond
+            [(equal? 'add ap-update)
+                (when (null? (instruction:operands-res operands))
+                    (tokamak:error "Res.UNCONSTRAINED cannot be used with ApUpdate.ADD"))
+                (context:set-context-ap! (vm-cntx p)
+                    (memory:rvadd ap (memory:rvmod (instruction:operands-res operands) (vm-prime p))))
+            ]
+            [(equal? 'add1 ap-update)
+                (context:set-context-ap! (vm-cntx p)
+                    (memory:rvadd ap 1))
+            ]
+            [(equal? 'add2 ap-update)
+                (context:set-context-ap! (vm-cntx p)
+                    (memory:rvadd ap 2))
+            ]
+            [(! (equal? 'regular ap-update))
+                (tokamak:error "invalid ap_update value")
+            ]
+        )
+    )
+    (context:set-context-ap! (vm-cntx p)
+        (memory:rvmod (context:context-ap (vm-cntx p)) (vm-prime p)))
+
+    ; update pc
+    (let ([pc (context:context-pc (vm-cntx p))]
+          [pc-update (instruction:instruction-pc instruction)])
+        (cond
+            [(equal? 'regular pc-update)
+                (context:set-context-pc! (vm-cntx p)
+                    (memory:rvadd pc (instruction:instruction-size instruction)))
+            ]
+            [(equal? 'jump pc-update)
+                (when (null? (instruction:operands-res operands))
+                    (tokamak:error "Res.UNCONSTRAINED cannot be used with PcUpdate.JUMP"))
+                (context:set-context-pc! (vm-cntx p)
+                    (instruction:operands-res operands))
+            ]
+            [(equal? 'jump-rel pc-update)
+                (when (null? (instruction:operands-res operands))
+                    (tokamak:error "Res.UNCONSTRAINED cannot be used with PcUpdate.JUMP_REL"))
+                (when (! (integer? (instruction:operands-res operands)))
+                    (tokamak:error "PureValueError: jump rel"))
+                (context:set-context-pc! (vm-cntx p)
+                    (memory:rvadd pc (instruction:operands-res operands)))
+            ]
+            [(equal? 'jnz pc-update)
+                (if (is-zero (instruction:operands-dst operands))
+                    (context:set-context-pc! (vm-cntx p)
+                        (memory:rvadd pc (instruction:instruction-size instruction)))
+                    (context:set-context-pc! (vm-cntx p)
+                        (memory:rvadd pc (instruction:operands-op1 operands)))
+                )
+            ]
+            [else (tokamak:error "invalid pc_update value")]
+        )
+    )
+    (context:set-context-pc! (vm-cntx p)
+        (memory:rvmod (context:context-pc (vm-cntx p)) (vm-prime p)))
+)
+
+(define (is-zero p value)
+    (tokamak:typed p vm?)
+    ; the method itself has implicit assertions of value
+    ; return
+    (cond
+        [(integer? value) (equal? value 0)]
+        [(&& (memory:rv? value) (memory:rvge (memory:rv-off value) 0)) #f]
+        [else (tokamak:error "PureValueError: jmp != 0")]
+    )
 )
 
 (define (compute-res p instruction op0 op1)
@@ -159,7 +259,8 @@
     (let ([res (instruction:instruction-res instruction)])
         (cond
             [(equal? 'op1 res) op1]
-            [(equal? 'add res) (memory:rvmod (memory:rvadd op0 op1) (vm-prime p))]
+            ; [(equal? 'add res) (memory:rvmod (memory:rvadd op0 op1) (vm-prime p))]
+            [(equal? 'add res) (modulo (+ op0 op1) (vm-prime p))]
             [(equal? 'mul res)
                 (when (|| (memory:rv? op0) (memory:rv? op1))
                     (tokamak:error "PuerValueError: *"))

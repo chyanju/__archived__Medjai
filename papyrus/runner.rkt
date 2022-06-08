@@ -203,27 +203,21 @@
     (tokamak:typed p runner?)
     (tokamak:typed addr memory:rv? integer?)
     ; (fixme) run-resources type unsupported
-    ; ; a for loop definition
-    ; (define (do-step)
-    ;     ; each time fetch the current vm from runner
-    ;     (let ([vm0 (runner-vm p)])
-    ;         (when (! (memory:rveq (get-pc p) addr))
-    ;             (vm-step p)
-    ;             (do-step)
-    ;         )
-    ;     )
-    ; )
-    ; ; start the loop
-    ; (do-step)
+    ; a for loop definition
+    (define (do-step)
+        ; each time fetch the current vm from runner
+        (let ([vm0 (runner-vm p)])
+            (when (! (memory:rveq (get-pc p) addr))
+                (vm-step p)
+                (do-step)
+            )
+        )
+    )
+    ; start the loop
+    (do-step)
     ; for debugging
-    (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
-    (vm-step p)
-    (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
-    (vm-step p)
-    ; (context:set-context-pc! (vm:vm-cntx (runner-vm p)) (memory:rv 0 1))
     ; (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
     ; (vm-step p)
-    ; (context:set-context-pc! (vm:vm-cntx (runner-vm p)) (memory:rv 0 1))
     ; (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
     ; (vm-step p)
 )
