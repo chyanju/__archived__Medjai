@@ -29,5 +29,6 @@
     runner
     (make-hash (list (cons 'program-input program-input)))
 )
-; (tokamak:log "memory is: ~a" (memory:memory-data initial-memory))
 (runner:run-until-pc runner end)
+
+(tokamak:log "final memory data is: ~a" (memory:memory-data initial-memory))
