@@ -48,10 +48,16 @@
 (define (load-program jspath)
     (tokamak:typed jspath string?)
     (define js0 (string->jsexpr (file->string jspath)))
+
+    ; parse data
+    (define data0 (for/list ([t0 (hash-ref js0 'data)])
+        (string->number (substring t0 2) 16) ; hex remove leading "0x"
+    ))
+
     ; return
     (new-program
         #:prime (string->number (substring (hash-ref js0 'prime) 2) 16) ; hex remove leading "0x"
-        #:data (hash-ref js0 'data)
+        #:data data0
         #:builtins (hash-ref js0 'builtins)
         #:hints (hash-ref js0 'hints)
         #:mscope null ; (fixme) need to parse (hash-ref js0 'main_scope)

@@ -150,7 +150,10 @@
     )
 )
 
-; MemoryDict method, internal core method
+; helper function
+(define (make-default-segment) (list->vector (for/list ([_ (range config:offcap)]) null)))
+
+; MemoryDict method, internal core method, refer to a memory slot (not segment)
 (define (data-ref p addr)
     (tokamak:typed p vector?) ; p is the memory data
     (tokamak:typed addr rv? integer?) ; for integer, treat it as seg=0
@@ -164,33 +167,41 @@
     l1
 )
 
-; MemoryDict method, internal core method
-(define (data-set-default! p key [default null])
+; MemoryDict method, internal core method, set a memory slot (not segment)
+(define (data-set! p key val)
     (tokamak:typed p vector?) ; p is the memory data
     (tokamak:typed key rv? integer?) ; for integer, treat it as seg=0
-    (tokamak:typed default rv? integer?)
+    (tokamak:typed val rv? integer?) ; can only be a slot value, not segment
     (define seg0 (if (integer? key) 0 (rv-seg key)))
     (define off0 (if (integer? key) key (rv-off key)))
     (define l0 (let ([t0 (vector-ref p seg0)])
         (cond
             [(null? t0)
-                (vector-set! p (list->vector (for/list ([_ (range config:offcap)]) null)))
-                (vector-ref p seg0)
+                (vector-set! p seg0 (make-default-segment)) ; create a segment
+                (vector-ref p seg0) ; point to that newly created segment
             ]
             [else t0]
         )
     ))
-    (vector-set! l0 off0 default)
-    ; return
-    default
+    (vector-set! l0 off0 val)
+)
+
+(define (seg-add! p ind)
+    (tokamak:typed p vector?) ; p is the memory data
+    (tokamak:typed ind integer?)
+    (when (! (null? (vector-ref p ind)))
+        (tokamak:error "segment already exists at ind: ~a." ind))
+    (vector-set! p ind (make-default-segment))
 )
 
 ; MemoryDict method
 (define (check-element num name)
     (tokamak:typed num rv? integer?)
     (tokamak:typed name string?)
-    (when (&& (integer? num) (< num 0))
-        (tokamak:error "~a must be nonnegative, got: ~a." name num))
+    (when (integer? num)
+        (when (< num 0)
+            (tokamak:error "~a must be nonnegative, got: ~a." name num)
+    ))
 )
 
 ; MemoryDict method
@@ -215,6 +226,7 @@
 
 ; MemoryDict method
 (define (memory-set! p addr value)
+    (tokamak:log "memory set addr=~a, value=~a" addr value)
     (tokamak:typed p memory?)
     (when (memory-frozen p)
         (tokamak:error "memory is frozen and cannot be changed."))
@@ -222,7 +234,8 @@
     (check-element value "memory value")
     (when (&& (rv? addr) (< (rv-off addr) 0))
         (tokamak:error "offset of rv must be nonnegative, got: ~a." (rv-off addr)))
-    (define current (data-set-default! (memory-data p) addr value))
+    (data-set! (memory-data p) addr value)
+    (define current (data-ref (memory-data p) addr))
     (verify-same-value addr current value)
 )
 
@@ -250,13 +263,29 @@
 (define (add-segment p #:size [size null])
     (tokamak:typed p memory?)
     (tokamak:typed size integer? null?)
-    (let ([segment-index (memory-nsegs p)])
+    (let ([segment-index (memory-nsegs p)][data (memory-data p)])
         (set-memory-nsegs! p (+ 1 segment-index))
         (when (! (null? size))
-            ; (fixme) call finalize
+            ; (fixme) finalize
             (void)
         )
+        (seg-add! data segment-index)
+        ; (tokamak:log "added memory segment, now memory data is: ~a" data)
         ; return
         (rv segment-index 0)
     )
+)
+
+; MemorySegmentManager method
+(define (load-data p ptr data)
+    (tokamak:typed p memory?)
+    (tokamak:typed ptr rv? integer?)
+    (tokamak:typed data list?)
+    (let ([n (length data)])
+        (for ([i (range n)])
+            (memory-set! p (rvadd ptr i) (list-ref data i))
+        )
+    )
+    ; return
+    (rvadd ptr (length data))
 )

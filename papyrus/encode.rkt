@@ -30,6 +30,7 @@
 (define (true? p) (! (false? p)))
 
 (define (decode-instruction enc #:imm [imm null])
+    (tokamak:log "decoding ~a." enc)
     (tokamak:typed enc integer?)
     (tokamak:typed imm integer? null?)
     (let-values ([(flags off0-enc off1-enc off2-enc) (instruction:decode-instruction-values enc)])

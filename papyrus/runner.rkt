@@ -165,8 +165,16 @@
     (tokamak:typed entrypoint string? integer?)
     (tokamak:typed stack list?)
     (set-runner-initpc! p (memory:rvadd (runner-pbase p) (topc p entrypoint)))
-    ; (fixme) load program
-    ; (fixme) load data
+    ; (tokamak:log "program data is: ~a" (program:program-data (runner-prog p)))
+    (load-data p (runner-pbase p) (program:program-data (runner-prog p))) ; load program
+    ; (load-data p (runner-ebase p) stack) ; load stack
+)
+
+(define (load-data p ptr data)
+    (tokamak:typed p runner?)
+    (tokamak:typed ptr memory:rv? integer?)
+    (tokamak:typed data list?)
+    (memory:load-data (runner-mem p) ptr data)
 )
 
 (define (initialize-vm p hint-locals #:static-locals [static-locals null])
@@ -189,24 +197,32 @@
     ; (fixme) skipped a few
 )
 
+; (fixme) skipped a few
 (define (run-until-pc p addr #:run-resources [run-resources null])
     (tokamak:typed p runner?)
     (tokamak:typed addr memory:rv? integer?)
     ; (fixme) run-resources type unsupported
-    ; (fixme) skipped a few
-    ; a for loop
-    (define (do-step)
-        ; each time fetch the current vm from runner
-        (let ([vm0 (runner-vm p)])
-            (when (! (memory:rveq (get-pc p) addr))
-                (vm-step p)
-                (do-step)
-            )
-        )
-    )
-    ; start the loop
-    (do-step)
-    ; (fixme) skipped a few
+    ; ; a for loop definition
+    ; (define (do-step)
+    ;     ; each time fetch the current vm from runner
+    ;     (let ([vm0 (runner-vm p)])
+    ;         (when (! (memory:rveq (get-pc p) addr))
+    ;             (vm-step p)
+    ;             (do-step)
+    ;         )
+    ;     )
+    ; )
+    ; ; start the loop
+    ; (do-step)
+    ; for debugging
+    (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
+    (vm-step p)
+    (context:set-context-pc! (vm:vm-cntx (runner-vm p)) (memory:rv 0 1))
+    (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
+    (vm-step p)
+    (context:set-context-pc! (vm:vm-cntx (runner-vm p)) (memory:rv 0 1))
+    (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
+    (vm-step p)
 )
 
 (define (vm-step p)

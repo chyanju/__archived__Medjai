@@ -39,7 +39,7 @@
         (define instruction-encoding (memory:memory-ref mem pc))
         (assert (integer? instruction-encoding)
             (format "instruction should be an int, got: ~a." instruction-encoding))
-        (define imm-addr (modulo (+ 1 pc ) prime))
+        (define imm-addr (memory:rvmod (memory:rvadd pc 1) prime))
         (define optional-imm (let ([imm0 (memory:memory-ref mem imm-addr)])
             (if (integer? imm0) imm0 null)
         ))

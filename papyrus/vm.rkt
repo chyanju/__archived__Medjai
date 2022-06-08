@@ -7,6 +7,7 @@
     (prefix-in memory: "./memory.rkt")
     (prefix-in program: "./program.rkt")
     (prefix-in encode: "./encode.rkt")
+    (prefix-in instruction: "./instruction.rkt")
 )
 (provide (all-defined-out))
 
@@ -118,7 +119,9 @@
     (tokamak:typed p vm?)
     (tokamak:log "vm step")
     ; (fixme) hint execution is skipped
-    ; (define instruction (decode-current-instruction p))
+    (define instruction (decode-current-instruction p))
+    (run-instruction p instruction)
+    (tokamak:log "instruction is: ~a" instruction)
 )
 
 (define (decode-current-instruction p)
@@ -137,4 +140,16 @@
     (tokamak:typed encoded-inst integer?)
     (tokamak:typed imm integer? null?)
     (encode:decode-instruction encoded-inst #:imm imm)
+)
+
+(define (run-instruction p instruction)
+    (tokamak:typed p vm?)
+    (tokamak:typed instruction instruction:instruction?)
+
+)
+
+(define (compute-operands p instruction)
+    (tokamak:typed p vm?)
+    (tokamak:typed instruction instruction:instruction?)
+
 )

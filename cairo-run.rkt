@@ -15,6 +15,8 @@
 (define program (program:load-program (hash-ref args 'program)))
 (define initial-memory (memory:make-memory
     #:prime (program:program-prime program)))
+(tokamak:log "initial memory data is: ~a" (memory:memory-data initial-memory))
+
 (define runner (runner:make-runner
     #:prog program #:mem initial-memory))
 (runner:initialize-segments runner)
@@ -27,4 +29,5 @@
     runner
     (make-hash (list (cons 'program-input program-input)))
 )
+; (tokamak:log "memory is: ~a" (memory:memory-data initial-memory))
 (runner:run-until-pc runner end)
