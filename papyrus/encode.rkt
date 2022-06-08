@@ -3,7 +3,9 @@
 (require
     (prefix-in tokamak: "./tokamak.rkt")
     (prefix-in config: "./config.rkt")
+    (prefix-in instruction: "./instruction.rkt")
 )
+(provide (all-defined-out))
 
 ; global constants
 (define DST-REG-BIT 0)
@@ -23,31 +25,34 @@
 (define OPCODE-ASSERT-EQ-BIT 14)
 ; (define RESERVED-BIT 15)
 
-; (decode_instruction)
-(define (decode-inst enc imm)
-    (tokamak:typed enc bv?)
-    (tokamak:typed imm bv? null?)
-    (let-values ([(flags off0-enc off1-enc off2-enc) (inst:decode-instvals enc)])
-        (define dst-reg (if (bvand 1 (bvashr flags (bv DST-REG-BIT config:bvsize))) 'fp 'ap))
-        (define op0-reg (if (bvand 1 (bvashr flags (bv OP0-REG-BIT config:bvsize))) 'fp 'ap))
+; helper for (not (zero? p))
+(define (false? p) (zero? p))
+(define (true? p) (! (false? p)))
+
+(define (decode-instruction enc #:imm [imm null])
+    (tokamak:typed enc integer?)
+    (tokamak:typed imm integer? null?)
+    (let-values ([(flags off0-enc off1-enc off2-enc) (instruction:decode-instruction-values enc)])
+        (define dst-register (if (true? (bitwise-and (arithmetic-shift flags DST-REG-BIT) 1)) 'fp 'ap))
+        (define op0-register (if (true? (bitwise-and (arithmetic-shift flags OP0-REG-BIT) 1)) 'fp 'ap))
 
         ; get op1
         (define op1-addr-pat (list
-            (bvand 1 (bvashr flags (bv OP1-IMM-BIT config:bvsize)))
-            (bvand 1 (bvashr flags (bv OP1-AP-BIT config:bvsize)))
-            (bvand 1 (bvashr flags (bv OP1-FP-BIT config:bvsize)))
+            (bitwise-and (arithmetic-shift flags OP1-IMM-BIT) 1)
+            (bitwise-and (arithmetic-shift flags OP1-AP-BIT) 1)
+            (bitwise-and (arithmetic-shift flags OP1-FP-BIT) 1)
         ))
         (define op1-addr (cond
-            [(equal? op1-addr-pat (list config:bvone config:bvzero config:bvzero)) 'imm]
-            [(equal? op1-addr-pat (list config:bvzero config:bvone config:bvzero)) 'ap]
-            [(equal? op1-addr-pat (list config:bvzero config:bvzero config:bvone)) 'fp]
-            [(equal? op1-addr-pat (list config:bvzero config:bvzero config:bvzero)) 'op0]
+            [(equal? op1-addr-pat (list 1 0 0)) 'imm]
+            [(equal? op1-addr-pat (list 0 1 0)) 'ap]
+            [(equal? op1-addr-pat (list 0 0 1)) 'fp]
+            [(equal? op1-addr-pat (list 0 0 0)) 'op0]
             [else (tokamak:error "unrecognized op1-addr-pat.")]
         ))
 
         (define imm0 (cond
             [(equal? 'imm op1-addr)
-                (assert (not (null? imm)) "op1-addr is Op1Addr.IMM, but no immediate given.")
+                (assert (! (null? imm)) "op1-addr is Op1Addr.IMM, but no immediate given.")
                 imm
             ]
             [else null]
@@ -55,27 +60,27 @@
 
         ; get pc_update
         (define pc-update-pat (list
-            (bvand 1 (bvashr flags (bv PC-JUMP-ABS-BIT config:bvsize)))
-            (bvand 1 (bvashr flags (bv PC-JUMP-REL-BIT config:bvsize)))
-            (bvand 1 (bvashr flags (bv PC-JNZ-BIT config:bvsize)))
+            (bitwise-and (arithmetic-shift flags PC-JUMP-ABS-BIT) 1)
+            (bitwise-and (arithmetic-shift flags PC-JUMP-REL-BIT) 1)
+            (bitwise-and (arithmetic-shift flags PC-JNZ-BIT) 1)
         ))
-        (define pc-upate (cond
-            [(equal? pc-update-pat (list config:bvone config:bvzero config:bvzero)) 'jump]
-            [(equal? pc-update-pat (list config:bvzero config:bvone config:bvzero)) 'jump-rel]
-            [(equal? pc-update-pat (list config:bvzero config:bvzero config:bvone)) 'jnz]
-            [(equal? pc-update-pat (list config:bvzero config:bvzero config:bvzero)) 'regular]
+        (define pc-update (cond
+            [(equal? pc-update-pat (list 1 0 0)) 'jump]
+            [(equal? pc-update-pat (list 0 1 0)) 'jump-rel]
+            [(equal? pc-update-pat (list 0 0 1)) 'jnz]
+            [(equal? pc-update-pat (list 0 0 0)) 'regular]
             [else (tokamak:error "unrecognized pc-update-pat")]
         ))
 
         ; get res
         (define res-pat (list
-            (bvand 1 (bvashr flags (bv RES-ADD-BIT config:bvsize)))
-            (bvand 1 (bvashr flags (bv RES-MUL-BIT config:bvsize)))
+            (bitwise-and (arithmetic-shift flags RES-ADD-BIT) 1)
+            (bitwise-and (arithmetic-shift flags RES-MUL-BIT) 1)
         ))
         (define res (cond
-            [(equal? res-pat (list config:bvone config:bvzero)) 'add]
-            [(equal? res-pat (list config:bvzero config:bvone)) 'mul]
-            [(equal? res-pat (list config:bvzero config:bvzero))
+            [(equal? res-pat (list 1 0)) 'add]
+            [(equal? res-pat (list 0 1)) 'mul]
+            [(equal? res-pat (list 0 0))
                 (if (equal? 'jnz pc-update) 'unconstrained 'op1)
             ]
             [else (tokamak:error "unrecognized res-pat")]
@@ -85,33 +90,39 @@
 
         ; get opcode
         (define opcode-pat (list
-            (bvand 1 (bvashr flags (bv OPCODE-CALL-BIT config:bvsize)))
-            (bvand 1 (bvashr flags (bv OPCODE-RET-BIT config:bvsize)))
-            (bvand 1 (bvashr flags (bv OPCODE-ASSERT-EQ-BIT config:bvsize)))
+            (bitwise-and (arithmetic-shift flags OPCODE-CALL-BIT) 1)
+            (bitwise-and (arithmetic-shift flags OPCODE-RET-BIT) 1)
+            (bitwise-and (arithmetic-shift flags OPCODE-ASSERT-EQ-BIT) 1)
         ))
         (define opcode (cond
-            [(equal? opcode-pat (list config:bvone config:bvzero config:bvzero)) 'call]
-            [(equal? opcode-pat (list config:bvzero config:bvone config:bvzero)) 'ret]
-            [(equal? opcode-pat (list config:bvzero config:bvzero config:bvone)) 'assert-eq]
-            [(equal? opcode-pat (list config:bvzero config:bvzero config:bvzero)) 'nop]
+            [(equal? opcode-pat (list 1 0 0)) 'call]
+            [(equal? opcode-pat (list 0 1 0)) 'ret]
+            [(equal? opcode-pat (list 0 0 1)) 'assert-eq]
+            [(equal? opcode-pat (list 0 0 0)) 'nop]
             [else (tokamak:error "unrecognized opcode-pat")]
         ))
 
         ; get ap_update
         (define ap-update-pat (list
-            (bvand 1 (bvashr flags (bv AP-ADD-BIT config:bvsize)))
-            (bvand 1 (bvashr flags (bv AP-ADD1-BIT config:bvsize)))
+            (bitwise-and (arithmetic-shift flags AP-ADD-BIT) 1)
+            (bitwise-and (arithmetic-shift flags AP-ADD1-BIT) 1)
         ))
-        (define ap-update (cond
-            [(equal? ap-update-pat (list config:bvone config:bvzero)) 'add]
-            [(equal? ap-update-pat (list config:bvzero config:bvone)) 'add1]
-            [(equal? ap-update-pat (list config:bvzero config:bvzero))
+        (define ap-update-init (cond
+            [(equal? ap-update-pat (list 1 0)) 'add]
+            [(equal? ap-update-pat (list 0 1)) 'add1]
+            [(equal? ap-update-pat (list 0 0))
                 (if (equal? 'call opcode) 'add2 'regular)
             ]
             [else (tokamak:error "unrecognized ap-update-pat")]
         ))
-        ; CALL opcode means ap_update must be ADD2
-        (when (equal? 'call opcode) (assert (equal? 'add2 ap-update)))
+        ; update
+        (define ap-update (cond
+            [(equal? 'call opcode)
+                (assert (equal? 'regular ap-update-init) "call must have update_ap is ADD2")
+                'add2
+            ]
+            [else ap-update-init]
+        ))
 
         ; get fp_update
         (define fp-update
@@ -125,19 +136,19 @@
         )
 
         ; return
-        (inst:inst
-            (bvsub off0-enc (bv (expt 2 (- inst:OFFSET-BITS 1)) config:bvsize)) ; off0
-            (bvsub off1-enc (bv (expt 2 (- inst:OFFSET-BITS 1)) config:bvsize)) ; off1
-            (bvsub off2-enc (bv (expt 2 (- inst:OFFSET-BITS 1)) config:bvsize)) ; off2
-            imm0 ; imm
-            dst-reg ; dst
-            op0-reg ; op0
-            op1-addr ; op1
-            res ; res
-            pc-upate ; pc
-            ap-update ; ap
-            fp-update ; fp
-            opcode ; opcode
+        (instruction:make-instruction
+            #:off0 (- off0-enc (expt 2 (- instruction:OFFSET-BITS 1)))
+            #:off1 (- off1-enc (expt 2 (- instruction:OFFSET-BITS 1)))
+            #:off2 (- off2-enc (expt 2 (- instruction:OFFSET-BITS 1)))
+            #:imm imm0
+            #:dst dst-register
+            #:op0 op0-register
+            #:op1 op1-addr
+            #:res res
+            #:pc pc-update
+            #:ap ap-update
+            #:fp fp-update
+            #:opcode opcode
         )
     )
 )

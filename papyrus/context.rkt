@@ -32,3 +32,17 @@
     ; return
     (new-context #:mem mem #:pc pc #:ap ap #:fp fp #:prime prime)
 )
+
+(define (get-instruction-encoding p)
+    (tokamak:typed p context?)
+    (let ([mem (context-mem p)][pc (context-pc p)][prime (context-prime p)])
+        (define instruction-encoding (memory:memory-ref mem pc))
+        (assert (integer? instruction-encoding)
+            (format "instruction should be an int, got: ~a." instruction-encoding))
+        (define imm-addr (modulo (+ 1 pc ) prime))
+        (define optional-imm (let ([imm0 (memory:memory-ref mem imm-addr)])
+            (if (integer? imm0) imm0 null)
+        ))
+        (values instruction-encoding optional-imm)
+    )
+)

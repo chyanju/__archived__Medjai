@@ -93,6 +93,13 @@
     )
 )
 
+; shortcut for getting self.vm.run_context.pc
+(define (get-pc p)
+    (tokamak:typed p runner?)
+    ; return
+    (context:context-pc (vm:vm-cntx (runner-vm p)))
+)
+
 (define (topc p lop)
     (tokamak:typed p runner?)
     (tokamak:typed lop string? integer?)
@@ -180,4 +187,31 @@
     ))
     (set-runner-vm! p vm)
     ; (fixme) skipped a few
+)
+
+(define (run-until-pc p addr #:run-resources [run-resources null])
+    (tokamak:typed p runner?)
+    (tokamak:typed addr memory:rv? integer?)
+    ; (fixme) run-resources type unsupported
+    ; (fixme) skipped a few
+    ; a for loop
+    (define (do-step)
+        ; each time fetch the current vm from runner
+        (let ([vm0 (runner-vm p)])
+            (when (! (memory:rveq (get-pc p) addr))
+                (vm-step p)
+                (do-step)
+            )
+        )
+    )
+    ; start the loop
+    (do-step)
+    ; (fixme) skipped a few
+)
+
+(define (vm-step p)
+    (tokamak:typed p runner?)
+    (when (memory:rveq (get-pc p) (runner-finalpc p))
+        (tokamak:error "execution reached the end of the program."))
+    (vm:step (runner-vm p))
 )

@@ -5,6 +5,7 @@
 (provide (rename-out
     [println-and-exit exit]
     [println-and-error error]
+    [println-and-log log]
     [assert-type typed]
     [fresh-symbolic-variable* symbolic*]
     [decomposable? decomposable?]
@@ -19,7 +20,7 @@
 ; used for forced break out of the execution
 (define (println-and-exit msg . fmts)
     (printf (format "[tokamak:exit] ~a\n" (apply format (cons msg fmts))))
-    ; (exit 0)
+    (exit 0)
 )
 
 ; used for throwing tokamak error with message
@@ -27,6 +28,10 @@
     (error (format "[tokamak:error] ~a\n" (apply format (cons msg fmts))))
     (error error) ; intended error for trace to locate the cause
     ; (exit 0)
+)
+
+(define (println-and-log msg . fmts)
+    (printf (format "[tokamak:log] ~a\n" (apply format (cons msg fmts))))
 )
 
 ; usually for debugging, asserting obj is one of types, otherwise print and exit

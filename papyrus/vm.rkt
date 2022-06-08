@@ -6,6 +6,7 @@
     (prefix-in context: "./context.rkt")
     (prefix-in memory: "./memory.rkt")
     (prefix-in program: "./program.rkt")
+    (prefix-in encode: "./encode.rkt")
 )
 (provide (all-defined-out))
 
@@ -113,3 +114,27 @@
     ; (fixme) skipped a few
 )
 
+(define (step p)
+    (tokamak:typed p vm?)
+    (tokamak:log "vm step")
+    ; (fixme) hint execution is skipped
+    ; (define instruction (decode-current-instruction p))
+)
+
+(define (decode-current-instruction p)
+    (tokamak:typed p vm?)
+    (let ([cntx (vm-cntx p)])
+        (define-values (instruction-encoding imm)
+            (context:get-instruction-encoding cntx))
+        (define instruction (decode-instruction p instruction-encoding #:imm imm))
+        ; return
+        instruction
+    )
+)
+
+(define (decode-instruction p encoded-inst #:imm [imm null])
+    (tokamak:typed p vm?)
+    (tokamak:typed encoded-inst integer?)
+    (tokamak:typed imm integer? null?)
+    (encode:decode-instruction encoded-inst #:imm imm)
+)

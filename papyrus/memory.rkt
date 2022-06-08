@@ -18,7 +18,7 @@
 (struct rv (
     seg ; (segment_index) int
     off ; (offset) int
-) #:mutable #:reflection-name 'rv)
+) #:mutable #:transparent #:reflection-name 'rv)
 
 (define (rvadd self other)
     (tokamak:typed self rv?)

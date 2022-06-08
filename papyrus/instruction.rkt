@@ -5,13 +5,14 @@
     (prefix-in tokamak: "./tokamak.rkt")
     (prefix-in config: "./config.rkt")
 )
+(provide (all-defined-out))
 
 ; global constants
 (define OFFSET-BITS 16)
 (define N-FLAGS 15)
 
 ; (Instruction)
-(struct inst (
+(struct instruction (
     off0 off1 off2 ; int
     imm ; int or null
     dst ; (dst_register) Register: 'ap, 'fp
@@ -22,34 +23,42 @@
     ap  ; (ap_update) ApUpdate: 'regular, 'add, 'add1, 'add2
     fp  ; (fp_update) FpUpdate: 'regular, 'ap+2, 'dst
     opcode ; Opcode: 'nop, 'assert-eq, 'call, 'ret
-) #:mutable #:transparent #:reflection-name 'inst)
+) #:mutable #:transparent #:reflection-name 'instruction)
 
-(define (get-size p)
-    (tokamak:typed p inst?)
-    (if (not (null? (inst-imm p))) 2 1)
+; raw constructor
+(define (new-instruction
+    #:off0 off0 #:off1 off1 #:off2 off2 #:imm imm #:dst dst
+    #:op0 op0 #:op1 op1 #:res res #:pc pc #:ap ap #:fp fp #:opcode opcode
+    )
+    ; return
+    (instruction off0 off1 off2 imm dst op0 op1 res pc ap fp opcode)
 )
 
-; (decode_instruction_values)
-(define (decode-instvals enc)
-    (tokamak:typed enc bv?)
-    (assert (bvsle config:bvzero enc))
-    (assert (bvslt
-        enc
-        (bv (expt 2 (+ N-FLAGS (* 3 OFFSET-BITS))) config:bvsize)
-    ))
-    (define off0 (bvand
-        enc
-        (bv (- (expt 2 OFFSET-BITS) 1) config:bvsize)
-    ))
-    (define off1 (bvand
-        (bvashr enc (bv OFFSET-BITS config:bvsize))
-        (bv (- (expt 2 OFFSET-BITS) 1) config:bvsize)
-    ))
-    (define off2 (bvand
-        (bvashr enc (bv (* 2 OFFSET-BITS) config:bvsize))
-        (bv (- (expt 2 OFFSET-BITS) 1) config:bvsize)
-    ))
-    (define flags-val (bvashr enc (bv (* 3 OFFSET-BITS) config:bvsize)))
+; constructor
+(define (make-instruction
+    #:off0 off0 #:off1 off1 #:off2 off2 #:imm imm #:dst dst
+    #:op0 op0 #:op1 op1 #:res res #:pc pc #:ap ap #:fp fp #:opcode opcode
+    )
+    ; return
+    (new-instruction
+        #:off0 off0 #:off1 off1 #:off2 off2 #:imm imm #:dst dst
+        #:op0 op0 #:op1 op1 #:res res #:pc pc #:ap ap #:fp fp #:opcode opcode
+    )
+)
+
+(define (instruction-size p)
+    (tokamak:typed p instruction?)
+    (if (! (null? (instruction-imm p))) 2 1)
+)
+
+(define (decode-instruction-values encoded-instruction)
+    (tokamak:typed encoded-instruction integer?)
+    (assert (<= 0 encoded-instruction))
+    (assert (< encoded-instruction (expt 2 (+ (* 3 OFFSET-BITS) N-FLAGS))))
+    (define off0 (bitwise-and encoded-instruction (- (expt 2 OFFSET-BITS) 1)))
+    (define off1 (bitwise-and (arithmetic-shift encoded-instruction OFFSET-BITS) (- (expt 2 OFFSET-BITS) 1)))
+    (define off2 (bitwise-and (arithmetic-shift encoded-instruction (expt 2 OFFSET-BITS)) (- (expt 2 OFFSET-BITS) 1)))
+    (define flags-val (arithmetic-shift encoded-instruction (* 3 OFFSET-BITS)))
     ; return
     (values flags-val off0 off1 off2)
 )

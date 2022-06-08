@@ -19,6 +19,7 @@
     #:prog program #:mem initial-memory))
 (runner:initialize-segments runner)
 (define end (runner:initialize-main-entrypoint runner))
+(tokamak:log "end is: ~a" end)
 (define program-input (let ([pi (hash-ref args 'program-input)])
     (if (null? pi) (make-hash) pi)
 ))
@@ -26,3 +27,4 @@
     runner
     (make-hash (list (cons 'program-input program-input)))
 )
+(runner:run-until-pc runner end)
