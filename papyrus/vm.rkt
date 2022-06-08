@@ -120,8 +120,8 @@
     (tokamak:log "vm step")
     ; (fixme) hint execution is skipped
     (define instruction (decode-current-instruction p))
-    (run-instruction p instruction)
     (tokamak:log "instruction is: ~a" instruction)
+    (run-instruction p instruction)
 )
 
 (define (decode-current-instruction p)
@@ -145,11 +145,61 @@
 (define (run-instruction p instruction)
     (tokamak:typed p vm?)
     (tokamak:typed instruction instruction:instruction?)
-
+    ; (fixme) will call compute-operands
+    (define-values (operands operands-mem-addresses)
+        (compute-operands p instruction))
+    (void)
 )
 
 (define (compute-operands p instruction)
     (tokamak:typed p vm?)
     (tokamak:typed instruction instruction:instruction?)
+
+    (define dst-addr (context:compute-dst-addr (vm-cntx p) instruction))
+    (define dst (memory:memory-ref (vm-mem p) dst-addr))
+
+    (define op0-addr (context:compute-op0-addr (vm-cntx p) instruction))
+    (define op0 (let ([t0 (memory:memory-ref (vm-mem p) op0-addr)])
+        (if (null? t0)
+            (tokamak:error "not implemented: deduce_memory_cell for op0-addr")
+            t0
+        )
+    ))
+
+    (define op1-addr (context:compute-op1-addr (vm-cntx p) instruction))
+    (define op1 (let ([t0 (memory:memory-ref (vm-mem p) op1-addr)])
+        (if (null? t0)
+            (tokamak:error "not implemented: deduce_memory_cell for op1-addr")
+            t0
+        )
+    ))
+
+    (define res null) ; (fixme)
+
+    (define should-update-dst (null? dst))
+    (define should-update-op0 (null? op0))
+    (define should-update-op1 (null? op1))
+
+    (when (null? op0)
+        (tokamak:error "not implemented: deduce_op0, validated_memory"))
+    (when (null? op1)
+        (tokamak:error "not implemented: deduce_op1, validated_memory"))
+
+    ; (fixme) not computing res
+    (when (null? dst)
+        (tokamak:error "not implemented: deduce dst, validated_memory"))
+
+    (when should-update-dst
+        (memory:memory-set! (vm-mem p) dst-addr dst))
+    (when should-update-op0
+        (memory:memory-set! (vm-mem p) op0-addr op0))
+    (when should-update-op1
+        (memory:memory-set! (vm-mem p) op1-addr op1))
+
+    ; return
+    (values
+        (instruction:make-operands #:dst dst #:op0 op0 #:op1 op1 #:res res)
+        (list dst-addr op0-addr op1-addr)
+    )
 
 )

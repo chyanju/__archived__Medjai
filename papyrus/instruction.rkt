@@ -7,6 +7,33 @@
 )
 (provide (all-defined-out))
 
+; ========================== ;
+; ======== Operands ======== ;
+; ========================== ;
+; (Operands)
+(struct operands (
+    dst ; rv
+    res ; rv or null
+    op0 ; rv
+    op1 ; rv
+) #:mutable #:transparent #:reflection-name 'operands)
+
+; raw constructor
+(define (new-operands #:dst dst #:res res #:op0 op0 #:op1 op1)
+    ; return
+    (operands dst res op0 op1)
+)
+
+; constructor
+(define (make-operands #:dst dst #:res res #:op0 op0 #:op1 op1)
+    ; return
+    (new-operands #:dst dst #:res res #:op0 op0 #:op1 op1)
+)
+
+; ============================= ;
+; ======== Instruction ======== ;
+; ============================= ;
+
 ; global constants
 (define OFFSET-BITS 16)
 (define N-FLAGS 15)

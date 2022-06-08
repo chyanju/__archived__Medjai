@@ -4,6 +4,7 @@
 (require
     (prefix-in tokamak: "./tokamak.rkt")
     (prefix-in memory: "./memory.rkt")
+    (prefix-in instruction: "./instruction.rkt")
 )
 (provide (all-defined-out))
 
@@ -45,4 +46,55 @@
         ))
         (values instruction-encoding optional-imm)
     )
+)
+
+(define (compute-dst-addr p instruction)
+    (tokamak:typed p context?)
+    (tokamak:typed instruction instruction:instruction?)
+    (define base-addr (let ([sym (instruction:instruction-dst instruction)])
+        (cond
+            [(equal? 'ap sym) (context-ap p)]
+            [(equal? 'fp sym) (context-fp p)]
+            [else (tokamak:error "invalid dst-register value.")]
+        )
+    ))
+    ; return
+    (memory:rvmod (memory:rvadd base-addr (instruction:instruction-off0 instruction)) (context-prime p))
+)
+
+(define (compute-op0-addr p instruction)
+    (tokamak:typed p context?)
+    (tokamak:typed instruction instruction:instruction?)
+    (define base-addr (let ([sym (instruction:instruction-op0 instruction)])
+        (cond
+            [(equal? 'ap sym) (context-ap p)]
+            [(equal? 'fp sym) (context-fp p)]
+            [else (tokamak:error "invalid op0-register value.")]
+        )
+    ))
+    ; return
+    (memory:rvmod (memory:rvadd base-addr (instruction:instruction-off1 instruction)) (context-prime p))
+)
+
+(define (compute-op1-addr p instruction op0)
+    (tokamak:typed p context?)
+    (tokamak:typed instruction instruction:instruction?)
+    (tokamak:typed op0 memory:rv? integer?)
+    (define base-addr (let ([sym (instruction:instruction-op1 instruction)])
+        (cond
+            [(equal? 'ap sym) (context-ap p)]
+            [(equal? 'fp sym) (context-fp p)]
+            [(equal? 'imm sym)
+                (assert (equal? 1 (instruction:instruction-off2)) "in immediate mode, off2 should be 1.")
+                (context-pc p)
+            ]
+            [(equal? 'op0 sym)
+                (assert (! (null? op0)) "op0 must be known in double dereference.")
+                op0
+            ]
+            [else (tokamak:error "invalid op1-register value.")]
+        )
+    ))
+    ; return
+    (memory:rvmod (memory:rvadd base-addr (instruction:instruction-off2 instruction)) (context-prime p))
 )

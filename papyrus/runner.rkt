@@ -217,12 +217,12 @@
     ; for debugging
     (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
     (vm-step p)
-    (context:set-context-pc! (vm:vm-cntx (runner-vm p)) (memory:rv 0 1))
-    (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
-    (vm-step p)
-    (context:set-context-pc! (vm:vm-cntx (runner-vm p)) (memory:rv 0 1))
-    (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
-    (vm-step p)
+    ; (context:set-context-pc! (vm:vm-cntx (runner-vm p)) (memory:rv 0 1))
+    ; (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
+    ; (vm-step p)
+    ; (context:set-context-pc! (vm:vm-cntx (runner-vm p)) (memory:rv 0 1))
+    ; (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
+    ; (vm-step p)
 )
 
 (define (vm-step p)

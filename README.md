@@ -1,4 +1,4 @@
-# Papyrus: A Cairo Symbolic Virtual Machine
+# Horus/Papyrus: A Cairo Symbolic Virtual Machine
 
 This is a development README.
 
