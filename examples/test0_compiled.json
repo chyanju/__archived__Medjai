@@ -29,7 +29,7 @@
                     "end_col": 22,
                     "end_line": 2,
                     "input_file": {
-                        "filename": "test.cairo"
+                        "filename": "./examples/test0.cairo"
                     },
                     "start_col": 5,
                     "start_line": 2
@@ -52,7 +52,7 @@
                     "end_col": 22,
                     "end_line": 3,
                     "input_file": {
-                        "filename": "test.cairo"
+                        "filename": "./examples/test0.cairo"
                     },
                     "start_col": 5,
                     "start_line": 3
@@ -75,7 +75,7 @@
                     "end_col": 37,
                     "end_line": 4,
                     "input_file": {
-                        "filename": "test.cairo"
+                        "filename": "./examples/test0.cairo"
                     },
                     "start_col": 5,
                     "start_line": 4
@@ -98,7 +98,7 @@
                     "end_col": 8,
                     "end_line": 5,
                     "input_file": {
-                        "filename": "test.cairo"
+                        "filename": "./examples/test0.cairo"
                     },
                     "start_col": 5,
                     "start_line": 5
