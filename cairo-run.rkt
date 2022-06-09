@@ -1,14 +1,27 @@
 #lang rosette
 ; a simplified version of cairo_run.py
-(require
+(require racket/cmdline
     (prefix-in tokamak: "./papyrus/tokamak.rkt")
     (prefix-in program: "./papyrus/program.rkt")
     (prefix-in memory: "./papyrus/memory.rkt")
     (prefix-in runner: "./papyrus/runner.rkt")
 )
 
+; parse command line arguments
+(define arg-cname null)
+(command-line
+  #:program "cairo-run.rkt"
+  #:once-any
+  [("--cname") p-cname "path to a compiled Cairo program (.json)"
+    (begin
+      (set! arg-cname p-cname)
+    )
+  ]
+)
+(when (null? arg-cname) (tokamak:error "cname should not be null."))
+
 (define args (make-hash (list
-    (cons 'program "./examples/test_compiled.json")
+    (cons 'program arg-cname)
     (cons 'program-input null)
 )))
 

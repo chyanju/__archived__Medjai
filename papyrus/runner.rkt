@@ -208,6 +208,8 @@
         ; each time fetch the current vm from runner
         (let ([vm0 (runner-vm p)])
             (when (! (memory:rveq (get-pc p) addr))
+                (printf "\n")
+                (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
                 (vm-step p)
                 (do-step)
             )
