@@ -57,7 +57,7 @@ end
 The above code snippet creates a symbolic integer `var0` and assigns it to a certain memory address. We would like to find out whether this piece of code is correct or not by asking Papyrus to find a counterexample of `var0` that would potentially crash the execution of the program. By calling:
 
 ```bash
-./run-papyrus.sh ./examples/test1.cairo
+./run-papyrus.sh ./examples/test0.cairo
 ```
 
 Papyrus will reason about all possible values of `var0` together with all program states, and return one of them that can compromise the program execution, which is `0` that would cause a "division by 0" error. 
