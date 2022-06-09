@@ -1,15 +1,15 @@
 # Papyrus: A Symbolic Execution Tool for Cairo
 
-<div>Papyrus is an open-sourced general framework for reasoning about <img src="./docs/cairo-icon.png" width=24px>Cairo STARKs dApps based on symbolic execution.</div>
+<div>Papyrus is an open-sourced general framework for reasoning about <img src="./docs/cairo-icon.png" width=24px> Cairo programs based on symbolic execution.</div>
 
 ***Note: Papyrus is still under active development. For development notes, please see [here](./DEV.md).***
 
 ## Features
 
-- [x] [Dev] Program Exploration: Papyrus can execute Cairo program with symbolic inputs and explore all its possible program states.
-- [x] [Dev] Property Verification: Papyrus can check whether certain properties hold on Cairo program.
-- [ ] [Dev] Attack Synthesis: Papyrus can automatically solve for concrete inputs that crash given Cairo program.
-- [ ] [Dev] Programmatic Interface: Papyrus exposes programmatic access to its symbolic execution engine via a set of Racket APIs.
+- [x] [Dev] **Program Exploration**: Papyrus can execute Cairo program with symbolic inputs and explore all its possible program states.
+- [x] [Dev] **Property Verification**: Papyrus can check whether certain properties hold on Cairo program.
+- [ ] [Dev] **Attack Synthesis**: Papyrus can automatically solve for concrete inputs that crash given Cairo program.
+- [ ] [Dev] **Integrations with <img src="./docs/veridise-icon.png" width=24px> Veridise Product Lines**: Papyrus integrates with [[V] specication language](https://github.com/Veridise/V) that allows developers to express correctness properties.
 
 ## Dependencies (Building from Source)
 
