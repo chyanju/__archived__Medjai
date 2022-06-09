@@ -1,15 +1,8 @@
-# Papyrus: A Symbolic Execution Tool for Cairo
+# Papyrus: Reasoning Cairo STARKs dApps
 
-<div>Papyrus is an open-sourced general framework for reasoning about <img src="./docs/cairo-icon.png" width=24px>Cairo STARKs dApps based on symbolic execution.</div>
+<div>Papyrus is an open-sourced general framework for reasoning <img src="./docs/cairo-icon.png" width=24px>Cairo STARKs dApps. Papyrus performs reasoning using a builtin symbolic virtual machine based on Cairo bytecode.</div>
 
-***Note: Papyrus is still under active development. For development notes, please see [here](./DEV.md).***
-
-## Features
-
-- [x] [Dev] Program Exploration: Papyrus can execute Cairo program with symbolic inputs and explore all its possible program states.
-- [x] [Dev] Property Verification: Papyrus can check whether certain properties hold on Cairo program.
-- [ ] [Dev] Attack Synthesis: Papyrus can automatically solve for concrete inputs that crash given Cairo program.
-- [ ] [Dev] Programmatic Interface: Papyrus exposes programmatic access to its symbolic execution engine via a set of Racket APIs.
+***Note: Papyrus is still under active development.***
 
 ## Dependencies (Building from Source)
 
@@ -42,6 +35,8 @@ Papyrus can then execute the program and outputs the desired final memory states
 
 ## Getting Started: Symbolic Reasoning (Dev)
 
+***Note: This section is under development.***
+
 Papyrus also supports reasoning and you can utilize it to verify several properties of Cairo programs. For example:
 
 ```cairo
@@ -54,15 +49,15 @@ func main():
 end
 ```
 
-The above code snippet creates a symbolic integer `var0` and assigns it to a certain memory address. We would like to find out whether this piece of code is correct or not by asking Papyrus to find a counterexample of `var0` that would potentially crash the execution of the program. By calling:
+The above code snippet creates a symbolic integer named `var0` and assigns it to a certain memory address. We would like to find out whether this piece of code is correct or not by asking Papyrus to find a counterexample of valuation of `var0` to fail the execution of the program. By calling:
 
 ```bash
 ./run-papyrus.sh ./examples/test1.cairo
 ```
 
-Papyrus will reason about all possible values of `var0` together with all program states, and return one of them that can compromise the program execution, which is `0` that would cause a "division by 0" error. 
+Papyrus will reason about all possible values of `var0` and return one of them that can compromise the program execution, which is `0` that would cause a "division by 0" error. 
 
-As in the line of code after we create the symbolic variable, `var0` is immediately used as denominator of a division arithmetic operation `[ap] = [ap - 2] / [ap - 1]; ap++`, which will cause an "unknown value for memory cell"  exception if `var0` is set to `0`. This verifies the counterexample it found.
+As in the line of code after we create the symbolic variable, `var0` is immediately used as denominator of a division arithmetic operation `[ap] = [ap - 2] / [ap - 1]; ap++`, which will cause an "unknown value for memory cell"  exception if `var0` is set to `0`. This verifies the counterexample found.
 
 ## Commands & Usages
 
@@ -91,3 +86,20 @@ usage: cairo-run.rkt [ <option> ... ]
  Multiple single-letter switches can be combined after
  one `-`. For example, `-h-` is the same as `-h --`.
 ```
+
+### Example Commands (Dev)
+
+```bash
+# normal call to papyrus
+racket ./cairo-run.rkt --cname ./examples/test0_compiled.json
+
+# turn on error trace
+racket -l errortrace -t ./cairo-run.rkt
+
+# original cairo compile command
+cairo-compile ./examples/test1.cairo --output ./examples/test1_compiled.json
+
+# original cairo-run command with trace
+cairo-run --program=./examples/test1_compiled.json --print_output --print_info --relocate_prints --tracer
+```
+
