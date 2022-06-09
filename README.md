@@ -39,7 +39,7 @@ it can then execute the program and outputs the desired final memory states.
 
 Papyrus' virtual machine supports symbolic reasoning and you can utilize it to perform verification and synthesis on Cairo programs. For example:
 
-```
+```cairo
 # examples/test1.cairo: symbolic reasoning
 func main():
     [ap] = 1000; ap++
