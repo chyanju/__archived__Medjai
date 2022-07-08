@@ -72,6 +72,7 @@
     ; brunners is fine
     (define excopes0 null)
     ; (fixme) call enter_scope
+    ; (fixme) TODO should use functions instead of hash for symexec
     (define hints0 (make-hash))
     (define hpi0 (make-hash))
     (define idi0 (make-hash))
@@ -81,7 +82,7 @@
     (define mem0 (context:context-mem cntx))
     ; (fixme) tell apart StrippedProgram and Program
     (when (program:program? prog0) (load-program prime0 prog0 pbase0))
-    (define autodd0 (make-hash))
+    (define autodd0 (lambda (seg) empty))
     (define slocals0 (if (! (null? slocals))
         slocals
         (make-hash (list
@@ -271,6 +272,35 @@
         )
     )
 )
+
+(define (add-auto-deduction-rule p segment rule)
+  (tokamak:typed p vm?)
+  ;; TODO typecheck segment
+  ;; TODO typecheck rule
+
+  (define old-autodd (vm-autodd p))
+  (define (new-autodd seg)
+    (if (equal? seg segment)
+      (cons rule (old-autodd seg))
+      (old-autodd seg)))
+  
+  (set-vm-autodd! p new-autodd))
+
+(define (deduce_memory_cell p addr)
+    (tokamak:typed p vm?)
+    (tokamak:typed addr memory:rv?)
+
+    (tokamak:log "deducing memory cell at: ~a." addr)
+
+    (define seg (memory:rv-seg addr))
+    (define rules ((vm-autodd p) seg))
+
+    ;; TODO return null instead of false
+    (ormap
+      (lambda (rule)
+        ;; rule should return #f if it does not match
+        (rule vm addr))
+      rules))
 
 (define (compute-operands p instruction)
     (tokamak:typed p vm?)
