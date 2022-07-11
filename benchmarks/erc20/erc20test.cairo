@@ -17,8 +17,12 @@ const SHIFT = 2 ** 128
 const ALL_ONES = 2 ** 128 - 1
 const HALF_SHIFT = 2 ** 64
 
+@external
 func mint{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}():
     alloc_locals
+
+    let rando = 7
+    assert (rando) = 7
 
     let recipient = 1
     let amount : Uint256 = Uint256(low = 5, high = 0)

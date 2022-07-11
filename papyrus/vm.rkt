@@ -8,6 +8,7 @@
     (prefix-in program: "./program.rkt")
     (prefix-in encode: "./encode.rkt")
     (prefix-in instruction: "./instruction.rkt")
+    math/number-theory
 )
 (provide (all-defined-out))
 
@@ -185,8 +186,9 @@
             [(equal? 'add ap-update)
                 (when (null? (instruction:operands-res operands))
                     (tokamak:error "Res.UNCONSTRAINED cannot be used with ApUpdate.ADD"))
+                (tokamak:log "first rvmod")
                 (context:set-context-ap! (vm-cntx p)
-                    (memory:rvadd ap (memory:rvmod (instruction:operands-res operands) (vm-prime p))))
+                    (memory:rvmod (memory:rvadd ap (instruction:operands-res operands)) (vm-prime p)))
             ]
             [(equal? 'add1 ap-update)
                 (context:set-context-ap! (vm-cntx p)
@@ -201,6 +203,7 @@
             ]
         )
     )
+    (tokamak:log "second rvmod")
     (context:set-context-ap! (vm-cntx p)
         (memory:rvmod (context:context-ap (vm-cntx p)) (vm-prime p)))
 
@@ -237,6 +240,7 @@
             [else (tokamak:error "invalid pc_update value")]
         )
     )
+    (tokamak:log "third rvmod, context-pc: ~a" (context:context-pc (vm-cntx p)))
     (context:set-context-pc! (vm-cntx p)
         (memory:rvmod (context:context-pc (vm-cntx p)) (vm-prime p)))
 )
@@ -302,6 +306,77 @@
         (rule vm addr))
       rules))
 
+;; compute x / y % prime
+(define (div-mod x y prime)
+  (let ([yinv (modular-inverse y prime)])
+    (modulo (* x yinv) prime)))
+
+(define (deduce_op0 p instruction dst op1)
+  (tokamak:log "deduce_op0 opcode: ~a, res: ~a"
+               (instruction:instruction-opcode instruction)
+               (instruction:instruction-res instruction))
+  (let ([opcode (instruction:instruction-opcode instruction)]
+        [instr-res (instruction:instruction-res instruction)]
+        [prime (context:context-prime (vm-cntx p))])
+  (tokamak:log "deduce_op0 condition: ~a"
+               (and (equal? opcode 'assert-eq)
+                    (equal? instr-res 'add)
+                    dst
+                    op1))
+    (cond
+      [(equal? opcode 'call)
+        (list
+          (memory:rvadd (context:context-pc (vm-cntx p))
+                        (instruction:instruction-size instruction))
+          #f)]
+      [(and (equal? opcode 'assert-eq)
+            (equal? instr-res 'add)
+            dst
+            op1)
+        (list
+          (memory:rvmod (memory:rvsub dst op1) prime)
+          dst)]
+      [(and (equal? opcode 'assert-eq)
+            (equal? instr-res 'mul)
+            (integer? dst)
+            (integer? op1)
+            (not (equal? 0 op1)))
+        (list
+          (div-mod dst op1 prime)
+          dst)]
+      [else '(#f #f)])))
+
+(define (deduce_op1 p instruction dst op0)
+  (let ([opcode (instruction:instruction-opcode instruction)]
+        [instr-res (instruction:instruction-res instruction)]
+        [prime (context:context-prime (vm-cntx p))])
+    (cond
+    ; TODO
+      [(and (equal? opcode 'assert-eq)
+            (equal? instr-res 'op1)
+            dst)
+        (list dst dst)]
+      [(and (equal? opcode 'assert-eq)
+            (equal? instr-res 'add)
+            dst
+            op0)
+        (list
+          (memory:rvmod (memory:rvsub dst op0) prime)
+          dst)]
+      [(and (equal? opcode 'assert-eq)
+            (equal? instr-res 'mul)
+            (integer? dst)
+            (integer? op0)
+            (not (equal? op0 0)))
+        (list
+          (div-mod dst op0 prime)
+          dst)]
+      [else '(#f #f)])))
+
+(define (symint)
+  (define-symbolic* x integer?)
+  x)
+
 (define (compute-operands p instruction)
     (tokamak:typed p vm?)
     (tokamak:typed instruction instruction:instruction?)
@@ -315,63 +390,73 @@
 
     (define op0-addr (context:compute-op0-addr (vm-cntx p) instruction))
     (tokamak:log "op0-addr is: ~a." op0-addr)
-    (define op0 (let ([t0 (memory:memory-ref (vm-mem p) op0-addr)])
+    (define op0
+      (let ([t0 (memory:memory-ref (vm-mem p) op0-addr)])
         (tokamak:log "original op0 is: ~a." t0)
-        (if (null? t0)
-            (tokamak:error "not implemented: deduce_memory_cell for op0-addr")
-            t0
-        )
-    ))
-    (tokamak:log "op0 is: ~a." op0)
+        t0))
 
     (define op1-addr (context:compute-op1-addr (vm-cntx p) instruction op0))
     (tokamak:log "op1-addr is: ~a." op1-addr)
-    (define op1 (let ([t0 (memory:memory-ref (vm-mem p) op1-addr)])
+    (define op1
+      (let ([t0 (memory:memory-ref (vm-mem p) op1-addr)])
         (tokamak:log "original op1 is: ~a." t0)
-        (if (null? t0)
-            (tokamak:error "not implemented: deduce_memory_cell for op1-addr")
-            t0
-        )
-    ))
+        t0))
+
+    (define res #f)
+
+    (define should-update-dst (not dst))
+    (define should-update-op0 (not op0))
+    (define should-update-op1 (not op1))
+
+    ;; TODO/fixme this is a hack
+    (when (and (equal? (instruction:instruction-opcode instruction) 'assert-eq)
+               (equal? dst-addr op0-addr)
+               (equal? op1-addr op0-addr)
+               (not op0)
+               (not op1)
+               (not dst))
+      (let ([symx (symint)])
+        (set! op0 symx)
+        (set! op1 symx)
+        (set! dst symx)))
+
+    (when (not op0)
+      (let* ([op0+res (deduce_op0 p instruction dst op1)]
+             [new-op0 (first op0+res)]
+             [new-res (second op0+res)])
+        (set! op0 new-op0)
+        (when (not res) (set! res new-res))))
+    (tokamak:log "op0 is: ~a." op0)
+
+    (when (not op1)
+      (let* ([op1+res (deduce_op1 p instruction dst op0)]
+             [new-op1 (first op1+res)]
+             [new-res (second op1+res)])
+        (set! op1 new-op1)
+        (when (not res) (set! res new-res))))
     (tokamak:log "op1 is: ~a." op1)
 
     ; (fixme) res may become not null when you call any deduce methods above
-    (define res (compute-res p instruction op0 op1))
-
-    (define should-update-dst (null? dst))
-    (define should-update-op0 (null? op0))
-    (define should-update-op1 (null? op1))
-
-    (when (null? op0)
-        (tokamak:error "not implemented: deduce_op0, validated_memory"))
-    (when (null? op1)
-        (tokamak:error "not implemented: deduce_op1, validated_memory"))
+    (when (not res) (set! res (compute-res p instruction op0 op1)))
+    (tokamak:log "res is: ~a." res)
 
     ; deduce dst
     (define dst0
-        (if (null? dst)
-            ; update
-            (let ([opcode (instruction:instruction-opcode instruction)])
-                (cond
-                    [(&& (equal? 'assert-eq opcode) (! (null? res)))
-                        res
-                    ]
-                    [(equal? 'call opcode) (context:context-fp (vm-cntx p))]
-                    [else dst]
-                )
-            )
-            ; not update
-            dst
-        )
-    )
+      (if dst
+        dst
+        ; else, update
+         (let ([opcode (instruction:instruction-opcode instruction)])
+           (cond
+             [(&& (equal? 'assert-eq opcode) (! (null? res)))
+               res]
+             [(equal? 'call opcode) (context:context-fp (vm-cntx p))]
+             [else dst]))))
 
     ; force pulling dst from memory for soundness
     (define dst1
-        (if (null? dst0)
-            (memory:memory-ref (vm-mem p) dst-addr)
-            dst0
-        )
-    )
+      (if dst0
+        dst0
+        (memory:memory-ref (vm-mem p) dst-addr)))
 
     (when should-update-dst
         (memory:memory-set! (vm-mem p) dst-addr dst1))

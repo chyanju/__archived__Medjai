@@ -27,7 +27,9 @@
 ; (define RESERVED-BIT 15)
 
 (define (decode-instruction enc #:imm [imm null])
-    (tokamak:log "decode-instruction | enc: ~a, imm: ~a" enc imm)
+    (tokamak:log "decode-instruction | enc: 0x~a, imm: 0x~a"
+                 (number->string enc 16)
+                 (number->string imm 16))
     (tokamak:typed enc integer?)
     (tokamak:typed imm integer? null?)
     (let-values ([(flags off0-enc off1-enc off2-enc) (instruction:decode-instruction-values enc)])
@@ -71,6 +73,8 @@
             [else (tokamak:error "unrecognized pc-update-pat")]
         ))
 
+        (tokamak:log "pc update: ~a" pc-update)
+
         ; get res
         (define res-pat (list
             (bitwise-and (utils:shift-right flags RES-ADD-BIT) 1)
@@ -110,6 +114,7 @@
             [(equal? ap-update-pat (list 1 0)) 'add]
             [(equal? ap-update-pat (list 0 1)) 'add1]
             [(equal? ap-update-pat (list 0 0))
+            ;; TODO/fixme: this if statement shouldn't be here
                 (if (equal? 'call opcode) 'add2 'regular)
             ]
             [else (tokamak:error "unrecognized ap-update-pat")]
@@ -117,7 +122,7 @@
         ; update
         (define ap-update (cond
             [(equal? 'call opcode)
-                (assert (equal? 'regular ap-update-init) "call must have update_ap is ADD2")
+                (assert (equal? 'add2 ap-update-init) "call must have update_ap is ADD2")
                 'add2
             ]
             [else ap-update-init]

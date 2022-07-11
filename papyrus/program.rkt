@@ -47,12 +47,13 @@
 ; adapted from marshmarrow's method restoring a program object from json
 (define (load-program jspath)
     (tokamak:typed jspath string?)
-    (define js0 (string->jsexpr (file->string jspath)))
+    ;; TODO The hash-ref is for starknet
+    (define js0 #|(hash-ref|# (string->jsexpr (file->string jspath)) #|'program|#)
 
     ; parse data
-    (define data0 (for/list ([t0 (hash-ref js0 'data)])
-        (string->number (substring t0 2) 16) ; hex remove leading "0x"
-    ))
+    (define data0
+      (for/list ([t0 (hash-ref js0 'data)])
+        (string->number (substring t0 2) 16))) ; hex remove leading "0x"
 
     ; return
     (new-program
@@ -72,5 +73,6 @@
 (define (program-main p)
     (tokamak:typed p program?)
     ; (fixme) need to correctly model this
-    0
+    ; 0
+    185
 )

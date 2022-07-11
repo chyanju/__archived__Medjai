@@ -47,10 +47,11 @@
     )
 )
 (define (assert-type obj . typs)
-    (if (assert-type-helper obj typs)
+; TODO
+    ;(if (assert-type-helper obj typs)
         #t
-        (println-and-error "type checking failed, required types are: ~a, obj is: ~v" typs obj)
-    )
+    ;    (println-and-error "type checking failed, required types are: ~a, obj is: ~v" typs obj)
+    ;)
 )
 
 ; ref: https://github.com/emina/rosette/blob/master/rosette/base/form/define.rkt#L37

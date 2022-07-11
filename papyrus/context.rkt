@@ -81,6 +81,7 @@
     (tokamak:typed instruction instruction:instruction?)
     (tokamak:typed op0 memory:rv? integer?)
     (define base-addr (let ([sym (instruction:instruction-op1 instruction)])
+    (tokamak:log "compute-op1-addr sym: ~a" sym)
         (cond
             [(equal? 'ap sym) (context-ap p)]
             [(equal? 'fp sym) (context-fp p)]
