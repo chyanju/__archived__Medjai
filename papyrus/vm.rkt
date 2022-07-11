@@ -226,7 +226,7 @@
                     (memory:rvadd pc (instruction:operands-res operands)))
             ]
             [(equal? 'jnz pc-update)
-                (if (is-zero (instruction:operands-dst operands))
+                (if (is-zero p (instruction:operands-dst operands))
                     (context:set-context-pc! (vm-cntx p)
                         (memory:rvadd pc (instruction:instruction-size instruction)))
                     (context:set-context-pc! (vm-cntx p)
