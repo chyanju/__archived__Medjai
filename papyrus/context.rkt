@@ -90,7 +90,7 @@
                 (context-pc p)
             ]
             [(equal? 'op0 sym)
-                (assert (! (null? op0)) "op0 must be known in double dereference.")
+                (assert op0 "op0 must be known in double dereference.")
                 op0
             ]
             [else (tokamak:error "invalid op1-register value.")]

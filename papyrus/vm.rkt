@@ -395,6 +395,11 @@
         (tokamak:log "original op0 is: ~a." t0)
         t0))
 
+    ;; TODO/fixme this is a hack
+    ;(when (and (equal? (instruction:instruction-op1 instruction) 'op0)
+    ;           (not op0))
+    ;  (set! op0 (symint)))
+
     (define op1-addr (context:compute-op1-addr (vm-cntx p) instruction op0))
     (tokamak:log "op1-addr is: ~a." op1-addr)
     (define op1
