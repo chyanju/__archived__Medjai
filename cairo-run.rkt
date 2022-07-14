@@ -42,6 +42,26 @@
     runner
     (make-hash (list (cons 'program-input program-input)))
 )
+
+;; TODO/fixme: hardcode the symbolic inputs
+(define-symbolic* bal integer?)
+(define-symbolic* amt integer?)
+(memory:memory-set! initial-memory (memory:rv 0 189) bal)
+(memory:memory-set! initial-memory (memory:rv 0 193) amt)
+
 (runner:run-until-pc runner end)
 
 (tokamak:log "final memory data is: ~a" (memory:memory-data initial-memory))
+
+; Prints for checking correctness of erc20simple.cairo
+;(define (val->str val)
+;  (if (memory:rv? val)
+;    (~a (memory:rv-seg val) ":" (memory:rv-off val))
+;    (~a val)))
+;
+;(for ([i 60])
+;  (let ([val (memory:data-ref (memory:memory-data initial-memory) (memory:rv 1 i))])
+;    (displayln (~a "1 : " i " = " (val->str val)))))
+;(for ([i 3])
+;  (let ([val (memory:data-ref (memory:memory-data initial-memory) (memory:rv 2 i))])
+;    (displayln (~a "2 : " i " = " (val->str val)))))
