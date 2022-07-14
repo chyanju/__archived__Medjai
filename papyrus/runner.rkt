@@ -205,10 +205,10 @@
     (tokamak:typed addr memory:rv? integer?)
     ; (fixme) run-resources type unsupported
     ; a for loop definition
-    (define (do-step [fuel 100])
+    (define (do-step)
         ; each time fetch the current vm from runner
         (let ([vm0 (runner-vm p)])
-            (when (>= fuel 0); (! (memory:rveq (get-pc p) addr))
+            (when (! (memory:rveq (get-pc p) addr))
                 (printf "\n")
                 (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
                 (tokamak:log "ap is: ~a." (context:context-ap (vm:vm-cntx (runner-vm p))))

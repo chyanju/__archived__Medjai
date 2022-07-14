@@ -27,8 +27,6 @@
 ; (define RESERVED-BIT 15)
 
 (define (decode-instruction enc #:imm [imm #f])
-    (displayln enc)
-    (displayln imm)
     (tokamak:log "decode-instruction | enc: 0x~a, imm: ~a"
                  (number->string enc 16)
                  (if (integer? imm)

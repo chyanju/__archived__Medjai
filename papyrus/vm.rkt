@@ -246,12 +246,13 @@
 )
 
 (define (is-zero p value)
+    (tokamak:log "is-zero value: ~a" value)
     (tokamak:typed p vm?)
     ; the method itself has implicit assertions of value
     ; return
     (cond
         [(integer? value) (equal? value 0)]
-        [(&& (memory:rv? value) (memory:rvge (memory:rv-off value) 0)) #f]
+        [(and (memory:rv? value) (memory:rvge (memory:rv-off value) 0)) #f]
         [else (tokamak:error "PureValueError: jmp != 0")]
     )
 )
@@ -264,14 +265,16 @@
     (let ([res (instruction:instruction-res instruction)])
         (cond
             [(equal? 'op1 res) op1]
-            ; [(equal? 'add res) (memory:rvmod (memory:rvadd op0 op1) (vm-prime p))]
-            [(equal? 'add res) (modulo (+ op0 op1) (vm-prime p))]
+            [(equal? 'add res) (memory:rvmod (memory:rvadd op0 op1) (vm-prime p))]
+            ; [(equal? 'add res) (modulo (+ op0 op1) (vm-prime p))]
             [(equal? 'mul res)
-                (when (|| (memory:rv? op0) (memory:rv? op1))
-                    (tokamak:error "PuerValueError: *"))
-                (modulo (* op0 op1) (vm-prime p))
-            ]
-            [(equal? 'unconstrained res) null]
+                ;(when (|| (memory:rv? op0) (memory:rv? op1))
+                ;    (tokamak:error "PuerValueError: *"))
+              (let ([op0 (if (memory:rv? op0) (memory:rv-off op0) op0)]
+                    [op1 (if (memory:rv? op1) (memory:rv-off op1) op1)])
+                (modulo (* op0 op1) (vm-prime p)))]
+            [(equal? 'unconstrained res) #f]
+            ; [(equal? 'unconstrained res) null]
             [else (tokamak:error "invalid res value")]
         )
     )
@@ -395,11 +398,6 @@
         (tokamak:log "original op0 is: ~a." t0)
         t0))
 
-    ;; TODO/fixme this is a hack
-    ;(when (and (equal? (instruction:instruction-op1 instruction) 'op0)
-    ;           (not op0))
-    ;  (set! op0 (symint)))
-
     (define op1-addr (context:compute-op1-addr (vm-cntx p) instruction op0))
     (tokamak:log "op1-addr is: ~a." op1-addr)
     (define op1
@@ -413,17 +411,19 @@
     (define should-update-op0 (not op0))
     (define should-update-op1 (not op1))
 
-    ;; TODO/fixme this is a hack
-    (when (and (equal? (instruction:instruction-opcode instruction) 'assert-eq)
-               (equal? dst-addr op0-addr)
-               (equal? op1-addr op0-addr)
-               (not op0)
-               (not op1)
-               (not dst))
-      (let ([symx (symint)])
-        (set! op0 symx)
-        (set! op1 symx)
-        (set! dst symx)))
+    ;; TODO/fixme these are hard-coded values for hints
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 87))
+      (set! dst 1))
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 95))
+      (set! dst 0))
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 128))
+      (set! op0 0)
+      (set! op1 0)
+      (set! dst 0))
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 129))
+      (set! op0 0)
+      (set! op1 0)
+      (set! dst 0))
 
     (when (not op0)
       (let* ([op0+res (deduce_op0 p instruction dst op1)]
@@ -452,8 +452,7 @@
         ; else, update
          (let ([opcode (instruction:instruction-opcode instruction)])
            (cond
-             [(&& (equal? 'assert-eq opcode) (! (null? res)))
-               res]
+             [(and (equal? 'assert-eq opcode) res) res]
              [(equal? 'call opcode) (context:context-fp (vm-cntx p))]
              [else dst]))))
 
