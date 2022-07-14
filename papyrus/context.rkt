@@ -97,5 +97,7 @@
         )
     ))
     ; return
+    (tokamak:log "compute-op1-addr base-addr: ~a" base-addr)
+    (tokamak:log "compute-op1-addr off2: ~a" (instruction:instruction-off2 instruction))
     (memory:rvmod (memory:rvadd base-addr (instruction:instruction-off2 instruction)) (context-prime p))
 )

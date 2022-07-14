@@ -134,8 +134,9 @@
 (define (initialize-main-entrypoint p)
     (tokamak:typed p runner?)
     (set-runner-epm! p null)
-    (define stack (list ))
     (let ([prog (runner-prog p)][mem (runner-mem p)])
+        ;; TODO read args
+        (define stack (list (memory:add-segment mem)))
         (define return-fp (memory:add-segment mem))
         (define main (program:program-main prog))
         ; return
@@ -210,6 +211,8 @@
             (when (>= fuel 0); (! (memory:rveq (get-pc p) addr))
                 (printf "\n")
                 (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
+                (tokamak:log "ap is: ~a." (context:context-ap (vm:vm-cntx (runner-vm p))))
+                (tokamak:log "fp is: ~a." (context:context-fp (vm:vm-cntx (runner-vm p))))
                 (vm-step p)
                 (do-step)
             )
