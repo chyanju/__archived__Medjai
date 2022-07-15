@@ -12,8 +12,8 @@ end
 
 func main{range_check_ptr}():
 	alloc_locals
-	let bal = Uint256(0, 0)
-	let amount = Uint256(0, 7237005577332262427394645566190140211246214430663193399946184112271744040962)
+	let bal = Uint256(0, 340282366920938463463374607431768211456)
+	let amount = Uint256(0, 0)
 	mint(bal, amount)
 	ret
 end

@@ -234,7 +234,9 @@
     ; TODO/fixme hack to perform verify statement in mint
     (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 181))
       (tokamak:log "verify result: ~a"
-                   (verify (assert (equal? 0 (instruction:operands-dst operands))))))
+                   (verify (assert (equal? 0
+                                           (modulo (instruction:operands-dst operands)
+                                                   (context:context-prime (vm-cntx p))))))))
 
     ; (fixme) skipped a lot here
     ; update registers
