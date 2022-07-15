@@ -105,6 +105,86 @@
     )
 )
 
+(define (uint256_add-hint-128 p)
+   ;%{
+   ;    sum_low = ids.a.low + ids.b.low
+   ;    ids.carry_low = 1 if sum_low >= ids.SHIFT else 0
+   ;    sum_high = ids.a.high + ids.b.high + ids.carry_low
+   ;    ids.carry_high = 1 if sum_high >= ids.SHIFT else 0
+   ;%}
+   ;   Signature of uint256_add is uint256_add{range_check_ptr}(a : Uint256, b : Uint256)
+   ;   offset of a is 0, offset of b is 2
+   ;   To calculate address of argument, we use fp - (2 + n_args) + arg offset
+   ;   a.low = fp - 6
+   ;   a.high = fp - 5
+   ;   b.low = fp - 4
+   ;   b.high = fp - 3
+   ;   range_check_ptr = fp - 7
+   ;   carry_low = fp + 
+   ;   SHIFT = 340282366920938463463374607431768211456
+   (tokamak:typed p vm?)
+   (define fp (context:context-fp (vm-cntx p)))
+   (define a_low (memory:memory-ref (vm-mem p) (memory:rvsub fp 6)))
+   (define a_high (memory:memory-ref (vm-mem p) (memory:rvsub fp 5)))
+   (define b_low (memory:memory-ref (vm-mem p) (memory:rvsub fp 4)))
+   (define b_high (memory:memory-ref (vm-mem p) (memory:rvsub fp 3)))
+   (define sum_low (+ a_low b_low))
+   (define carry_low (
+               if (>= sum_low 340282366920938463463374607431768211456) 1 0))
+   (define sum_high (+ a_high b_high carry_low))
+   (define carry_high (
+               if (>= sum_high  340282366920938463463374607431768211456) 1 0))
+   (memory:memory-set! (vm-mem p) (memory:rvadd fp 2) carry_low)
+   (memory:memory-set! (vm-mem p) (memory:rvadd fp 3) carry_high)
+  )
+
+(define (math_is_nn-hint-87 p)
+   ;   %{ memory[ap] = 0 if 0 <= (ids.a % PRIME) < range_check_builtin.bound else 1 %}
+   ;   Signature of is_nn is is_nn{range_check_ptr}(a) -> (res : felt):
+   ;   offset of a is 0, offset of b is 2
+   ;   To calculate address of argument, we use fp - (2 + n_args) + arg offset
+   ;   a.low = fp - 6 (uint256 has two fields)
+   ;   a.high = fp - 5
+   ;   b.low = fp - 4
+   ;   b.high = fp - 3
+   ;   range_check_ptr = fp - 7
+   ;   carry_low = fp + 
+   ;   SHIFT = 340282366920938463463374607431768211456
+   (tokamak:typed p vm?)
+   (define fp (context:context-fp (vm-cntx p)))
+   (define ap (context:context-ap (vm-cntx p)))
+   (define a (memory:fromrv
+              (memory:memory-ref (vm-mem p) (memory:rvsub fp 3))
+              ))
+   (define rcbound 340282366920938463463374607431768211456) ; 2 ** 128
+   (define lb (>= (modulo a (vm-prime p)) 0))
+   (define ub (< (modulo a (vm-prime p)) rcbound))
+   (define res (
+               if (and lb ub) 0 1))
+   (memory:memory-set! (vm-mem p) ap res)
+  )
+
+(define (math_is_nn-hint-95 p)
+   ;   %{ memory[ap] = 0 if 0 <= ((-ids.a - 1) % PRIME) < range_check_builtin.bound else 1 %}
+   ;   a = fp - 3
+   ;   range_check_builtin.bound = 2 ** 128
+   ;   SHIFT = 340282366920938463463374607431768211456
+   (tokamak:typed p vm?)
+   (define fp (context:context-fp (vm-cntx p)))
+   (define ap (context:context-ap (vm-cntx p)))
+   (define a (memory:fromrv
+              (memory:memory-ref (vm-mem p) (memory:rvsub fp 3))
+              ))
+   (define rcbound 340282366920938463463374607431768211456) ; 2 ** 128
+   (define suba (modulo (- -1 a) (vm-prime p)))
+   (define lb (>= suba 0))
+   (define ub (< suba rcbound))
+   (define res (
+               if (and lb ub) 0 1))
+   (memory:memory-set! (vm-mem p) ap res)
+  )
+
+
 ; (VirtualMachineBase.load_program)
 ; yeah the vm also has a load_program method
 (define (load-program self.prime program program-base)
@@ -124,6 +204,12 @@
     (define instruction (decode-current-instruction p))
     (tokamak:log "instruction is: ~a" instruction)
     (run-instruction p instruction)
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 128))
+      (uint256_add-hint-128 p))
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 87))
+      (math_is_nn-hint-87 p))
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 95))
+      (math_is_nn-hint-95 p))
 )
 
 (define (decode-current-instruction p)
@@ -412,18 +498,21 @@
     (define should-update-op1 (not op1))
 
     ;; TODO/fixme these are hard-coded values for hints
-    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 87))
-      (set! dst 1))
-    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 95))
-      (set! dst 0))
-    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 128))
-      (set! op0 0)
-      (set! op1 0)
-      (set! dst 0))
-    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 129))
-      (set! op0 0)
-      (set! op1 0)
-      (set! dst 0))
+    ;(when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 87))
+     ; (math_is_nn-hint-87 p))
+      ;(set! dst 1))
+    ;(when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 95))
+    ;  (math_is_nn-hint-95 p)
+    ;  (set! dst 0))
+    ;(when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 128))
+      ;(uint256_add-hint-128 p))
+      ;(set! op0 0)
+      ;(set! op1 0)
+      ;(set! dst 0))
+    ;(when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 129))
+     ; (set! op0 0)
+     ; (set! op1 0)
+      ;(set! dst 0))
 
     (when (not op0)
       (let* ([op0+res (deduce_op0 p instruction dst op1)]

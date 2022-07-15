@@ -27,6 +27,13 @@
     ;; When tokamak:typed does nothing, return i for all non-ints
     i))
 
+(define (fromrv r)
+  (tokamak:typed r rv? integer?)
+  (if (integer? r)
+    r
+    ;; When tokamak:typed does nothing, return i for all non-ints
+    (rv-off r)))
+
 (define (rvadd self other)
     (tokamak:typed self rv? integer?)
     (tokamak:typed other integer?)
