@@ -141,14 +141,8 @@
 (define (math_is_nn-hint-87 p)
    ;   %{ memory[ap] = 0 if 0 <= (ids.a % PRIME) < range_check_builtin.bound else 1 %}
    ;   Signature of is_nn is is_nn{range_check_ptr}(a) -> (res : felt):
-   ;   offset of a is 0, offset of b is 2
-   ;   To calculate address of argument, we use fp - (2 + n_args) + arg offset
-   ;   a.low = fp - 6 (uint256 has two fields)
-   ;   a.high = fp - 5
-   ;   b.low = fp - 4
-   ;   b.high = fp - 3
-   ;   range_check_ptr = fp - 7
-   ;   carry_low = fp + 
+   ;   a = fp - 3
+   ;   range_check_builtin.bound = 2 ** 128
    ;   SHIFT = 340282366920938463463374607431768211456
    (tokamak:typed p vm?)
    (define fp (context:context-fp (vm-cntx p)))
