@@ -46,8 +46,8 @@
 ;; TODO/fixme: hardcode the symbolic inputs
 (define-symbolic* bal integer?)
 (define-symbolic* amt integer?)
-(memory:memory-set! initial-memory (memory:rv 0 189) bal)
-(memory:memory-set! initial-memory (memory:rv 0 193) amt)
+(memory:memory-set! initial-memory (memory:rv 0 190) bal)
+(memory:memory-set! initial-memory (memory:rv 0 194) amt)
 
 (runner:run-until-pc runner end)
 

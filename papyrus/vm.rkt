@@ -230,9 +230,16 @@
     ; (fixme) will call compute-operands
     (define-values (operands operands-mem-addresses)
         (compute-operands p instruction))
+
+    ; TODO/fixme hack to perform verify statement in mint
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 181))
+      (tokamak:log "verify result: ~a"
+                   (verify (assert (equal? 0 (instruction:operands-dst operands))))))
+
     ; (fixme) skipped a lot here
     ; update registers
     (update-registers p instruction operands)
+
     (set-vm-currstep! p (+ 1 (vm-currstep p)))
 )
 

@@ -194,11 +194,11 @@
         "0x480680017fff8000",
         "0x0",
         "0x480680017fff8000",
-        "0x1",
+        "0x0",
         "0x480680017fff8000",
         "0x0",
         "0x480680017fff8000",
-        "0x5",
+        "0x0",
         "0x1104800180018000",
         "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffe3",
         "0x208b7fff7fff7ffe"
@@ -5434,7 +5434,7 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 27,
+                    "end_col": 102,
                     "end_line": 16,
                     "input_file": {
                         "filename": "./benchmarks/overflowTest/erc20simple.cairo"
@@ -5680,7 +5680,7 @@
                         "offset": 0
                     },
                     "pc": 186,
-                    "value": "cast((0, 5), starkware.cairo.common.uint256.Uint256)"
+                    "value": "cast((0, 0), starkware.cairo.common.uint256.Uint256)"
                 }
             ],
             "type": "reference"
@@ -5695,7 +5695,7 @@
                         "offset": 0
                     },
                     "pc": 186,
-                    "value": "cast((0, 1), starkware.cairo.common.uint256.Uint256)"
+                    "value": "cast((0, 0), starkware.cairo.common.uint256.Uint256)"
                 }
             ],
             "type": "reference"
@@ -8062,7 +8062,7 @@
                     "offset": 0
                 },
                 "pc": 186,
-                "value": "cast((0, 1), starkware.cairo.common.uint256.Uint256)"
+                "value": "cast((0, 0), starkware.cairo.common.uint256.Uint256)"
             },
             {
                 "ap_tracking_data": {
@@ -8070,7 +8070,7 @@
                     "offset": 0
                 },
                 "pc": 186,
-                "value": "cast((0, 5), starkware.cairo.common.uint256.Uint256)"
+                "value": "cast((0, 0), starkware.cairo.common.uint256.Uint256)"
             },
             {
                 "ap_tracking_data": {

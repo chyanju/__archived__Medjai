@@ -26,10 +26,8 @@
 (define OPCODE-ASSERT-EQ-BIT 14)
 ; (define RESERVED-BIT 15)
 
-(define (decode-instruction enc #:imm [imm #f])
-    (tokamak:log "decode-instruction | enc: 0x~a, imm: ~a"
-                 (number->string enc 16)
-                 imm)
+(define (decode-instruction enc #:imm imm)
+    (tokamak:log "decode-instruction | enc: ~a, imm: ~a" enc imm)
     ;(tokamak:typed enc integer?)
     ;(tokamak:typed imm integer? null?)
     (let-values ([(flags off0-enc off1-enc off2-enc) (instruction:decode-instruction-values enc)])
