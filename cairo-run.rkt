@@ -5,6 +5,7 @@
     (prefix-in program: "./papyrus/program.rkt")
     (prefix-in memory: "./papyrus/memory.rkt")
     (prefix-in runner: "./papyrus/runner.rkt")
+    rosette/lib/angelic
 )
 
 ; parse command line arguments
@@ -58,6 +59,12 @@
 ;(define amt 3618502788666131213697322783095070105623107215331596699973092056135872020481)
 ;(tokamak:log "bal mod p: ~a" (modulo bal (program:program-prime program)))
 ;(tokamak:log "amt mod p: ~a" (modulo amt (program:program-prime program)))
+;(define bal 3618502788666131213697322783095070105963389582252535163436466663567640231938)
+;(define amt 7237005577332262427394645566190140211246214430663193399946184112271744040961)
+;(define amt (apply choose* (append (range (- (expt 2 128) 100) (+ (expt 2 128) 100))
+;                                   (range -100 100))))
+;(define bal (apply choose* (append (range (- (expt 2 128) 100) (+ (expt 2 128) 100))
+;                                   (range -100 100))))
 (memory:memory-set!
   initial-memory
   (memory:rv 0 (+ 6 (program:program-main program)))
@@ -67,7 +74,10 @@
   (memory:rv 0 (+ 10 (program:program-main program)))
   (modulo amt (program:program-prime program)))
 
-(let ([mdl (verify (runner:run-until-pc runner end))])
+;(runner:run-until-pc runner end)
+(let ([mdl (verify (begin (runner:run-until-pc runner end)
+                          (displayln "symexec done")
+                          (flush-output)))])
   (tokamak:log "Model for verification below, (unsat) means \"no bugs found\"\n~a" mdl))
 
 ; (tokamak:log "final memory data is: ~a" (memory:memory-data initial-memory))

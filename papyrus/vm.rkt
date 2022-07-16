@@ -178,6 +178,61 @@
    (memory:memory-set! (vm-mem p) ap res)
   )
 
+(define (math_is_le_felt-hint-49 p)
+  #|%{
+      from starkware.cairo.common.math_utils import assert_integer
+      assert_integer(ids.a)
+      assert_integer(ids.b)
+      a = ids.a % PRIME
+      b = ids.b % PRIME
+      assert a <= b, f'a = {a} is not less than or equal to b = {b}.'
+
+      ids.small_inputs = int(
+          a < range_check_builtin.bound and (b - a) < range_check_builtin.bound)
+  %}|#
+  (tokamak:typed p vm?)
+  (define fp (context:context-fp (vm-cntx p)))
+  (define ids-a (memory:fromrv (memory:memory-ref (vm-mem p) (memory:rvsub fp 4))))
+  (define ids-b (memory:fromrv (memory:memory-ref (vm-mem p) (memory:rvsub fp 3))))
+  (define PRIME (vm-prime p))
+  (define range-check-builtin-bound 340282366920938463463374607431768211456)
+
+  (define a (modulo ids-a PRIME))
+  (define b (modulo ids-b PRIME))
+  (assume (<= a b))
+  (define res
+    (if (and (< a range-check-builtin-bound)
+             (< (- b a) range-check-builtin-bound))
+      1
+      0))
+  ;; small-inputs at fp
+  (memory:memory-set! (vm-mem p) fp res))
+
+(define (math_split_felt-hint-18 p)
+  #|
+    %{
+        from starkware.cairo.common.math_utils import assert_integer
+        assert ids.MAX_HIGH < 2**128 and ids.MAX_LOW < 2**128
+        assert PRIME - 1 == ids.MAX_HIGH * 2**128 + ids.MAX_LOW
+        assert_integer(ids.value)
+        ids.low = ids.value & ((1 << 128) - 1)
+        ids.high = ids.value >> 128
+    %}
+  |#
+  (tokamak:typed p vm?)
+  (define fp (context:context-fp (vm-cntx p)))
+  (define PRIME (vm-prime p))
+  (define MAXHIGH (/ PRIME (expt 2 128)))
+  (define MAXLOW 0)
+  (define ids-value (memory:fromrv (memory:memory-ref (vm-mem p) (memory:rvsub fp 3))))
+
+  (define low (remainder ids-value (expt 2 128)))
+  (define high (quotient ids-value (expt 2 128)))
+  (define low-addr (memory:memory-ref (vm-mem p) (memory:rvsub fp 4)))
+  (tokamak:log "hint 18 low addr: ~a" low-addr)
+  (define high-addr (memory:rvadd low-addr 1))
+  (memory:memory-set! (vm-mem p) low-addr low)
+  (memory:memory-set! (vm-mem p) high-addr high))
 
 ; (VirtualMachineBase.load_program)
 ; yeah the vm also has a load_program method
@@ -204,6 +259,10 @@
       (math_is_nn-hint-87 p))
     (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 95))
       (math_is_nn-hint-95 p))
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 49))
+      (math_is_le_felt-hint-49 p))
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 18))
+      (math_split_felt-hint-18 p))
 )
 
 (define (decode-current-instruction p)
@@ -243,9 +302,10 @@
     (opcode-assertions instruction operands)
 
     ; TODO/fixme hack to perform m statement in mint
-    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 183))
-      (let ([val (modulo (instruction:operands-dst operands)
-                         (context:context-prime (vm-cntx p)))])
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 181))
+      (let ([val (memory:rv-off
+                   (memory:rvmod (instruction:operands-dst operands)
+                                 (context:context-prime (vm-cntx p))))])
         (tokamak:log "verifying ~a = 0" val)
         (assert (equal? 0 val))))
 
@@ -484,6 +544,8 @@
     (tokamak:typed p vm?)
     (tokamak:typed instruction instruction:instruction?)
 
+    (tokamak:log "asserts: ~a." (vc-asserts (vc)))
+
     (tokamak:log "calling compute-operands, memory data is: ~a." (memory:memory-data (vm-mem p)))
 
     (define dst-addr (context:compute-dst-addr (vm-cntx p) instruction))
@@ -571,6 +633,8 @@
         (memory:memory-set! (vm-mem p) op0-addr op0))
     (when should-update-op1
         (memory:memory-set! (vm-mem p) op1-addr op1))
+
+    (tokamak:log "done asserts: ~a." (vc-asserts (vc)))
 
     ; return
     (values
