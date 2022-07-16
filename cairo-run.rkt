@@ -58,9 +58,6 @@
 ;(define amt 3618502788666131213697322783095070105623107215331596699973092056135872020481)
 ;(tokamak:log "bal mod p: ~a" (modulo bal (program:program-prime program)))
 ;(tokamak:log "amt mod p: ~a" (modulo amt (program:program-prime program)))
-;(memory:memory-set! initial-memory (memory:rv 0 190) (modulo bal (program:program-prime program)))
-;(memory:memory-set! initial-memory (memory:rv 0 194) (modulo amt (program:program-prime program)))
-
 (memory:memory-set!
   initial-memory
   (memory:rv 0 (+ 6 (program:program-main program)))
