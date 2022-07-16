@@ -27,6 +27,10 @@
     ;; When tokamak:typed does nothing, return i for all non-ints
     i))
 
+; TODO/fixme checks whether an rv belongs to a range_check_ptr segment
+; range_check_ptr segment is from (2, >0)
+; we should probably do something smarter here to figure out exactly where
+; in case there are multiple builtins
 (define (israngechk r)
   (tokamak:typed r rv?)
   (tokamak:log "checking for rangechk ~a" r)
