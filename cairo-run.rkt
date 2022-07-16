@@ -46,12 +46,29 @@
 ;; TODO/fixme: hardcode the symbolic inputs
 (define-symbolic* bal integer?)
 (define-symbolic* amt integer?)
-;(define bal 7237005577332262427394645566190140211586496797584131863409558719703512252418)
+;(tokamak:log "assuming bal low >0")
+;(assume (> (modulo bal (program:program-prime program)) 0))
+;(tokamak:log "assuming bal low < 2**127")
+;(assume (< (modulo bal (program:program-prime program)) 170141183460469231731687303715884105728))
+;(tokamak:log "assuming amt low >0")
+;(assume (> (modulo amt (program:program-prime program)) 0))
+;(tokamak:log "assuming amt low < 2**127")
+;(assume (< (modulo amt (program:program-prime program)) 170141183460469231731687303715884105728))
+;(define amt 0)
 ;(define amt 3618502788666131213697322783095070105623107215331596699973092056135872020481)
 ;(tokamak:log "bal mod p: ~a" (modulo bal (program:program-prime program)))
 ;(tokamak:log "amt mod p: ~a" (modulo amt (program:program-prime program)))
-(memory:memory-set! initial-memory (memory:rv 0 190) (modulo bal (program:program-prime program)))
-(memory:memory-set! initial-memory (memory:rv 0 194) (modulo amt (program:program-prime program)))
+;(memory:memory-set! initial-memory (memory:rv 0 190) (modulo bal (program:program-prime program)))
+;(memory:memory-set! initial-memory (memory:rv 0 194) (modulo amt (program:program-prime program)))
+
+(memory:memory-set!
+  initial-memory
+  (memory:rv 0 (+ 6 (program:program-main program)))
+  (modulo bal (program:program-prime program)))
+(memory:memory-set!
+  initial-memory
+  (memory:rv 0 (+ 10 (program:program-main program)))
+  (modulo amt (program:program-prime program)))
 
 (runner:run-until-pc runner end)
 

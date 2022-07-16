@@ -27,6 +27,11 @@
     ;; When tokamak:typed does nothing, return i for all non-ints
     i))
 
+(define (israngechk r)
+  (tokamak:typed r rv?)
+  (tokamak:log "checking for rangechk ~a" r)
+  (equal? (rv-seg r) 2))
+
 (define (fromrv r)
   (tokamak:typed r rv? integer?)
   (if (integer? r)
@@ -270,7 +275,7 @@
     (define value (data-ref (memory-data p) addr))
     ; return
     (relocate-value value)
-)
+) 
 
 ; MemoryDict method
 (define (memory-set! p addr value)
@@ -278,6 +283,11 @@
     (tokamak:typed p memory?)
     (when (memory-frozen p)
         (tokamak:error "memory is frozen and cannot be changed."))
+    (when (israngechk addr)
+      (tokamak:log "adding range check constraints")
+      (tokamak:log "fromrv val: ~a" (fromrv value))
+      (assume (>= (fromrv value) 0))
+      (assume (< (fromrv value) 340282366920938463463374607431768211456)))
     (check-element addr "memory address")
     (check-element value "memory value")
     (when (&& (rv? addr) (< (rv-off addr) 0))

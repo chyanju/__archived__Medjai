@@ -3,6 +3,8 @@ from starkware.cairo.common.uint256 import (Uint256, uint256_add, uint256_check,
 
 func mint{range_check_ptr}(balance : Uint256, amount : Uint256):
 	alloc_locals
+	uint256_check(amount)
+        uint256_check(balance)
 	let (newBalance, _  : Uint256) = uint256_add(balance, amount)
 	let (res : felt) = uint256_lt(newBalance, balance)
 	# verify res != 0

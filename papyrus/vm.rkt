@@ -231,8 +231,8 @@
     (define-values (operands operands-mem-addresses)
         (compute-operands p instruction))
 
-    ; TODO/fixme hack to perform verify statement in mint
-    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 181))
+    ; TODO/fixme hack to perform m statement in mint
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 189))
       (tokamak:log "verify result: ~a"
                    (verify (assert (equal? 0
                                            (modulo (instruction:operands-dst operands)
