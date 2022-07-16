@@ -229,13 +229,8 @@
     (let ([dst (instruction:operands-dst operands)]
           [res (instruction:operands-res operands)])
       (tokamak:log "adding assertion: ~a = ~a" dst res)
-      (
-       cond
-        [(and (memory:rv? dst) (integer? res))
-           (assert (equal? (memory:fromrv dst) res))]
-        [(and (integer? dst) (memory:rv? res))
-           (assert (equal? (memory:fromrv res) dst))]
-        [else (assert (equal? dst res))]))))
+      (assume res)
+      (assume (equal? (memory:torv dst) (memory:torv res))))))
 
 (define (run-instruction p instruction)
     (tokamak:typed p vm?)
@@ -249,10 +244,10 @@
 
     ; TODO/fixme hack to perform m statement in mint
     (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 183))
-      (tokamak:log "verify result: ~a"
-                   (verify (assert (equal? 0
-                                           (modulo (instruction:operands-dst operands)
-                                                   (context:context-prime (vm-cntx p))))))))
+      (let ([val (modulo (instruction:operands-dst operands)
+                         (context:context-prime (vm-cntx p)))])
+        (tokamak:log "verifying ~a = 0" val)
+        (assert (equal? 0 val))))
 
     ; (fixme) skipped a lot here
     ; update registers

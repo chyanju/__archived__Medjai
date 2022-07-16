@@ -67,9 +67,10 @@
   (memory:rv 0 (+ 10 (program:program-main program)))
   (modulo amt (program:program-prime program)))
 
-(runner:run-until-pc runner end)
+(let ([mdl (verify (runner:run-until-pc runner end))])
+  (tokamak:log "Model for verification below, (unsat) means \"no bugs found\"\n~a" mdl))
 
-(tokamak:log "final memory data is: ~a" (memory:memory-data initial-memory))
+; (tokamak:log "final memory data is: ~a" (memory:memory-data initial-memory))
 
 ; Prints for checking correctness of erc20simple.cairo
 ;(define (val->str val)
