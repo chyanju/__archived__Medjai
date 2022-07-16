@@ -224,12 +224,18 @@
     (encode:decode-instruction encoded-inst #:imm imm)
 )
 
+(define (opcode-assertions instruction operands)
+  (when (equal? (instruction:instruction-opcode instruction) 'assert-eq)
+    (assert (equal? (instruction:operands-dst operands) (instruction:operands-res operands)))))
+
 (define (run-instruction p instruction)
     (tokamak:typed p vm?)
     (tokamak:typed instruction instruction:instruction?)
     ; (fixme) will call compute-operands
     (define-values (operands operands-mem-addresses)
         (compute-operands p instruction))
+
+    (opcode-assertions instruction operands)
 
     ; TODO/fixme hack to perform m statement in mint
     (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 189))
