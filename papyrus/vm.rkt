@@ -226,19 +226,29 @@
 
 (define (opcode-assertions instruction operands)
   (when (equal? (instruction:instruction-opcode instruction) 'assert-eq)
-    (assert (equal? (instruction:operands-dst operands) (instruction:operands-res operands)))))
+    (let ([dst (instruction:operands-dst operands)]
+          [res (instruction:operands-res operands)])
+      (tokamak:log "adding assertion: ~a = ~a" dst res)
+      (
+       cond
+        [(and (memory:rv? dst) (integer? res))
+           (assert (equal? (memory:fromrv dst) res))]
+        [(and (integer? dst) (memory:rv? res))
+           (assert (equal? (memory:fromrv res) dst))]
+        [else (assert (equal? dst res))]))))
 
 (define (run-instruction p instruction)
     (tokamak:typed p vm?)
     (tokamak:typed instruction instruction:instruction?)
     ; (fixme) will call compute-operands
+    (print "running instruction")
     (define-values (operands operands-mem-addresses)
         (compute-operands p instruction))
 
     (opcode-assertions instruction operands)
 
     ; TODO/fixme hack to perform m statement in mint
-    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 189))
+    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 183))
       (tokamak:log "verify result: ~a"
                    (verify (assert (equal? 0
                                            (modulo (instruction:operands-dst operands)
@@ -247,7 +257,7 @@
     ; (fixme) skipped a lot here
     ; update registers
     (update-registers p instruction operands)
-
+    (print "updating registers")
     (set-vm-currstep! p (+ 1 (vm-currstep p)))
 )
 

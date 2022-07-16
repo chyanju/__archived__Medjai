@@ -187,7 +187,8 @@
         "0x480a7ffb7fff8000",
         "0x1104800180018000",
         "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffe0",
-        "0x40127fff7fff7fff",
+        "0x400680017fff7fff",
+        "0x11",
         "0x48127ffe7fff8000",
         "0x208b7fff7fff7ffe",
         "0x40780017fff7fff",
@@ -196,13 +197,13 @@
         "0x480680017fff8000",
         "0x0",
         "0x480680017fff8000",
-        "0x1",
+        "0xa",
         "0x480680017fff8000",
         "0x0",
         "0x480680017fff8000",
-        "0x5",
+        "0x1",
         "0x1104800180018000",
-        "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffe1",
+        "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffe0",
         "0x208b7fff7fff7ffe"
     ],
     "debug_info": {
@@ -5158,7 +5159,7 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 18,
+                    "end_col": 17,
                     "end_line": 12,
                     "input_file": {
                         "filename": "benchmarks/overflowTest/erc20simple_feltoverflow.cairo"
@@ -5167,7 +5168,7 @@
                     "start_line": 12
                 }
             },
-            "184": {
+            "185": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.mint"
@@ -5233,7 +5234,7 @@
                     "start_line": 132
                 }
             },
-            "185": {
+            "186": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.mint"
@@ -5263,7 +5264,7 @@
                     "start_line": 13
                 }
             },
-            "186": {
+            "187": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5288,7 +5289,7 @@
                     "start_line": 17
                 }
             },
-            "188": {
+            "189": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5339,7 +5340,7 @@
                     "start_line": 16
                 }
             },
-            "189": {
+            "190": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5378,7 +5379,7 @@
                     "start_line": 18
                 }
             },
-            "191": {
+            "192": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5396,7 +5397,7 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 24,
+                    "end_col": 25,
                     "end_line": 18,
                     "input_file": {
                         "filename": "benchmarks/overflowTest/erc20simple_feltoverflow.cairo"
@@ -5417,7 +5418,7 @@
                     "start_line": 18
                 }
             },
-            "193": {
+            "194": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5456,7 +5457,7 @@
                     "start_line": 19
                 }
             },
-            "195": {
+            "196": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5495,7 +5496,7 @@
                     "start_line": 19
                 }
             },
-            "197": {
+            "198": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5522,7 +5523,7 @@
                     "start_line": 20
                 }
             },
-            "199": {
+            "200": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5682,7 +5683,7 @@
         },
         "__main__.main": {
             "decorators": [],
-            "pc": 186,
+            "pc": 187,
             "type": "function"
         },
         "__main__.main.Args": {
@@ -5719,8 +5720,8 @@
                         "group": 15,
                         "offset": 0
                     },
-                    "pc": 188,
-                    "value": "cast((0, 5), starkware.cairo.common.uint256.Uint256)"
+                    "pc": 189,
+                    "value": "cast((0, 1), starkware.cairo.common.uint256.Uint256)"
                 }
             ],
             "type": "reference"
@@ -5734,8 +5735,8 @@
                         "group": 15,
                         "offset": 0
                     },
-                    "pc": 188,
-                    "value": "cast((0, 1), starkware.cairo.common.uint256.Uint256)"
+                    "pc": 189,
+                    "value": "cast((0, 10), starkware.cairo.common.uint256.Uint256)"
                 }
             ],
             "type": "reference"
@@ -5749,7 +5750,7 @@
                         "group": 15,
                         "offset": 0
                     },
-                    "pc": 186,
+                    "pc": 187,
                     "value": "[cast(fp + (-3), felt*)]"
                 },
                 {
@@ -5757,7 +5758,7 @@
                         "group": 16,
                         "offset": 0
                     },
-                    "pc": 199,
+                    "pc": 200,
                     "value": "[cast(ap + (-1), felt*)]"
                 }
             ],
@@ -8116,7 +8117,7 @@
                     "group": 15,
                     "offset": 0
                 },
-                "pc": 186,
+                "pc": 187,
                 "value": "[cast(fp + (-3), felt*)]"
             },
             {
@@ -8124,23 +8125,23 @@
                     "group": 15,
                     "offset": 0
                 },
-                "pc": 188,
-                "value": "cast((0, 1), starkware.cairo.common.uint256.Uint256)"
+                "pc": 189,
+                "value": "cast((0, 10), starkware.cairo.common.uint256.Uint256)"
             },
             {
                 "ap_tracking_data": {
                     "group": 15,
                     "offset": 0
                 },
-                "pc": 188,
-                "value": "cast((0, 5), starkware.cairo.common.uint256.Uint256)"
+                "pc": 189,
+                "value": "cast((0, 1), starkware.cairo.common.uint256.Uint256)"
             },
             {
                 "ap_tracking_data": {
                     "group": 16,
                     "offset": 0
                 },
-                "pc": 199,
+                "pc": 200,
                 "value": "[cast(ap + (-1), felt*)]"
             }
         ]
