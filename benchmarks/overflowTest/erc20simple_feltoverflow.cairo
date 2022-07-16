@@ -6,7 +6,7 @@ func mint{range_check_ptr}(balance : Uint256, amount : Uint256):
 #	uint256_check(amount)
 #        uint256_check(balance)
 	let (newBalance : Uint256, is_overflow) = uint256_add(balance, amount)
-	assert overflow = 0
+	assert is_overflow = 0
 	let (res : felt) = uint256_lt(newBalance, balance)
 	# verify res != 0
 	assert res = res
