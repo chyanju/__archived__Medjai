@@ -291,6 +291,32 @@
       (assume res)
       (assume (equal? (memory:torv dst) (memory:torv res))))))
 
+(define (handle-verification p instruction operands)
+  (tokamak:typed p vm?)
+  (tokamak:typed instruction instruction:instruction?)
+  (let ([opcode (instruction:instruction-opcode instruction)]
+        [val (memory:rv-off
+                   (memory:rvmod (instruction:operands-dst operands)
+                                 (context:context-prime (vm-cntx p))))])
+    (cond
+      [(equal? opcode 'verify-eq)
+         (tokamak:log "verify equal")
+         (assert (equal? (instruction:operands-op1 operands) val))
+      ]
+      [(equal? opcode 'verify-neq)
+         (tokamak:log "verify neq")
+         (assert (not (equal? (instruction:operands-op1 operands) val)))
+      ]
+      [(equal? opcode 'verify-geq)
+         (tokamak:log "verify geq")
+         (assert (>= (instruction:operands-op1 operands) val))
+      ]
+      [(equal? opcode 'verify-lt)
+         (tokamak:log "verify lt")
+         (assert (< (instruction:operands-op1 operands) val))
+      ]
+      )))
+
 (define (run-instruction p instruction)
     (tokamak:typed p vm?)
     (tokamak:typed instruction instruction:instruction?)
@@ -300,14 +326,15 @@
         (compute-operands p instruction))
 
     (opcode-assertions instruction operands)
+    (handle-verification p instruction operands)
 
-    ; TODO/fixme hack to perform m statement in mint
-    (when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 181))
-      (let ([val (memory:rv-off
-                   (memory:rvmod (instruction:operands-dst operands)
-                                 (context:context-prime (vm-cntx p))))])
-        (tokamak:log "verifying ~a = 0" val)
-        (assert (equal? 0 val))))
+    ;TODO/fixme hack to perform m statement in mint
+    ;(when (equal? (context:context-pc (vm-cntx p)) (memory:rv 0 181))
+    ;  (let ([val (memory:rv-off
+    ;               (memory:rvmod (instruction:operands-dst operands)
+    ;                             (context:context-prime (vm-cntx p))))])
+    ;    (tokamak:log "verifying ~a = 0" val)
+    ;    (assert (equal? 0 val))))
 
     ; (fixme) skipped a lot here
     ; update registers

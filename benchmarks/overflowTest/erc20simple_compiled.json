@@ -185,8 +185,7 @@
         "0x480a7ffb7fff8000",
         "0x1104800180018000",
         "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffe2",
-        "0x400680017fff7fff",
-        "0x14",
+        "0x40127fff7fff7fff",
         "0x48127ffe7fff8000",
         "0x208b7fff7fff7ffe",
         "0x40780017fff7fff",
@@ -195,13 +194,13 @@
         "0x480680017fff8000",
         "0x0",
         "0x480680017fff8000",
-        "0x1",
+        "0x100000000000000000000000000000000",
         "0x480680017fff8000",
         "0x0",
         "0x480680017fff8000",
-        "0x5",
+        "0xffffffffffffffffffffffffffffffff",
         "0x1104800180018000",
-        "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffe2",
+        "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffe3",
         "0x208b7fff7fff7ffe"
     ],
     "debug_info": {
@@ -5128,7 +5127,7 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 17,
+                    "end_col": 18,
                     "end_line": 12,
                     "input_file": {
                         "filename": "benchmarks/overflowTest/erc20simple.cairo"
@@ -5137,7 +5136,7 @@
                     "start_line": 12
                 }
             },
-            "183": {
+            "182": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.mint"
@@ -5203,7 +5202,7 @@
                     "start_line": 132
                 }
             },
-            "184": {
+            "183": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.mint"
@@ -5233,7 +5232,7 @@
                     "start_line": 13
                 }
             },
-            "185": {
+            "184": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5258,7 +5257,7 @@
                     "start_line": 17
                 }
             },
-            "187": {
+            "186": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5309,7 +5308,7 @@
                     "start_line": 16
                 }
             },
-            "188": {
+            "187": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5348,7 +5347,7 @@
                     "start_line": 18
                 }
             },
-            "190": {
+            "189": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5366,7 +5365,7 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 24,
+                    "end_col": 100,
                     "end_line": 18,
                     "input_file": {
                         "filename": "benchmarks/overflowTest/erc20simple.cairo"
@@ -5387,7 +5386,7 @@
                     "start_line": 18
                 }
             },
-            "192": {
+            "191": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5426,7 +5425,7 @@
                     "start_line": 19
                 }
             },
-            "194": {
+            "193": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5444,7 +5443,7 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 27,
+                    "end_col": 103,
                     "end_line": 19,
                     "input_file": {
                         "filename": "benchmarks/overflowTest/erc20simple.cairo"
@@ -5465,7 +5464,7 @@
                     "start_line": 19
                 }
             },
-            "196": {
+            "195": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5492,7 +5491,7 @@
                     "start_line": 20
                 }
             },
-            "198": {
+            "197": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5652,7 +5651,7 @@
         },
         "__main__.main": {
             "decorators": [],
-            "pc": 185,
+            "pc": 184,
             "type": "function"
         },
         "__main__.main.Args": {
@@ -5689,8 +5688,8 @@
                         "group": 15,
                         "offset": 0
                     },
-                    "pc": 187,
-                    "value": "cast((0, 5), starkware.cairo.common.uint256.Uint256)"
+                    "pc": 186,
+                    "value": "cast((0, 340282366920938463463374607431768211455), starkware.cairo.common.uint256.Uint256)"
                 }
             ],
             "type": "reference"
@@ -5704,8 +5703,8 @@
                         "group": 15,
                         "offset": 0
                     },
-                    "pc": 187,
-                    "value": "cast((0, 1), starkware.cairo.common.uint256.Uint256)"
+                    "pc": 186,
+                    "value": "cast((0, 340282366920938463463374607431768211456), starkware.cairo.common.uint256.Uint256)"
                 }
             ],
             "type": "reference"
@@ -5719,7 +5718,7 @@
                         "group": 15,
                         "offset": 0
                     },
-                    "pc": 185,
+                    "pc": 184,
                     "value": "[cast(fp + (-3), felt*)]"
                 },
                 {
@@ -5727,7 +5726,7 @@
                         "group": 16,
                         "offset": 0
                     },
-                    "pc": 198,
+                    "pc": 197,
                     "value": "[cast(ap + (-1), felt*)]"
                 }
             ],
@@ -8086,7 +8085,7 @@
                     "group": 15,
                     "offset": 0
                 },
-                "pc": 185,
+                "pc": 184,
                 "value": "[cast(fp + (-3), felt*)]"
             },
             {
@@ -8094,23 +8093,23 @@
                     "group": 15,
                     "offset": 0
                 },
-                "pc": 187,
-                "value": "cast((0, 1), starkware.cairo.common.uint256.Uint256)"
+                "pc": 186,
+                "value": "cast((0, 340282366920938463463374607431768211456), starkware.cairo.common.uint256.Uint256)"
             },
             {
                 "ap_tracking_data": {
                     "group": 15,
                     "offset": 0
                 },
-                "pc": 187,
-                "value": "cast((0, 5), starkware.cairo.common.uint256.Uint256)"
+                "pc": 186,
+                "value": "cast((0, 340282366920938463463374607431768211455), starkware.cairo.common.uint256.Uint256)"
             },
             {
                 "ap_tracking_data": {
                     "group": 16,
                     "offset": 0
                 },
-                "pc": 198,
+                "pc": 197,
                 "value": "[cast(ap + (-1), felt*)]"
             }
         ]

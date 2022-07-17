@@ -100,6 +100,10 @@
             [(equal? opcode-pat (list 0 1 0)) 'ret]
             [(equal? opcode-pat (list 0 0 1)) 'assert-eq]
             [(equal? opcode-pat (list 0 0 0)) 'nop]
+            [(equal? opcode-pat (list 0 1 1)) 'verify-lt]
+            [(equal? opcode-pat (list 1 0 1)) 'verify-geq]
+            [(equal? opcode-pat (list 1 1 0)) 'verify-eq]
+            [(equal? opcode-pat (list 1 0 1)) 'verify-neq]
             [else (tokamak:error "unrecognized opcode-pat")]
         ))
 

@@ -50,7 +50,7 @@
     pc  ; (pc_update) PcUpdate: 'regular, 'jump, 'jump-rel, 'jnz
     ap  ; (ap_update) ApUpdate: 'regular, 'add, 'add1, 'add2
     fp  ; (fp_update) FpUpdate: 'regular, 'ap+2, 'dst
-    opcode ; Opcode: 'nop, 'assert-eq, 'call, 'ret
+    opcode ; Opcode: 'nop, 'assert-eq, 'call, 'ret, 'verify-lt, 'verify-geq, 'verify-eq, 'verify-lt
 ) #:mutable #:transparent #:reflection-name 'instruction)
 
 ; raw constructor
