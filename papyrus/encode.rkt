@@ -84,6 +84,7 @@
             [(equal? res-pat (list 0 0))
                 (if (equal? 'jnz pc-update) 'unconstrained 'op1)
             ]
+            [(equal? res-pat (list 1 1)) 'symbolic]
             [else (tokamak:error "unrecognized res-pat")]
         ))
         ; JNZ opcode means res must be UNCONSTRAINED

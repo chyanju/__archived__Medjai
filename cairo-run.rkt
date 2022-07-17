@@ -45,8 +45,8 @@
 )
 
 ;; TODO/fixme: hardcode the symbolic inputs
-(define-symbolic* bal integer?)
-(define-symbolic* amt integer?)
+;(define-symbolic* bal integer?)
+;(define-symbolic* amt integer?)
 ;(tokamak:log "assuming bal low >0")
 ;(assume (> (modulo bal (program:program-prime program)) 0))
 ;(tokamak:log "assuming bal low < 2**127")
@@ -65,14 +65,14 @@
 ;                                   (range -100 100))))
 ;(define bal (apply choose* (append (range (- (expt 2 128) 100) (+ (expt 2 128) 100))
 ;                                   (range -100 100))))
-(memory:memory-set!
-  initial-memory
-  (memory:rv 0 (+ 6 (program:program-main program)))
-  (modulo bal (program:program-prime program)))
-(memory:memory-set!
-  initial-memory
-  (memory:rv 0 (+ 10 (program:program-main program)))
-  (modulo amt (program:program-prime program)))
+;(memory:memory-set!
+;  initial-memory
+;  (memory:rv 0 (+ 6 (program:program-main program)))
+;  (modulo bal (program:program-prime program)))
+;(memory:memory-set!
+;  initial-memory
+;  (memory:rv 0 (+ 10 (program:program-main program)))
+;  (modulo amt (program:program-prime program)))
 
 ;(runner:run-until-pc runner end)
 (let ([mdl (verify (begin (runner:run-until-pc runner end)

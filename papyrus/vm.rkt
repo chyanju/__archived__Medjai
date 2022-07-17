@@ -460,6 +460,12 @@
               (let ([op0 (if (memory:rv? op0) (memory:rv-off op0) op0)]
                     [op1 (if (memory:rv? op1) (memory:rv-off op1) op1)])
                 (modulo (* op0 op1) (vm-prime p)))]
+            [(equal? 'symbolic res)
+             (let ([sym (symint)])
+                   (assume (>= sym 0))
+                   (assume (< sym (vm-prime p)))
+                   sym)
+             ]
             [(equal? 'unconstrained res) #f]
             ; [(equal? 'unconstrained res) null]
             [else (tokamak:error "invalid res value")]

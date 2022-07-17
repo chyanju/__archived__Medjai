@@ -46,7 +46,7 @@
     dst ; (dst_register) Register: 'ap, 'fp
     op0 ; (op0_register) Register: 'ap, 'fp
     op1 ; (op1_addr) Op1Addr: 'imm, 'ap, 'fp, 'op0
-    res ; Res: 'op1, 'add, 'mul, 'unconstrained
+    res ; Res: 'op1, 'add, 'mul, 'unconstrained, 'symbolic
     pc  ; (pc_update) PcUpdate: 'regular, 'jump, 'jump-rel, 'jnz
     ap  ; (ap_update) ApUpdate: 'regular, 'add, 'add1, 'add2
     fp  ; (fp_update) FpUpdate: 'regular, 'ap+2, 'dst
