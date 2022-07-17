@@ -76,9 +76,17 @@
 
 ;(runner:run-until-pc runner end)
 (let ([mdl (verify (begin (runner:run-until-pc runner end)
-                          (displayln "symexec done")
+                          (displayln "Finished Symbolic Execution")
                           (flush-output)))])
-  (tokamak:log "Model for verification below, (unsat) means \"no bugs found\"\n~a" mdl))
+  ;(tokamak:log "Model for verification below, (unsat) means \"no bugs found\"\n~a" mdl))
+  (if (unsat? mdl)
+    (displayln "No bugs found!")
+    (let* ([mdl-hash (model mdl)]
+           [sym-model
+             (for/hash ([key (hash-keys (model mdl))])
+               (values (string->symbol (~a key)) (hash-ref mdl-hash key)))])
+      (displayln (~a "Bug found with\ntotal_supply = Uint256(" (hash-ref sym-model 'x$0) ", " (hash-ref sym-model 'x$1) ")\n"
+                     "amount = Uint256(" (hash-ref sym-model 'x$2) ", " (hash-ref sym-model 'x$3) ")")))))
 
 ; (tokamak:log "final memory data is: ~a" (memory:memory-data initial-memory))
 

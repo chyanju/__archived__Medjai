@@ -182,32 +182,30 @@
         "0x480a7ffd7fff8000",
         "0x1104800180018000",
         "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffcf",
-        "0x400680017fff7fff",
-        "0x0",
         "0x48127ffc7fff8000",
         "0x48127ffc7fff8000",
         "0x48127ffc7fff8000",
         "0x480a7ffa7fff8000",
         "0x480a7ffb7fff8000",
         "0x1104800180018000",
-        "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffdc",
-        "0x300680017fff7fff",
+        "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffde",
+        "0x400680017fff7fff",
         "0x0",
         "0x48127ffe7fff8000",
         "0x208b7fff7fff7ffe",
         "0x40780017fff7fff",
         "0x0",
         "0x480a7ffd7fff8000",
-        "0x486680017fff8000",
-        "0x73796d31",
-        "0x486680017fff8000",
-        "0x73796d32",
-        "0x486680017fff8000",
-        "0x73796d33",
-        "0x486680017fff8000",
-        "0x73796d34",
+        "0x480680017fff8000",
+        "0x1",
+        "0x480680017fff8000",
+        "0x2",
+        "0x480680017fff8000",
+        "0xffffffffffffffffffffffffffffffff",
+        "0x480680017fff8000",
+        "0xfffffffffffffffffffffffffffffffd",
         "0x1104800180018000",
-        "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffdc",
+        "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffde",
         "0x208b7fff7fff7ffe"
     ],
     "debug_info": {
@@ -4612,12 +4610,12 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 14,
+                    "end_col": 17,
                     "end_line": 5,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
-                    "start_col": 2,
+                    "start_col": 5,
                     "start_line": 5
                 }
             },
@@ -4642,7 +4640,7 @@
                     "end_col": 26,
                     "end_line": 4,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
@@ -4653,12 +4651,12 @@
                             },
                             "parent_location": [
                                 {
-                                    "end_col": 23,
+                                    "end_col": 26,
                                     "end_line": 6,
                                     "input_file": {
-                                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                                     },
-                                    "start_col": 2,
+                                    "start_col": 5,
                                     "start_line": 6
                                 },
                                 "While trying to retrieve the implicit argument 'range_check_ptr' in:"
@@ -4693,16 +4691,16 @@
                     "end_col": 68,
                     "end_line": 4,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 22,
+                            "end_col": 25,
                             "end_line": 6,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "start_col": 16,
+                            "start_col": 19,
                             "start_line": 6
                         },
                         "While expanding the reference 'amount' in:"
@@ -4732,16 +4730,16 @@
                     "end_col": 68,
                     "end_line": 4,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 22,
+                            "end_col": 25,
                             "end_line": 6,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "start_col": 16,
+                            "start_col": 19,
                             "start_line": 6
                         },
                         "While expanding the reference 'amount' in:"
@@ -4768,12 +4766,12 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 23,
+                    "end_col": 26,
                     "end_line": 6,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
-                    "start_col": 2,
+                    "start_col": 5,
                     "start_line": 6
                 }
             },
@@ -4798,16 +4796,16 @@
                     "end_col": 50,
                     "end_line": 4,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 69,
+                            "end_col": 62,
                             "end_line": 7,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "start_col": 57,
+                            "start_col": 50,
                             "start_line": 7
                         },
                         "While expanding the reference 'total_supply' in:"
@@ -4837,16 +4835,16 @@
                     "end_col": 50,
                     "end_line": 4,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 69,
+                            "end_col": 62,
                             "end_line": 7,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "start_col": 57,
+                            "start_col": 50,
                             "start_line": 7
                         },
                         "While expanding the reference 'total_supply' in:"
@@ -4876,16 +4874,16 @@
                     "end_col": 68,
                     "end_line": 4,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 77,
+                            "end_col": 70,
                             "end_line": 7,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "start_col": 71,
+                            "start_col": 64,
                             "start_line": 7
                         },
                         "While expanding the reference 'amount' in:"
@@ -4915,16 +4913,16 @@
                     "end_col": 68,
                     "end_line": 4,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 77,
+                            "end_col": 70,
                             "end_line": 7,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "start_col": 71,
+                            "start_col": 64,
                             "start_line": 7
                         },
                         "While expanding the reference 'amount' in:"
@@ -4951,12 +4949,12 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 78,
+                    "end_col": 71,
                     "end_line": 7,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
-                    "start_col": 45,
+                    "start_col": 38,
                     "start_line": 7
                 }
             },
@@ -4972,36 +4970,6 @@
                     },
                     "reference_ids": {
                         "__main__.mint.amount": 74,
-                        "__main__.mint.is_overflow": 79,
-                        "__main__.mint.new_supply": 78,
-                        "__main__.mint.range_check_ptr": 77,
-                        "__main__.mint.total_supply": 73
-                    }
-                },
-                "hints": [],
-                "inst": {
-                    "end_col": 24,
-                    "end_line": 8,
-                    "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
-                    },
-                    "start_col": 2,
-                    "start_line": 8
-                }
-            },
-            "180": {
-                "accessible_scopes": [
-                    "__main__",
-                    "__main__.mint"
-                ],
-                "flow_tracking_data": {
-                    "ap_tracking": {
-                        "group": 13,
-                        "offset": 30
-                    },
-                    "reference_ids": {
-                        "__main__.mint.amount": 74,
-                        "__main__.mint.is_overflow": 79,
                         "__main__.mint.new_supply": 78,
                         "__main__.mint.range_check_ptr": 77,
                         "__main__.mint.total_supply": 73
@@ -5016,10 +4984,10 @@
                     },
                     "parent_location": [
                         {
-                            "end_col": 78,
+                            "end_col": 71,
                             "end_line": 7,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
                             "parent_location": [
                                 {
@@ -5030,13 +4998,13 @@
                                     },
                                     "parent_location": [
                                         {
-                                            "end_col": 57,
-                                            "end_line": 9,
+                                            "end_col": 60,
+                                            "end_line": 8,
                                             "input_file": {
-                                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                                             },
-                                            "start_col": 21,
-                                            "start_line": 9
+                                            "start_col": 24,
+                                            "start_line": 8
                                         },
                                         "While trying to retrieve the implicit argument 'range_check_ptr' in:"
                                     ],
@@ -5045,7 +5013,7 @@
                                 },
                                 "While expanding the reference 'range_check_ptr' in:"
                             ],
-                            "start_col": 45,
+                            "start_col": 38,
                             "start_line": 7
                         },
                         "While trying to update the implicit return value 'range_check_ptr' in:"
@@ -5054,7 +5022,7 @@
                     "start_line": 31
                 }
             },
-            "181": {
+            "179": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.mint"
@@ -5066,7 +5034,6 @@
                     },
                     "reference_ids": {
                         "__main__.mint.amount": 74,
-                        "__main__.mint.is_overflow": 79,
                         "__main__.mint.new_supply": 78,
                         "__main__.mint.range_check_ptr": 77,
                         "__main__.mint.total_supply": 73
@@ -5074,28 +5041,28 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 28,
+                    "end_col": 31,
                     "end_line": 7,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 42,
-                            "end_line": 9,
+                            "end_col": 45,
+                            "end_line": 8,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "start_col": 32,
-                            "start_line": 9
+                            "start_col": 35,
+                            "start_line": 8
                         },
                         "While expanding the reference 'new_supply' in:"
                     ],
-                    "start_col": 7,
+                    "start_col": 10,
                     "start_line": 7
                 }
             },
-            "182": {
+            "180": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.mint"
@@ -5107,7 +5074,6 @@
                     },
                     "reference_ids": {
                         "__main__.mint.amount": 74,
-                        "__main__.mint.is_overflow": 79,
                         "__main__.mint.new_supply": 78,
                         "__main__.mint.range_check_ptr": 77,
                         "__main__.mint.total_supply": 73
@@ -5115,28 +5081,28 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 28,
+                    "end_col": 31,
                     "end_line": 7,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 42,
-                            "end_line": 9,
+                            "end_col": 45,
+                            "end_line": 8,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "start_col": 32,
-                            "start_line": 9
+                            "start_col": 35,
+                            "start_line": 8
                         },
                         "While expanding the reference 'new_supply' in:"
                     ],
-                    "start_col": 7,
+                    "start_col": 10,
                     "start_line": 7
                 }
             },
-            "183": {
+            "181": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.mint"
@@ -5148,7 +5114,6 @@
                     },
                     "reference_ids": {
                         "__main__.mint.amount": 74,
-                        "__main__.mint.is_overflow": 79,
                         "__main__.mint.new_supply": 78,
                         "__main__.mint.range_check_ptr": 77,
                         "__main__.mint.total_supply": 73
@@ -5159,17 +5124,17 @@
                     "end_col": 50,
                     "end_line": 4,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 56,
-                            "end_line": 9,
+                            "end_col": 59,
+                            "end_line": 8,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "start_col": 44,
-                            "start_line": 9
+                            "start_col": 47,
+                            "start_line": 8
                         },
                         "While expanding the reference 'total_supply' in:"
                     ],
@@ -5177,7 +5142,7 @@
                     "start_line": 4
                 }
             },
-            "184": {
+            "182": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.mint"
@@ -5189,7 +5154,6 @@
                     },
                     "reference_ids": {
                         "__main__.mint.amount": 74,
-                        "__main__.mint.is_overflow": 79,
                         "__main__.mint.new_supply": 78,
                         "__main__.mint.range_check_ptr": 77,
                         "__main__.mint.total_supply": 73
@@ -5200,17 +5164,17 @@
                     "end_col": 50,
                     "end_line": 4,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 56,
-                            "end_line": 9,
+                            "end_col": 59,
+                            "end_line": 8,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "start_col": 44,
-                            "start_line": 9
+                            "start_col": 47,
+                            "start_line": 8
                         },
                         "While expanding the reference 'total_supply' in:"
                     ],
@@ -5218,7 +5182,7 @@
                     "start_line": 4
                 }
             },
-            "185": {
+            "183": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.mint"
@@ -5230,7 +5194,6 @@
                     },
                     "reference_ids": {
                         "__main__.mint.amount": 74,
-                        "__main__.mint.is_overflow": 79,
                         "__main__.mint.new_supply": 78,
                         "__main__.mint.range_check_ptr": 77,
                         "__main__.mint.total_supply": 73
@@ -5238,12 +5201,41 @@
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 57,
+                    "end_col": 60,
+                    "end_line": 8,
+                    "input_file": {
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
+                    },
+                    "start_col": 24,
+                    "start_line": 8
+                }
+            },
+            "185": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.mint"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 14,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "__main__.mint.amount": 74,
+                        "__main__.mint.new_supply": 78,
+                        "__main__.mint.range_check_ptr": 79,
+                        "__main__.mint.res": 80,
+                        "__main__.mint.total_supply": 73
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 19,
                     "end_line": 9,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
-                    "start_col": 21,
+                    "start_col": 5,
                     "start_line": 9
                 }
             },
@@ -5259,40 +5251,9 @@
                     },
                     "reference_ids": {
                         "__main__.mint.amount": 74,
-                        "__main__.mint.is_overflow": 79,
                         "__main__.mint.new_supply": 78,
-                        "__main__.mint.range_check_ptr": 80,
-                        "__main__.mint.res": 81,
-                        "__main__.mint.total_supply": 73
-                    }
-                },
-                "hints": [],
-                "inst": {
-                    "end_col": 16,
-                    "end_line": 10,
-                    "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
-                    },
-                    "start_col": 2,
-                    "start_line": 10
-                }
-            },
-            "189": {
-                "accessible_scopes": [
-                    "__main__",
-                    "__main__.mint"
-                ],
-                "flow_tracking_data": {
-                    "ap_tracking": {
-                        "group": 14,
-                        "offset": 0
-                    },
-                    "reference_ids": {
-                        "__main__.mint.amount": 74,
-                        "__main__.mint.is_overflow": 79,
-                        "__main__.mint.new_supply": 78,
-                        "__main__.mint.range_check_ptr": 80,
-                        "__main__.mint.res": 81,
+                        "__main__.mint.range_check_ptr": 79,
+                        "__main__.mint.res": 80,
                         "__main__.mint.total_supply": 73
                     }
                 },
@@ -5305,27 +5266,27 @@
                     },
                     "parent_location": [
                         {
-                            "end_col": 57,
-                            "end_line": 9,
+                            "end_col": 60,
+                            "end_line": 8,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
                             "parent_location": [
                                 {
                                     "end_col": 26,
                                     "end_line": 4,
                                     "input_file": {
-                                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                                     },
                                     "parent_location": [
                                         {
-                                            "end_col": 11,
-                                            "end_line": 11,
+                                            "end_col": 14,
+                                            "end_line": 10,
                                             "input_file": {
-                                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                                             },
-                                            "start_col": 2,
-                                            "start_line": 11
+                                            "start_col": 5,
+                                            "start_line": 10
                                         },
                                         "While trying to retrieve the implicit argument 'range_check_ptr' in:"
                                     ],
@@ -5334,8 +5295,8 @@
                                 },
                                 "While expanding the reference 'range_check_ptr' in:"
                             ],
-                            "start_col": 21,
-                            "start_line": 9
+                            "start_col": 24,
+                            "start_line": 8
                         },
                         "While trying to update the implicit return value 'range_check_ptr' in:"
                     ],
@@ -5343,7 +5304,7 @@
                     "start_line": 132
                 }
             },
-            "190": {
+            "188": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.mint"
@@ -5355,22 +5316,46 @@
                     },
                     "reference_ids": {
                         "__main__.mint.amount": 74,
-                        "__main__.mint.is_overflow": 79,
                         "__main__.mint.new_supply": 78,
-                        "__main__.mint.range_check_ptr": 80,
-                        "__main__.mint.res": 81,
+                        "__main__.mint.range_check_ptr": 79,
+                        "__main__.mint.res": 80,
                         "__main__.mint.total_supply": 73
                     }
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 11,
-                    "end_line": 11,
+                    "end_col": 14,
+                    "end_line": 10,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
-                    "start_col": 2,
-                    "start_line": 11
+                    "start_col": 5,
+                    "start_line": 10
+                }
+            },
+            "189": {
+                "accessible_scopes": [
+                    "__main__",
+                    "__main__.main"
+                ],
+                "flow_tracking_data": {
+                    "ap_tracking": {
+                        "group": 15,
+                        "offset": 0
+                    },
+                    "reference_ids": {
+                        "__main__.main.range_check_ptr": 81
+                    }
+                },
+                "hints": [],
+                "inst": {
+                    "end_col": 17,
+                    "end_line": 14,
+                    "input_file": {
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
+                    },
+                    "start_col": 5,
+                    "start_line": 14
                 }
             },
             "191": {
@@ -5384,63 +5369,34 @@
                         "offset": 0
                     },
                     "reference_ids": {
-                        "__main__.main.range_check_ptr": 82
-                    }
-                },
-                "hints": [],
-                "inst": {
-                    "end_col": 14,
-                    "end_line": 15,
-                    "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
-                    },
-                    "start_col": 2,
-                    "start_line": 15
-                }
-            },
-            "193": {
-                "accessible_scopes": [
-                    "__main__",
-                    "__main__.main"
-                ],
-                "flow_tracking_data": {
-                    "ap_tracking": {
-                        "group": 15,
-                        "offset": 0
-                    },
-                    "reference_ids": {
-                        "__main__.main.amount": 88,
-                        "__main__.main.range_check_ptr": 82,
-                        "__main__.main.sym1": 83,
-                        "__main__.main.sym2": 84,
-                        "__main__.main.sym3": 85,
-                        "__main__.main.sym4": 86,
-                        "__main__.main.total_supply": 87
+                        "__main__.main.amount": 83,
+                        "__main__.main.range_check_ptr": 81,
+                        "__main__.main.total_supply": 82
                     }
                 },
                 "hints": [],
                 "inst": {
                     "end_col": 26,
-                    "end_line": 14,
+                    "end_line": 13,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
                             "end_col": 26,
                             "end_line": 4,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
                             "parent_location": [
                                 {
-                                    "end_col": 28,
-                                    "end_line": 22,
+                                    "end_col": 31,
+                                    "end_line": 17,
                                     "input_file": {
-                                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                                     },
-                                    "start_col": 2,
-                                    "start_line": 22
+                                    "start_col": 5,
+                                    "start_line": 17
                                 },
                                 "While trying to retrieve the implicit argument 'range_check_ptr' in:"
                             ],
@@ -5450,10 +5406,10 @@
                         "While expanding the reference 'range_check_ptr' in:"
                     ],
                     "start_col": 11,
-                    "start_line": 14
+                    "start_line": 13
                 }
             },
-            "194": {
+            "192": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5464,51 +5420,35 @@
                         "offset": 1
                     },
                     "reference_ids": {
-                        "__main__.main.amount": 88,
-                        "__main__.main.range_check_ptr": 82,
-                        "__main__.main.sym1": 83,
-                        "__main__.main.sym2": 84,
-                        "__main__.main.sym3": 85,
-                        "__main__.main.sym4": 86,
-                        "__main__.main.total_supply": 87
+                        "__main__.main.amount": 83,
+                        "__main__.main.range_check_ptr": 81,
+                        "__main__.main.total_supply": 82
                     }
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 42,
-                    "end_line": 16,
+                    "end_col": 33,
+                    "end_line": 15,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 33,
-                            "end_line": 20,
+                            "end_col": 22,
+                            "end_line": 17,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "parent_location": [
-                                {
-                                    "end_col": 19,
-                                    "end_line": 22,
-                                    "input_file": {
-                                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
-                                    },
-                                    "start_col": 7,
-                                    "start_line": 22
-                                },
-                                "While expanding the reference 'total_supply' in:"
-                            ],
-                            "start_col": 29,
-                            "start_line": 20
+                            "start_col": 10,
+                            "start_line": 17
                         },
-                        "While expanding the reference 'sym1' in:"
+                        "While expanding the reference 'total_supply' in:"
                     ],
-                    "start_col": 20,
-                    "start_line": 16
+                    "start_col": 32,
+                    "start_line": 15
                 }
             },
-            "196": {
+            "194": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5519,51 +5459,35 @@
                         "offset": 2
                     },
                     "reference_ids": {
-                        "__main__.main.amount": 88,
-                        "__main__.main.range_check_ptr": 82,
-                        "__main__.main.sym1": 83,
-                        "__main__.main.sym2": 84,
-                        "__main__.main.sym3": 85,
-                        "__main__.main.sym4": 86,
-                        "__main__.main.total_supply": 87
+                        "__main__.main.amount": 83,
+                        "__main__.main.range_check_ptr": 81,
+                        "__main__.main.total_supply": 82
                     }
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 35,
-                    "end_line": 17,
+                    "end_col": 36,
+                    "end_line": 15,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 39,
-                            "end_line": 20,
+                            "end_col": 22,
+                            "end_line": 17,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "parent_location": [
-                                {
-                                    "end_col": 19,
-                                    "end_line": 22,
-                                    "input_file": {
-                                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
-                                    },
-                                    "start_col": 7,
-                                    "start_line": 22
-                                },
-                                "While expanding the reference 'total_supply' in:"
-                            ],
-                            "start_col": 35,
-                            "start_line": 20
+                            "start_col": 10,
+                            "start_line": 17
                         },
-                        "While expanding the reference 'sym2' in:"
+                        "While expanding the reference 'total_supply' in:"
                     ],
-                    "start_col": 13,
-                    "start_line": 17
+                    "start_col": 35,
+                    "start_line": 15
                 }
             },
-            "198": {
+            "196": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5574,51 +5498,35 @@
                         "offset": 3
                     },
                     "reference_ids": {
-                        "__main__.main.amount": 88,
-                        "__main__.main.range_check_ptr": 82,
-                        "__main__.main.sym1": 83,
-                        "__main__.main.sym2": 84,
-                        "__main__.main.sym3": 85,
-                        "__main__.main.sym4": 86,
-                        "__main__.main.total_supply": 87
+                        "__main__.main.amount": 83,
+                        "__main__.main.range_check_ptr": 81,
+                        "__main__.main.total_supply": 82
                     }
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 35,
-                    "end_line": 18,
+                    "end_col": 65,
+                    "end_line": 16,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 27,
-                            "end_line": 21,
+                            "end_col": 30,
+                            "end_line": 17,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "parent_location": [
-                                {
-                                    "end_col": 27,
-                                    "end_line": 22,
-                                    "input_file": {
-                                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
-                                    },
-                                    "start_col": 21,
-                                    "start_line": 22
-                                },
-                                "While expanding the reference 'amount' in:"
-                            ],
-                            "start_col": 23,
-                            "start_line": 21
+                            "start_col": 24,
+                            "start_line": 17
                         },
-                        "While expanding the reference 'sym3' in:"
+                        "While expanding the reference 'amount' in:"
                     ],
-                    "start_col": 13,
-                    "start_line": 18
+                    "start_col": 26,
+                    "start_line": 16
                 }
             },
-            "200": {
+            "198": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5629,51 +5537,35 @@
                         "offset": 4
                     },
                     "reference_ids": {
-                        "__main__.main.amount": 88,
-                        "__main__.main.range_check_ptr": 82,
-                        "__main__.main.sym1": 83,
-                        "__main__.main.sym2": 84,
-                        "__main__.main.sym3": 85,
-                        "__main__.main.sym4": 86,
-                        "__main__.main.total_supply": 87
+                        "__main__.main.amount": 83,
+                        "__main__.main.range_check_ptr": 81,
+                        "__main__.main.total_supply": 82
                     }
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 35,
-                    "end_line": 19,
+                    "end_col": 106,
+                    "end_line": 16,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
                     "parent_location": [
                         {
-                            "end_col": 33,
-                            "end_line": 21,
+                            "end_col": 30,
+                            "end_line": 17,
                             "input_file": {
-                                "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                                "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                             },
-                            "parent_location": [
-                                {
-                                    "end_col": 27,
-                                    "end_line": 22,
-                                    "input_file": {
-                                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
-                                    },
-                                    "start_col": 21,
-                                    "start_line": 22
-                                },
-                                "While expanding the reference 'amount' in:"
-                            ],
-                            "start_col": 29,
-                            "start_line": 21
+                            "start_col": 24,
+                            "start_line": 17
                         },
-                        "While expanding the reference 'sym4' in:"
+                        "While expanding the reference 'amount' in:"
                     ],
-                    "start_col": 13,
-                    "start_line": 19
+                    "start_col": 67,
+                    "start_line": 16
                 }
             },
-            "202": {
+            "200": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5684,27 +5576,23 @@
                         "offset": 5
                     },
                     "reference_ids": {
-                        "__main__.main.amount": 88,
-                        "__main__.main.range_check_ptr": 82,
-                        "__main__.main.sym1": 83,
-                        "__main__.main.sym2": 84,
-                        "__main__.main.sym3": 85,
-                        "__main__.main.sym4": 86,
-                        "__main__.main.total_supply": 87
+                        "__main__.main.amount": 83,
+                        "__main__.main.range_check_ptr": 81,
+                        "__main__.main.total_supply": 82
                     }
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 28,
-                    "end_line": 22,
+                    "end_col": 31,
+                    "end_line": 17,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
-                    "start_col": 2,
-                    "start_line": 22
+                    "start_col": 5,
+                    "start_line": 17
                 }
             },
-            "204": {
+            "202": {
                 "accessible_scopes": [
                     "__main__",
                     "__main__.main"
@@ -5715,24 +5603,20 @@
                         "offset": 0
                     },
                     "reference_ids": {
-                        "__main__.main.amount": 88,
-                        "__main__.main.range_check_ptr": 89,
-                        "__main__.main.sym1": 83,
-                        "__main__.main.sym2": 84,
-                        "__main__.main.sym3": 85,
-                        "__main__.main.sym4": 86,
-                        "__main__.main.total_supply": 87
+                        "__main__.main.amount": 83,
+                        "__main__.main.range_check_ptr": 84,
+                        "__main__.main.total_supply": 82
                     }
                 },
                 "hints": [],
                 "inst": {
-                    "end_col": 5,
-                    "end_line": 23,
+                    "end_col": 8,
+                    "end_line": 18,
                     "input_file": {
-                        "filename": "./benchmarks/overflowTest/erc20_demo_fix.cairo"
+                        "filename": "./benchmarks/overflowTest/erc20_demo_bug_concrete.cairo"
                     },
-                    "start_col": 2,
-                    "start_line": 23
+                    "start_col": 5,
+                    "start_line": 18
                 }
             }
         }
@@ -5868,7 +5752,7 @@
         },
         "__main__.main": {
             "decorators": [],
-            "pc": 191,
+            "pc": 189,
             "type": "function"
         },
         "__main__.main.Args": {
@@ -5905,8 +5789,8 @@
                         "group": 15,
                         "offset": 0
                     },
-                    "pc": 193,
-                    "value": "cast((symbolic(felt, 1937337651), symbolic(felt, 1937337652)), starkware.cairo.common.uint256.Uint256)"
+                    "pc": 191,
+                    "value": "cast((340282366920938463463374607431768211455, 340282366920938463463374607431768211453), starkware.cairo.common.uint256.Uint256)"
                 }
             ],
             "type": "reference"
@@ -5920,7 +5804,7 @@
                         "group": 15,
                         "offset": 0
                     },
-                    "pc": 191,
+                    "pc": 189,
                     "value": "[cast(fp + (-3), felt*)]"
                 },
                 {
@@ -5928,68 +5812,8 @@
                         "group": 16,
                         "offset": 0
                     },
-                    "pc": 204,
+                    "pc": 202,
                     "value": "[cast(ap + (-1), felt*)]"
-                }
-            ],
-            "type": "reference"
-        },
-        "__main__.main.sym1": {
-            "cairo_type": "felt",
-            "full_name": "__main__.main.sym1",
-            "references": [
-                {
-                    "ap_tracking_data": {
-                        "group": 15,
-                        "offset": 0
-                    },
-                    "pc": 193,
-                    "value": "cast(symbolic(felt, 1937337649), felt)"
-                }
-            ],
-            "type": "reference"
-        },
-        "__main__.main.sym2": {
-            "cairo_type": "felt",
-            "full_name": "__main__.main.sym2",
-            "references": [
-                {
-                    "ap_tracking_data": {
-                        "group": 15,
-                        "offset": 0
-                    },
-                    "pc": 193,
-                    "value": "cast(symbolic(felt, 1937337650), felt)"
-                }
-            ],
-            "type": "reference"
-        },
-        "__main__.main.sym3": {
-            "cairo_type": "felt",
-            "full_name": "__main__.main.sym3",
-            "references": [
-                {
-                    "ap_tracking_data": {
-                        "group": 15,
-                        "offset": 0
-                    },
-                    "pc": 193,
-                    "value": "cast(symbolic(felt, 1937337651), felt)"
-                }
-            ],
-            "type": "reference"
-        },
-        "__main__.main.sym4": {
-            "cairo_type": "felt",
-            "full_name": "__main__.main.sym4",
-            "references": [
-                {
-                    "ap_tracking_data": {
-                        "group": 15,
-                        "offset": 0
-                    },
-                    "pc": 193,
-                    "value": "cast(symbolic(felt, 1937337652), felt)"
                 }
             ],
             "type": "reference"
@@ -6003,8 +5827,8 @@
                         "group": 15,
                         "offset": 0
                     },
-                    "pc": 193,
-                    "value": "cast((symbolic(felt, 1937337649), symbolic(felt, 1937337650)), starkware.cairo.common.uint256.Uint256)"
+                    "pc": 191,
+                    "value": "cast((1, 2), starkware.cairo.common.uint256.Uint256)"
                 }
             ],
             "type": "reference"
@@ -6063,21 +5887,6 @@
             ],
             "type": "reference"
         },
-        "__main__.mint.is_overflow": {
-            "cairo_type": "felt",
-            "full_name": "__main__.mint.is_overflow",
-            "references": [
-                {
-                    "ap_tracking_data": {
-                        "group": 13,
-                        "offset": 30
-                    },
-                    "pc": 178,
-                    "value": "[cast(ap + (-1), felt*)]"
-                }
-            ],
-            "type": "reference"
-        },
         "__main__.mint.new_supply": {
             "cairo_type": "starkware.cairo.common.uint256.Uint256",
             "full_name": "__main__.mint.new_supply",
@@ -6126,7 +5935,7 @@
                         "group": 14,
                         "offset": 0
                     },
-                    "pc": 187,
+                    "pc": 185,
                     "value": "[cast(ap + (-2), felt*)]"
                 }
             ],
@@ -6141,7 +5950,7 @@
                         "group": 14,
                         "offset": 0
                     },
-                    "pc": 187,
+                    "pc": 185,
                     "value": "[cast(ap + (-1), felt*)]"
                 }
             ],
@@ -8351,18 +8160,10 @@
             },
             {
                 "ap_tracking_data": {
-                    "group": 13,
-                    "offset": 30
-                },
-                "pc": 178,
-                "value": "[cast(ap + (-1), felt*)]"
-            },
-            {
-                "ap_tracking_data": {
                     "group": 14,
                     "offset": 0
                 },
-                "pc": 187,
+                "pc": 185,
                 "value": "[cast(ap + (-2), felt*)]"
             },
             {
@@ -8370,7 +8171,7 @@
                     "group": 14,
                     "offset": 0
                 },
-                "pc": 187,
+                "pc": 185,
                 "value": "[cast(ap + (-1), felt*)]"
             },
             {
@@ -8378,7 +8179,7 @@
                     "group": 15,
                     "offset": 0
                 },
-                "pc": 191,
+                "pc": 189,
                 "value": "[cast(fp + (-3), felt*)]"
             },
             {
@@ -8386,55 +8187,23 @@
                     "group": 15,
                     "offset": 0
                 },
-                "pc": 193,
-                "value": "cast(symbolic(felt, 1937337649), felt)"
+                "pc": 191,
+                "value": "cast((1, 2), starkware.cairo.common.uint256.Uint256)"
             },
             {
                 "ap_tracking_data": {
                     "group": 15,
                     "offset": 0
                 },
-                "pc": 193,
-                "value": "cast(symbolic(felt, 1937337650), felt)"
-            },
-            {
-                "ap_tracking_data": {
-                    "group": 15,
-                    "offset": 0
-                },
-                "pc": 193,
-                "value": "cast(symbolic(felt, 1937337651), felt)"
-            },
-            {
-                "ap_tracking_data": {
-                    "group": 15,
-                    "offset": 0
-                },
-                "pc": 193,
-                "value": "cast(symbolic(felt, 1937337652), felt)"
-            },
-            {
-                "ap_tracking_data": {
-                    "group": 15,
-                    "offset": 0
-                },
-                "pc": 193,
-                "value": "cast((symbolic(felt, 1937337649), symbolic(felt, 1937337650)), starkware.cairo.common.uint256.Uint256)"
-            },
-            {
-                "ap_tracking_data": {
-                    "group": 15,
-                    "offset": 0
-                },
-                "pc": 193,
-                "value": "cast((symbolic(felt, 1937337651), symbolic(felt, 1937337652)), starkware.cairo.common.uint256.Uint256)"
+                "pc": 191,
+                "value": "cast((340282366920938463463374607431768211455, 340282366920938463463374607431768211453), starkware.cairo.common.uint256.Uint256)"
             },
             {
                 "ap_tracking_data": {
                     "group": 16,
                     "offset": 0
                 },
-                "pc": 204,
+                "pc": 202,
                 "value": "[cast(ap + (-1), felt*)]"
             }
         ]

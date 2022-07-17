@@ -321,7 +321,6 @@
     (tokamak:typed p vm?)
     (tokamak:typed instruction instruction:instruction?)
     ; (fixme) will call compute-operands
-    (print "running instruction")
     (define-values (operands operands-mem-addresses)
         (compute-operands p instruction))
 
@@ -339,7 +338,6 @@
     ; (fixme) skipped a lot here
     ; update registers
     (update-registers p instruction operands)
-    (print "updating registers")
     (set-vm-currstep! p (+ 1 (vm-currstep p)))
 )
 

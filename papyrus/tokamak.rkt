@@ -31,7 +31,9 @@
 )
 
 (define (println-and-log msg . fmts)
-    (printf (format "[tokamak:log] ~a\n" (apply format (cons msg fmts))))
+    ;; TODO/fixme
+    ; (printf (format "[tokamak:log] ~a\n" (apply format (cons msg fmts))))
+    (void)
 )
 
 ; usually for debugging, asserting obj is one of types, otherwise print and exit
