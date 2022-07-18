@@ -11,6 +11,58 @@
 - [ ] [Dev] **Attack Synthesis**: Papyrus can automatically solve for concrete inputs that crash given Cairo program.
 - [ ] [Dev] **Integrations with <img src="./docs/veridise-icon.png" width=24px> Veridise Product Lines**: Papyrus integrates with [[V] specication language](https://github.com/Veridise/V) that allows developers to express correctness properties.
 
+## Running An ERC20 Demo (Docker)
+
+First you need to build the demo from the latest version. Make sure you have Docker installed, and then type in the following command to build an image:
+
+```bash
+cd Papyrus/
+docker build -t papyrus:demo .
+```
+
+It should take a short time to set up the environment. Then use the following command to start a container:
+
+```bash
+docker run -it --rm papyrus:demo bash
+```
+
+Then you will enter a pre-set docker environment.
+
+### ERC20 Bug Detection
+
+To test the buggy version, use the following command in the container:
+
+```bash
+cd Papyrus/
+racket ./cairo-run.rkt --cname ./benchmarks/overflowTest/erc20demo_bug_compiled.json
+```
+
+The tool will be invoked and run symbolic execution for bug detection. You'll see the following output if the command runs correctly:
+
+```bash
+Finished Symbolic Execution
+Bug found with
+total_supply = Uint256(1, 2)
+amount = Uint256(340282366920938463463374607431768211455, 340282366920938463463374607431768211453)
+```
+
+### ERC20 Symbolic Execution
+
+For a non-buggy version, use the following command in the container to verify it:
+
+```bash
+racket ./cairo-run.rkt --cname ./benchmarks/overflowTest/erc20demo_fix_compiled.json
+```
+
+The tool will be invoked and also run symbolic execution for bug detection. You'll see the following output if the command runs correctly:
+
+```bash
+Finished Symbolic Execution
+No bugs found!
+```
+
+This means this version of ERC20 is good.
+
 ## Dependencies (Building from Source)
 
 - Cairo (0.8.2 Tested): [https://www.cairo-lang.org/](https://www.cairo-lang.org/)
