@@ -31,6 +31,7 @@
 )
 
 (define (println-and-log msg . fmts)
+    ;; TODO/fixme
     (printf (format "[tokamak:log] ~a\n" (apply format (cons msg fmts))))
 )
 
@@ -46,12 +47,14 @@
         )
     )
 )
+
 (define (assert-type obj . typs)
-    (if (assert-type-helper obj typs)
-        #t
-        (println-and-error "type checking failed, required types are: ~a, obj is: ~v" typs obj)
-    )
-)
+  (void))
+  ;; TODO/fixme: use this to type check only concrete values
+  ;;             commented out for now because some of the type checks are broken
+  ;(when (and (empty? (symbolics obj))
+  ;           (not (assert-type-helper obj typs)))
+  ;  (println-and-error "type checking failed, required types are: ~a, obj is: ~v" typs obj)))
 
 ; ref: https://github.com/emina/rosette/blob/master/rosette/base/form/define.rkt#L37
 ; arg-id and arg-type should beoth be symbols

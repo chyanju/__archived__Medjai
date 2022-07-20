@@ -134,8 +134,9 @@
 (define (initialize-main-entrypoint p)
     (tokamak:typed p runner?)
     (set-runner-epm! p null)
-    (define stack (list ))
     (let ([prog (runner-prog p)][mem (runner-mem p)])
+        ;; TODO read args
+        (define stack (list (memory:add-segment mem)))
         (define return-fp (memory:add-segment mem))
         (define main (program:program-main prog))
         ; return
@@ -205,23 +206,20 @@
     ; (fixme) run-resources type unsupported
     ; a for loop definition
     (define (do-step)
-        ; each time fetch the current vm from runner
-        (let ([vm0 (runner-vm p)])
-            (when (! (memory:rveq (get-pc p) addr))
-                (printf "\n")
+      ; each time fetch the current vm from runner
+      (let ([vm0 (runner-vm p)])
+        (when (! (memory:rveq (get-pc p) addr))
+            (for/all ([pc (memory:rv-off (context:context-pc (vm:vm-cntx (runner-vm p)))) #:exhaustive])
+              (begin
+                (context:set-context-pc! (vm:vm-cntx (runner-vm p)) (memory:rv 0 pc))
                 (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
+                (tokamak:log "ap is: ~a." (context:context-ap (vm:vm-cntx (runner-vm p))))
+                (tokamak:log "fp is: ~a." (context:context-fp (vm:vm-cntx (runner-vm p))))
                 (vm-step p)
-                (do-step)
-            )
-        )
-    )
+                (do-step))))))
+
     ; start the loop
     (do-step)
-    ; for debugging
-    ; (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
-    ; (vm-step p)
-    ; (tokamak:log "pc is: ~a." (context:context-pc (vm:vm-cntx (runner-vm p))))
-    ; (vm-step p)
 )
 
 (define (vm-step p)

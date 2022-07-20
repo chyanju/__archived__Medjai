@@ -29,7 +29,7 @@
     refmgr ; (fixme) (reference_manager) ReferenceManager
     attrs ; (fixme) (attributes) list[AttributeScope]
     dbg ; (fixme) (debug_info) DebugInfo or null
-
+    entrypoint ; entrypoint pc
 ) #:mutable #:transparent #:reflection-name 'program)
 
 ; raw constructor
@@ -38,21 +38,27 @@
     #:prime prime #:data data #:builtins builtins
     ; Program
     #:hints hints #:mscope mscope #:ids ids #:refmgr refmgr #:attrs attrs #:dbg dbg
+    ; Extra
+    #:entrypoint entrypoint
     )
     ; return
-    (program prime data builtins hints mscope ids refmgr attrs dbg)
+    (program prime data builtins hints mscope ids refmgr attrs dbg entrypoint)
 )
 
 ; (cairo_runner.load_program) + (Program.load)
 ; adapted from marshmarrow's method restoring a program object from json
 (define (load-program jspath)
     (tokamak:typed jspath string?)
-    (define js0 (string->jsexpr (file->string jspath)))
+    ;; TODO The hash-ref is for starknet
+    (define js0 #|(hash-ref|# (string->jsexpr (file->string jspath)) #|'program|#)
 
     ; parse data
-    (define data0 (for/list ([t0 (hash-ref js0 'data)])
-        (string->number (substring t0 2) 16) ; hex remove leading "0x"
-    ))
+    (define data0
+      (for/list ([t0 (hash-ref js0 'data)])
+        (string->number (substring t0 2) 16))) ; hex remove leading "0x"
+
+    (define main-pc
+      (hash-ref (hash-ref (hash-ref js0 'identifiers) '__main__.main) 'pc))
 
     ; return
     (new-program
@@ -65,12 +71,12 @@
         #:refmgr null ; (fixme) need to parse (hash-ref js0 'reference_manager)
         #:attrs null ; (fixme) need to parse (hash-ref js0 'attributes)
         #:dbg null ; (fixme) need to parse (hasr-ref js0 'debug_info)
+        #:entrypoint main-pc
     )
 )
 
 ; property: main
 (define (program-main p)
     (tokamak:typed p program?)
-    ; (fixme) need to correctly model this
-    0
+    (program-entrypoint p)
 )

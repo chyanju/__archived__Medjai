@@ -1,20 +1,8 @@
 {
-    "abi": [
-        {
-            "inputs": [],
-            "name": "mint",
-            "outputs": [],
-            "type": "function"
-        }
-    ],
+    "abi": [],
     "entry_points_by_type": {
         "CONSTRUCTOR": [],
-        "EXTERNAL": [
-            {
-                "offset": "0x4e",
-                "selector": "0x2f0b3c5710379609eb5495f1ecd348cb28167711b73609fe565a72734550354"
-            }
-        ],
+        "EXTERNAL": [],
         "L1_HANDLER": []
     },
     "program": {
@@ -56,77 +44,13 @@
             "0x480a80017fff8000",
             "0x480a80037fff8000",
             "0x208b7fff7fff7ffe",
-            "0x40780017fff7fff",
-            "0x2",
-            "0x480680017fff8000",
-            "0x7",
-            "0x400680017fff7fff",
-            "0x7",
-            "0x480680017fff8000",
-            "0x1",
-            "0x1104800180018000",
-            "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffd9",
-            "0x480a7ffd7fff8000",
-            "0x480680017fff8000",
-            "0x5",
-            "0x480680017fff8000",
-            "0x0",
-            "0x1104800180018000",
-            "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffd7",
-            "0x480680017fff8000",
-            "0xa",
-            "0x480680017fff8000",
-            "0x0",
-            "0x480680017fff8000",
-            "0x5",
-            "0x480680017fff8000",
-            "0x0",
-            "0x1104800180018000",
-            "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffd2",
-            "0x48127ffc7fff8000",
-            "0x480680017fff8000",
-            "0x14",
-            "0x480680017fff8000",
-            "0x0",
-            "0x480680017fff8000",
-            "0x5",
-            "0x480680017fff8000",
-            "0x0",
-            "0x1104800180018000",
-            "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffc7",
-            "0x40137ffd7fff8000",
-            "0x40137ffe7fff8001",
-            "0x400680017fff7fff",
-            "0x0",
             "0x480a7ffb7fff8000",
             "0x480a7ffc7fff8000",
-            "0x48127ffa7fff8000",
-            "0x208b7fff7fff7ffe",
-            "0x402b7ffd7ffc7ffd",
-            "0x480280007ffb8000",
-            "0x480280017ffb8000",
-            "0x480280027ffb8000",
-            "0x1104800180018000",
-            "0x800000000000010ffffffffffffffffffffffffffffffffffffffffffffffcf",
-            "0x40780017fff7fff",
-            "0x1",
-            "0x48127ffc7fff8000",
-            "0x48127ffc7fff8000",
-            "0x48127ffc7fff8000",
-            "0x480680017fff8000",
-            "0x0",
-            "0x48127ffb7fff8000",
+            "0x480a7ffd7fff8000",
             "0x208b7fff7fff7ffe"
         ],
         "debug_info": {
-            "file_contents": {
-                "autogen/starknet/arg_processor/1b562308a65653425ce06491fa4b4539466f3251a07e73e099d0afe86a48900e.cairo": "assert [cast(fp + (-4), felt*)] = __calldata_actual_size\n",
-                "autogen/starknet/external/mint/424b26e79f70343cc02557f1fbd25745138efb26a3dc5c8b593ca765b73138b7.cairo": "let pedersen_ptr = [cast([cast(fp + (-5), felt**)] + 1, starkware.cairo.common.cairo_builtins.HashBuiltin**)]\n",
-                "autogen/starknet/external/mint/4ba2b119ceb30fe10f4cca3c9d73ef620c0fb5eece91b99a99d71217bba1001c.cairo": "return (syscall_ptr,pedersen_ptr,range_check_ptr,retdata_size,retdata)\n",
-                "autogen/starknet/external/mint/c7060df96cb0acca1380ae43bf758cab727bfdf73cb5d34a93e24a9742817fda.cairo": "let syscall_ptr = [cast([cast(fp + (-5), felt**)] + 0, felt**)]\n",
-                "autogen/starknet/external/mint/e651458745e7cd218121c342e0915890767e2f59ddc2e315b8844ad0f47d582e.cairo": "let range_check_ptr = [cast([cast(fp + (-5), felt**)] + 2, felt*)]\n",
-                "autogen/starknet/external/mint/ef3a79c18d46a9fa62dfdc7620278a45e5a135102b4efbfbcf08b5b08cd0430f.cairo": "let ret_value = __wrapped_func{syscall_ptr=syscall_ptr, pedersen_ptr=pedersen_ptr, range_check_ptr=range_check_ptr}()\n%{ memory[ap] = segments.add() %}        # Allocate memory for return value.\ntempvar retdata : felt*\nlet retdata_size = 0\n"
-            },
+            "file_contents": {},
             "instruction_locations": {
                 "0": {
                     "accessible_scopes": [
@@ -690,654 +614,46 @@
                 "32": {
                     "accessible_scopes": [
                         "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 17,
-                        "end_line": 22,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "start_col": 5,
-                        "start_line": 22
-                    }
-                },
-                "34": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 23,
-                        "end_line": 25,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "start_col": 22,
-                        "start_line": 25
-                    }
-                },
-                "36": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 23,
-                        "end_line": 25,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "start_col": 5,
-                        "start_line": 25
-                    }
-                },
-                "38": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 22,
-                        "end_line": 27,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 30,
-                                "end_line": 30,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 21,
-                                "start_line": 30
-                            },
-                            "While expanding the reference 'recipient' in:"
-                        ],
-                        "start_col": 21,
-                        "start_line": 27
-                    }
-                },
-                "40": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 31,
-                        "end_line": 30,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "start_col": 5,
-                        "start_line": 30
-                    }
-                },
-                "42": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 76,
-                        "end_line": 21,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 35,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "/Users/jsv/cairo_venv/lib/python3.8/site-packages/starkware/cairo/common/uint256.cairo"
-                                },
-                                "parent_location": [
-                                    {
-                                        "end_col": 26,
-                                        "end_line": 31,
-                                        "input_file": {
-                                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                                        },
-                                        "start_col": 5,
-                                        "start_line": 31
-                                    },
-                                    "While trying to retrieve the implicit argument 'range_check_ptr' in:"
-                                ],
-                                "start_col": 20,
-                                "start_line": 21
-                            },
-                            "While expanding the reference 'range_check_ptr' in:"
-                        ],
-                        "start_col": 61,
-                        "start_line": 21
-                    }
-                },
-                "43": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 43,
-                        "end_line": 28,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 25,
-                                "end_line": 31,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 19,
-                                "start_line": 31
-                            },
-                            "While expanding the reference 'amount' in:"
-                        ],
-                        "start_col": 42,
-                        "start_line": 28
-                    }
-                },
-                "45": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 53,
-                        "end_line": 28,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 25,
-                                "end_line": 31,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 19,
-                                "start_line": 31
-                            },
-                            "While expanding the reference 'amount' in:"
-                        ],
-                        "start_col": 52,
-                        "start_line": 28
-                    }
-                },
-                "47": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 26,
-                        "end_line": 31,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "start_col": 5,
-                        "start_line": 31
-                    }
-                },
-                "49": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 45,
-                        "end_line": 33,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 57,
-                                "end_line": 36,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 50,
-                                "start_line": 36
-                            },
-                            "While expanding the reference 'balance' in:"
-                        ],
-                        "start_col": 43,
-                        "start_line": 33
-                    }
-                },
-                "51": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 55,
-                        "end_line": 33,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 57,
-                                "end_line": 36,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 50,
-                                "start_line": 36
-                            },
-                            "While expanding the reference 'balance' in:"
-                        ],
-                        "start_col": 54,
-                        "start_line": 33
-                    }
-                },
-                "53": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 43,
-                        "end_line": 28,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 65,
-                                "end_line": 36,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 59,
-                                "start_line": 36
-                            },
-                            "While expanding the reference 'amount' in:"
-                        ],
-                        "start_col": 42,
-                        "start_line": 28
-                    }
-                },
-                "55": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 53,
-                        "end_line": 28,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 65,
-                                "end_line": 36,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 59,
-                                "start_line": 36
-                            },
-                            "While expanding the reference 'amount' in:"
-                        ],
-                        "start_col": 52,
-                        "start_line": 28
-                    }
-                },
-                "57": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 66,
-                        "end_line": 36,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "start_col": 38,
-                        "start_line": 36
-                    }
-                },
-                "59": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 33,
-                        "end_line": 31,
-                        "input_file": {
-                            "filename": "/Users/jsv/cairo_venv/lib/python3.8/site-packages/starkware/cairo/common/uint256.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 66,
-                                "end_line": 36,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "parent_location": [
-                                    {
-                                        "end_col": 33,
-                                        "end_line": 31,
-                                        "input_file": {
-                                            "filename": "/Users/jsv/cairo_venv/lib/python3.8/site-packages/starkware/cairo/common/uint256.cairo"
-                                        },
-                                        "parent_location": [
-                                            {
-                                                "end_col": 80,
-                                                "end_line": 40,
-                                                "input_file": {
-                                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                                },
-                                                "start_col": 53,
-                                                "start_line": 40
-                                            },
-                                            "While trying to retrieve the implicit argument 'range_check_ptr' in:"
-                                        ],
-                                        "start_col": 18,
-                                        "start_line": 31
-                                    },
-                                    "While expanding the reference 'range_check_ptr' in:"
-                                ],
-                                "start_col": 38,
-                                "start_line": 36
-                            },
-                            "While trying to update the implicit return value 'range_check_ptr' in:"
-                        ],
-                        "start_col": 18,
-                        "start_line": 31
-                    }
-                },
-                "60": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 44,
-                        "end_line": 39,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 71,
-                                "end_line": 40,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 65,
-                                "start_line": 40
-                            },
-                            "While expanding the reference 'supply' in:"
-                        ],
-                        "start_col": 42,
-                        "start_line": 39
-                    }
-                },
-                "62": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 54,
-                        "end_line": 39,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 71,
-                                "end_line": 40,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 65,
-                                "start_line": 40
-                            },
-                            "While expanding the reference 'supply' in:"
-                        ],
-                        "start_col": 53,
-                        "start_line": 39
-                    }
-                },
-                "64": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 43,
-                        "end_line": 28,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 79,
-                                "end_line": 40,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 73,
-                                "start_line": 40
-                            },
-                            "While expanding the reference 'amount' in:"
-                        ],
-                        "start_col": 42,
-                        "start_line": 28
-                    }
-                },
-                "66": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 53,
-                        "end_line": 28,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 79,
-                                "end_line": 40,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 73,
-                                "start_line": 40
-                            },
-                            "While expanding the reference 'amount' in:"
-                        ],
-                        "start_col": 52,
-                        "start_line": 28
-                    }
-                },
-                "68": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 80,
-                        "end_line": 40,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "start_col": 53,
-                        "start_line": 40
-                    }
-                },
-                "70": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 36,
-                        "end_line": 40,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "start_col": 10,
-                        "start_line": 40
-                    }
-                },
-                "71": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 36,
-                        "end_line": 40,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "start_col": 10,
-                        "start_line": 40
-                    }
-                },
-                "72": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__main__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 29,
-                        "end_line": 41,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "start_col": 5,
-                        "start_line": 41
-                    }
-                },
-                "74": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
                         "__main__.mint"
                     ],
                     "flow_tracking_data": null,
                     "hints": [],
                     "inst": {
                         "end_col": 30,
-                        "end_line": 21,
+                        "end_line": 20,
                         "input_file": {
                             "filename": "./benchmarks/erc20/erc20test.cairo"
                         },
                         "parent_location": [
                             {
                                 "end_col": 30,
-                                "end_line": 21,
+                                "end_line": 20,
                                 "input_file": {
                                     "filename": "./benchmarks/erc20/erc20test.cairo"
                                 },
                                 "parent_location": [
                                     {
                                         "end_col": 14,
-                                        "end_line": 44,
+                                        "end_line": 21,
                                         "input_file": {
                                             "filename": "./benchmarks/erc20/erc20test.cairo"
                                         },
                                         "start_col": 5,
-                                        "start_line": 44
+                                        "start_line": 21
                                     },
                                     "While trying to retrieve the implicit argument 'syscall_ptr' in:"
                                 ],
                                 "start_col": 11,
-                                "start_line": 21
+                                "start_line": 20
                             },
                             "While expanding the reference 'syscall_ptr' in:"
                         ],
                         "start_col": 11,
-                        "start_line": 21
+                        "start_line": 20
                     }
                 },
-                "75": {
+                "33": {
                     "accessible_scopes": [
-                        "__main__",
                         "__main__",
                         "__main__.mint"
                     ],
@@ -1345,95 +661,81 @@
                     "hints": [],
                     "inst": {
                         "end_col": 59,
-                        "end_line": 21,
+                        "end_line": 20,
                         "input_file": {
                             "filename": "./benchmarks/erc20/erc20test.cairo"
                         },
                         "parent_location": [
                             {
                                 "end_col": 59,
-                                "end_line": 21,
+                                "end_line": 20,
                                 "input_file": {
                                     "filename": "./benchmarks/erc20/erc20test.cairo"
                                 },
                                 "parent_location": [
                                     {
                                         "end_col": 14,
-                                        "end_line": 44,
+                                        "end_line": 21,
                                         "input_file": {
                                             "filename": "./benchmarks/erc20/erc20test.cairo"
                                         },
                                         "start_col": 5,
-                                        "start_line": 44
+                                        "start_line": 21
                                     },
                                     "While trying to retrieve the implicit argument 'pedersen_ptr' in:"
                                 ],
                                 "start_col": 32,
-                                "start_line": 21
+                                "start_line": 20
                             },
                             "While expanding the reference 'pedersen_ptr' in:"
                         ],
                         "start_col": 32,
-                        "start_line": 21
+                        "start_line": 20
                     }
                 },
-                "76": {
+                "34": {
                     "accessible_scopes": [
-                        "__main__",
                         "__main__",
                         "__main__.mint"
                     ],
                     "flow_tracking_data": null,
                     "hints": [],
                     "inst": {
-                        "end_col": 33,
-                        "end_line": 31,
+                        "end_col": 76,
+                        "end_line": 20,
                         "input_file": {
-                            "filename": "/Users/jsv/cairo_venv/lib/python3.8/site-packages/starkware/cairo/common/uint256.cairo"
+                            "filename": "./benchmarks/erc20/erc20test.cairo"
                         },
                         "parent_location": [
                             {
-                                "end_col": 80,
-                                "end_line": 40,
+                                "end_col": 76,
+                                "end_line": 20,
                                 "input_file": {
                                     "filename": "./benchmarks/erc20/erc20test.cairo"
                                 },
                                 "parent_location": [
                                     {
-                                        "end_col": 76,
+                                        "end_col": 14,
                                         "end_line": 21,
                                         "input_file": {
                                             "filename": "./benchmarks/erc20/erc20test.cairo"
                                         },
-                                        "parent_location": [
-                                            {
-                                                "end_col": 14,
-                                                "end_line": 44,
-                                                "input_file": {
-                                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                                },
-                                                "start_col": 5,
-                                                "start_line": 44
-                                            },
-                                            "While trying to retrieve the implicit argument 'range_check_ptr' in:"
-                                        ],
-                                        "start_col": 61,
+                                        "start_col": 5,
                                         "start_line": 21
                                     },
-                                    "While expanding the reference 'range_check_ptr' in:"
+                                    "While trying to retrieve the implicit argument 'range_check_ptr' in:"
                                 ],
-                                "start_col": 53,
-                                "start_line": 40
+                                "start_col": 61,
+                                "start_line": 20
                             },
-                            "While trying to update the implicit return value 'range_check_ptr' in:"
+                            "While expanding the reference 'range_check_ptr' in:"
                         ],
-                        "start_col": 18,
-                        "start_line": 31
+                        "start_col": 61,
+                        "start_line": 20
                     }
                 },
-                "77": {
+                "35": {
                     "accessible_scopes": [
-                        "__main__",
                         "__main__",
                         "__main__.mint"
                     ],
@@ -1441,589 +743,12 @@
                     "hints": [],
                     "inst": {
                         "end_col": 14,
-                        "end_line": 44,
-                        "input_file": {
-                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                        },
-                        "start_col": 5,
-                        "start_line": 44
-                    }
-                },
-                "78": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 57,
-                        "end_line": 1,
-                        "input_file": {
-                            "filename": "autogen/starknet/arg_processor/1b562308a65653425ce06491fa4b4539466f3251a07e73e099d0afe86a48900e.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 10,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 6,
-                                "start_line": 21
-                            },
-                            "While handling calldata of"
-                        ],
-                        "start_col": 1,
-                        "start_line": 1
-                    }
-                },
-                "79": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 64,
-                        "end_line": 1,
-                        "input_file": {
-                            "filename": "autogen/starknet/external/mint/c7060df96cb0acca1380ae43bf758cab727bfdf73cb5d34a93e24a9742817fda.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 30,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "parent_location": [
-                                    {
-                                        "end_col": 55,
-                                        "end_line": 1,
-                                        "input_file": {
-                                            "filename": "autogen/starknet/external/mint/ef3a79c18d46a9fa62dfdc7620278a45e5a135102b4efbfbcf08b5b08cd0430f.cairo"
-                                        },
-                                        "parent_location": [
-                                            {
-                                                "end_col": 10,
-                                                "end_line": 21,
-                                                "input_file": {
-                                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                                },
-                                                "start_col": 6,
-                                                "start_line": 21
-                                            },
-                                            "While constructing the external wrapper for:"
-                                        ],
-                                        "start_col": 44,
-                                        "start_line": 1
-                                    },
-                                    "While expanding the reference 'syscall_ptr' in:"
-                                ],
-                                "start_col": 11,
-                                "start_line": 21
-                            },
-                            "While constructing the external wrapper for:"
-                        ],
-                        "start_col": 19,
-                        "start_line": 1
-                    }
-                },
-                "80": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 110,
-                        "end_line": 1,
-                        "input_file": {
-                            "filename": "autogen/starknet/external/mint/424b26e79f70343cc02557f1fbd25745138efb26a3dc5c8b593ca765b73138b7.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 59,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "parent_location": [
-                                    {
-                                        "end_col": 82,
-                                        "end_line": 1,
-                                        "input_file": {
-                                            "filename": "autogen/starknet/external/mint/ef3a79c18d46a9fa62dfdc7620278a45e5a135102b4efbfbcf08b5b08cd0430f.cairo"
-                                        },
-                                        "parent_location": [
-                                            {
-                                                "end_col": 10,
-                                                "end_line": 21,
-                                                "input_file": {
-                                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                                },
-                                                "start_col": 6,
-                                                "start_line": 21
-                                            },
-                                            "While constructing the external wrapper for:"
-                                        ],
-                                        "start_col": 70,
-                                        "start_line": 1
-                                    },
-                                    "While expanding the reference 'pedersen_ptr' in:"
-                                ],
-                                "start_col": 32,
-                                "start_line": 21
-                            },
-                            "While constructing the external wrapper for:"
-                        ],
-                        "start_col": 20,
-                        "start_line": 1
-                    }
-                },
-                "81": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 67,
-                        "end_line": 1,
-                        "input_file": {
-                            "filename": "autogen/starknet/external/mint/e651458745e7cd218121c342e0915890767e2f59ddc2e315b8844ad0f47d582e.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 76,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "parent_location": [
-                                    {
-                                        "end_col": 115,
-                                        "end_line": 1,
-                                        "input_file": {
-                                            "filename": "autogen/starknet/external/mint/ef3a79c18d46a9fa62dfdc7620278a45e5a135102b4efbfbcf08b5b08cd0430f.cairo"
-                                        },
-                                        "parent_location": [
-                                            {
-                                                "end_col": 10,
-                                                "end_line": 21,
-                                                "input_file": {
-                                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                                },
-                                                "start_col": 6,
-                                                "start_line": 21
-                                            },
-                                            "While constructing the external wrapper for:"
-                                        ],
-                                        "start_col": 100,
-                                        "start_line": 1
-                                    },
-                                    "While expanding the reference 'range_check_ptr' in:"
-                                ],
-                                "start_col": 61,
-                                "start_line": 21
-                            },
-                            "While constructing the external wrapper for:"
-                        ],
-                        "start_col": 23,
-                        "start_line": 1
-                    }
-                },
-                "82": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 10,
                         "end_line": 21,
                         "input_file": {
                             "filename": "./benchmarks/erc20/erc20test.cairo"
                         },
-                        "start_col": 6,
+                        "start_col": 5,
                         "start_line": 21
-                    }
-                },
-                "84": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [
-                        {
-                            "location": {
-                                "end_col": 34,
-                                "end_line": 2,
-                                "input_file": {
-                                    "filename": "autogen/starknet/external/mint/ef3a79c18d46a9fa62dfdc7620278a45e5a135102b4efbfbcf08b5b08cd0430f.cairo"
-                                },
-                                "parent_location": [
-                                    {
-                                        "end_col": 10,
-                                        "end_line": 21,
-                                        "input_file": {
-                                            "filename": "./benchmarks/erc20/erc20test.cairo"
-                                        },
-                                        "start_col": 6,
-                                        "start_line": 21
-                                    },
-                                    "While constructing the external wrapper for:"
-                                ],
-                                "start_col": 1,
-                                "start_line": 2
-                            },
-                            "n_prefix_newlines": 0
-                        }
-                    ],
-                    "inst": {
-                        "end_col": 24,
-                        "end_line": 3,
-                        "input_file": {
-                            "filename": "autogen/starknet/external/mint/ef3a79c18d46a9fa62dfdc7620278a45e5a135102b4efbfbcf08b5b08cd0430f.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 10,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 6,
-                                "start_line": 21
-                            },
-                            "While constructing the external wrapper for:"
-                        ],
-                        "start_col": 1,
-                        "start_line": 3
-                    }
-                },
-                "86": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 55,
-                        "end_line": 1,
-                        "input_file": {
-                            "filename": "autogen/starknet/external/mint/ef3a79c18d46a9fa62dfdc7620278a45e5a135102b4efbfbcf08b5b08cd0430f.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 10,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "parent_location": [
-                                    {
-                                        "end_col": 20,
-                                        "end_line": 1,
-                                        "input_file": {
-                                            "filename": "autogen/starknet/external/mint/4ba2b119ceb30fe10f4cca3c9d73ef620c0fb5eece91b99a99d71217bba1001c.cairo"
-                                        },
-                                        "parent_location": [
-                                            {
-                                                "end_col": 10,
-                                                "end_line": 21,
-                                                "input_file": {
-                                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                                },
-                                                "start_col": 6,
-                                                "start_line": 21
-                                            },
-                                            "While constructing the external wrapper for:"
-                                        ],
-                                        "start_col": 9,
-                                        "start_line": 1
-                                    },
-                                    "While expanding the reference 'syscall_ptr' in:"
-                                ],
-                                "start_col": 6,
-                                "start_line": 21
-                            },
-                            "While constructing the external wrapper for:"
-                        ],
-                        "start_col": 44,
-                        "start_line": 1
-                    }
-                },
-                "87": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 82,
-                        "end_line": 1,
-                        "input_file": {
-                            "filename": "autogen/starknet/external/mint/ef3a79c18d46a9fa62dfdc7620278a45e5a135102b4efbfbcf08b5b08cd0430f.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 10,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "parent_location": [
-                                    {
-                                        "end_col": 33,
-                                        "end_line": 1,
-                                        "input_file": {
-                                            "filename": "autogen/starknet/external/mint/4ba2b119ceb30fe10f4cca3c9d73ef620c0fb5eece91b99a99d71217bba1001c.cairo"
-                                        },
-                                        "parent_location": [
-                                            {
-                                                "end_col": 10,
-                                                "end_line": 21,
-                                                "input_file": {
-                                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                                },
-                                                "start_col": 6,
-                                                "start_line": 21
-                                            },
-                                            "While constructing the external wrapper for:"
-                                        ],
-                                        "start_col": 21,
-                                        "start_line": 1
-                                    },
-                                    "While expanding the reference 'pedersen_ptr' in:"
-                                ],
-                                "start_col": 6,
-                                "start_line": 21
-                            },
-                            "While constructing the external wrapper for:"
-                        ],
-                        "start_col": 70,
-                        "start_line": 1
-                    }
-                },
-                "88": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 115,
-                        "end_line": 1,
-                        "input_file": {
-                            "filename": "autogen/starknet/external/mint/ef3a79c18d46a9fa62dfdc7620278a45e5a135102b4efbfbcf08b5b08cd0430f.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 10,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "parent_location": [
-                                    {
-                                        "end_col": 49,
-                                        "end_line": 1,
-                                        "input_file": {
-                                            "filename": "autogen/starknet/external/mint/4ba2b119ceb30fe10f4cca3c9d73ef620c0fb5eece91b99a99d71217bba1001c.cairo"
-                                        },
-                                        "parent_location": [
-                                            {
-                                                "end_col": 10,
-                                                "end_line": 21,
-                                                "input_file": {
-                                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                                },
-                                                "start_col": 6,
-                                                "start_line": 21
-                                            },
-                                            "While constructing the external wrapper for:"
-                                        ],
-                                        "start_col": 34,
-                                        "start_line": 1
-                                    },
-                                    "While expanding the reference 'range_check_ptr' in:"
-                                ],
-                                "start_col": 6,
-                                "start_line": 21
-                            },
-                            "While constructing the external wrapper for:"
-                        ],
-                        "start_col": 100,
-                        "start_line": 1
-                    }
-                },
-                "89": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 21,
-                        "end_line": 4,
-                        "input_file": {
-                            "filename": "autogen/starknet/external/mint/ef3a79c18d46a9fa62dfdc7620278a45e5a135102b4efbfbcf08b5b08cd0430f.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 10,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "parent_location": [
-                                    {
-                                        "end_col": 62,
-                                        "end_line": 1,
-                                        "input_file": {
-                                            "filename": "autogen/starknet/external/mint/4ba2b119ceb30fe10f4cca3c9d73ef620c0fb5eece91b99a99d71217bba1001c.cairo"
-                                        },
-                                        "parent_location": [
-                                            {
-                                                "end_col": 10,
-                                                "end_line": 21,
-                                                "input_file": {
-                                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                                },
-                                                "start_col": 6,
-                                                "start_line": 21
-                                            },
-                                            "While constructing the external wrapper for:"
-                                        ],
-                                        "start_col": 50,
-                                        "start_line": 1
-                                    },
-                                    "While expanding the reference 'retdata_size' in:"
-                                ],
-                                "start_col": 6,
-                                "start_line": 21
-                            },
-                            "While constructing the external wrapper for:"
-                        ],
-                        "start_col": 20,
-                        "start_line": 4
-                    }
-                },
-                "91": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 16,
-                        "end_line": 3,
-                        "input_file": {
-                            "filename": "autogen/starknet/external/mint/ef3a79c18d46a9fa62dfdc7620278a45e5a135102b4efbfbcf08b5b08cd0430f.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 10,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "parent_location": [
-                                    {
-                                        "end_col": 70,
-                                        "end_line": 1,
-                                        "input_file": {
-                                            "filename": "autogen/starknet/external/mint/4ba2b119ceb30fe10f4cca3c9d73ef620c0fb5eece91b99a99d71217bba1001c.cairo"
-                                        },
-                                        "parent_location": [
-                                            {
-                                                "end_col": 10,
-                                                "end_line": 21,
-                                                "input_file": {
-                                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                                },
-                                                "start_col": 6,
-                                                "start_line": 21
-                                            },
-                                            "While constructing the external wrapper for:"
-                                        ],
-                                        "start_col": 63,
-                                        "start_line": 1
-                                    },
-                                    "While expanding the reference 'retdata' in:"
-                                ],
-                                "start_col": 6,
-                                "start_line": 21
-                            },
-                            "While constructing the external wrapper for:"
-                        ],
-                        "start_col": 9,
-                        "start_line": 3
-                    }
-                },
-                "92": {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "flow_tracking_data": null,
-                    "hints": [],
-                    "inst": {
-                        "end_col": 71,
-                        "end_line": 1,
-                        "input_file": {
-                            "filename": "autogen/starknet/external/mint/4ba2b119ceb30fe10f4cca3c9d73ef620c0fb5eece91b99a99d71217bba1001c.cairo"
-                        },
-                        "parent_location": [
-                            {
-                                "end_col": 10,
-                                "end_line": 21,
-                                "input_file": {
-                                    "filename": "./benchmarks/erc20/erc20test.cairo"
-                                },
-                                "start_col": 6,
-                                "start_line": 21
-                            },
-                            "While constructing the external wrapper for:"
-                        ],
-                        "start_col": 1,
-                        "start_line": 1
                     }
                 }
             }
@@ -2065,24 +790,6 @@
                             "starkware.cairo.common.uint256.uint256_add.carry_high": 4,
                             "starkware.cairo.common.uint256.uint256_add.carry_low": 3
                         }
-                    }
-                }
-            ],
-            "84": [
-                {
-                    "accessible_scopes": [
-                        "__main__",
-                        "__main__",
-                        "__wrappers__",
-                        "__wrappers__.mint"
-                    ],
-                    "code": "memory[ap] = segments.add()",
-                    "flow_tracking_data": {
-                        "ap_tracking": {
-                            "group": 4,
-                            "offset": 69
-                        },
-                        "reference_ids": {}
                     }
                 }
             ]
@@ -2156,9 +863,7 @@
                 "type": "alias"
             },
             "__main__.mint": {
-                "decorators": [
-                    "external"
-                ],
+                "decorators": [],
                 "pc": 32,
                 "type": "function"
             },
@@ -2193,7 +898,7 @@
             },
             "__main__.mint.SIZEOF_LOCALS": {
                 "type": "const",
-                "value": 2
+                "value": 0
             },
             "__main__.total_supply": {
                 "type": "namespace"
@@ -2244,41 +949,6 @@
             },
             "__main__.uint256_check": {
                 "destination": "starkware.cairo.common.uint256.uint256_check",
-                "type": "alias"
-            },
-            "__wrappers__.mint": {
-                "decorators": [
-                    "external"
-                ],
-                "pc": 78,
-                "type": "function"
-            },
-            "__wrappers__.mint.Args": {
-                "full_name": "__wrappers__.mint.Args",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "__wrappers__.mint.ImplicitArgs": {
-                "full_name": "__wrappers__.mint.ImplicitArgs",
-                "members": {},
-                "size": 0,
-                "type": "struct"
-            },
-            "__wrappers__.mint.Return": {
-                "cairo_type": "(syscall_ptr : felt*, pedersen_ptr : starkware.cairo.common.cairo_builtins.HashBuiltin*, range_check_ptr : felt, size : felt, retdata : felt*)",
-                "type": "type_definition"
-            },
-            "__wrappers__.mint.SIZEOF_LOCALS": {
-                "type": "const",
-                "value": 0
-            },
-            "__wrappers__.mint.__wrapped_func": {
-                "destination": "__main__.mint",
-                "type": "alias"
-            },
-            "__wrappers__.mint_encode_return.memcpy": {
-                "destination": "starkware.cairo.common.memcpy.memcpy",
                 "type": "alias"
             },
             "starkware.cairo.common.bitwise.ALL_ONES": {

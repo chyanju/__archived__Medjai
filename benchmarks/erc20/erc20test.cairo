@@ -17,30 +17,29 @@ const SHIFT = 2 ** 128
 const ALL_ONES = 2 ** 128 - 1
 const HALF_SHIFT = 2 ** 64
 
-func mint{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
-    recipient : felt, amount : Uint256
-):
+@external
+func mint{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}():
     alloc_locals
+
+    let rando = 7
+    assert (rando) = 7
+
+    let recipient = 1
+    let amount : Uint256 = Uint256(low = 5, high = 0)
+
     assert_not_zero(recipient)
     uint256_check(amount)
 
-    let (balance : Uint256) = balances.read(account=recipient)
+    let balance : Uint256 = Uint256(low = 10, high = 0)
     # overflow is not possible because sum is guaranteed to be less than total supply
     # which we check for overflow below
     let (new_balance, _ : Uint256) = uint256_add(balance, amount)
-    balances.write(recipient, new_balance)
+    ## balances.write(recipient, new_balance)
 
-    let (local supply : Uint256) = total_supply.read()
+    let supply : Uint256 = Uint256(low = 20, high = 0) ## total_supply.read()
     let (local new_supply : Uint256, is_overflow) = uint256_add(supply, amount)
     assert (is_overflow) = 0
 
-    total_supply.write(new_supply)
+    ## total_supply.write(new_supply)
     return ()
-end
-
-func main():
-    [ap] = 1000; ap++
-    [ap] = 2000; ap++
-    [ap] = [ap - 2] + [ap - 1]; ap++
-    ret
 end

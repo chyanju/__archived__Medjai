@@ -26,7 +26,7 @@
 (define OPCODE-ASSERT-EQ-BIT 14)
 ; (define RESERVED-BIT 15)
 
-(define (decode-instruction enc #:imm [imm null])
+(define (decode-instruction enc #:imm imm)
     (tokamak:log "decode-instruction | enc: ~a, imm: ~a" enc imm)
     (tokamak:typed enc integer?)
     (tokamak:typed imm integer? null?)
@@ -71,6 +71,8 @@
             [else (tokamak:error "unrecognized pc-update-pat")]
         ))
 
+        (tokamak:log "pc update: ~a" pc-update)
+
         ; get res
         (define res-pat (list
             (bitwise-and (utils:shift-right flags RES-ADD-BIT) 1)
@@ -82,6 +84,7 @@
             [(equal? res-pat (list 0 0))
                 (if (equal? 'jnz pc-update) 'unconstrained 'op1)
             ]
+            [(equal? res-pat (list 1 1)) 'symbolic]
             [else (tokamak:error "unrecognized res-pat")]
         ))
         ; JNZ opcode means res must be UNCONSTRAINED
@@ -98,6 +101,10 @@
             [(equal? opcode-pat (list 0 1 0)) 'ret]
             [(equal? opcode-pat (list 0 0 1)) 'assert-eq]
             [(equal? opcode-pat (list 0 0 0)) 'nop]
+            [(equal? opcode-pat (list 0 1 1)) 'verify-lt]
+            [(equal? opcode-pat (list 1 0 1)) 'verify-geq]
+            [(equal? opcode-pat (list 1 1 0)) 'verify-eq]
+            [(equal? opcode-pat (list 1 0 1)) 'verify-neq]
             [else (tokamak:error "unrecognized opcode-pat")]
         ))
 
@@ -110,6 +117,7 @@
             [(equal? ap-update-pat (list 1 0)) 'add]
             [(equal? ap-update-pat (list 0 1)) 'add1]
             [(equal? ap-update-pat (list 0 0))
+            ;; TODO/fixme: this if statement shouldn't be here
                 (if (equal? 'call opcode) 'add2 'regular)
             ]
             [else (tokamak:error "unrecognized ap-update-pat")]
@@ -117,7 +125,7 @@
         ; update
         (define ap-update (cond
             [(equal? 'call opcode)
-                (assert (equal? 'regular ap-update-init) "call must have update_ap is ADD2")
+                (assert (equal? 'add2 ap-update-init) "call must have update_ap is ADD2")
                 'add2
             ]
             [else ap-update-init]

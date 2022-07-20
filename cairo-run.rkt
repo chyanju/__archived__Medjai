@@ -5,6 +5,7 @@
     (prefix-in program: "./papyrus/program.rkt")
     (prefix-in memory: "./papyrus/memory.rkt")
     (prefix-in runner: "./papyrus/runner.rkt")
+    rosette/lib/angelic
 )
 
 ; parse command line arguments
@@ -42,6 +43,19 @@
     runner
     (make-hash (list (cons 'program-input program-input)))
 )
-(runner:run-until-pc runner end)
 
-(tokamak:log "final memory data is: ~a" (memory:memory-data initial-memory))
+(let ([mdl (verify (begin (runner:run-until-pc runner end)
+                          (displayln "Finished Symbolic Execution")
+                          (flush-output)))])
+  (if (unsat? mdl)
+    (displayln "No bugs found!")
+    (let* ([mdl-hash (model mdl)]
+           [str-model
+             (for/hash ([key (hash-keys (model mdl))])
+               (values (~a key) (hash-ref mdl-hash key)))])
+      ;; TODO: better print statement using source code variable names
+      (displayln "Bugs found with following variable assignments")
+      (if (empty? (hash-keys mdl-hash))
+        (displayln "Any assignment causes a bug")
+        (for ([key (hash-keys mdl-hash)])
+          (displayln (~a key " = " (hash-ref mdl-hash key))))))))

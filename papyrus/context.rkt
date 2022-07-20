@@ -81,6 +81,7 @@
     (tokamak:typed instruction instruction:instruction?)
     (tokamak:typed op0 memory:rv? integer?)
     (define base-addr (let ([sym (instruction:instruction-op1 instruction)])
+    (tokamak:log "compute-op1-addr sym: ~a" sym)
         (cond
             [(equal? 'ap sym) (context-ap p)]
             [(equal? 'fp sym) (context-fp p)]
@@ -89,12 +90,14 @@
                 (context-pc p)
             ]
             [(equal? 'op0 sym)
-                (assert (! (null? op0)) "op0 must be known in double dereference.")
+                (assert op0 "op0 must be known in double dereference.")
                 op0
             ]
             [else (tokamak:error "invalid op1-register value.")]
         )
     ))
     ; return
+    (tokamak:log "compute-op1-addr base-addr: ~a" base-addr)
+    (tokamak:log "compute-op1-addr off2: ~a" (instruction:instruction-off2 instruction))
     (memory:rvmod (memory:rvadd base-addr (instruction:instruction-off2 instruction)) (context-prime p))
 )

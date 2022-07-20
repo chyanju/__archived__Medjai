@@ -20,32 +20,53 @@
     off ; (offset) int
 ) #:mutable #:transparent #:reflection-name 'rv)
 
+(define (torv i)
+  (tokamak:typed i rv? integer?)
+  (if (integer? i)
+    (rv 0 i)
+    ;; When tokamak:typed does nothing, return i for all non-ints
+    i))
+
+; TODO/fixme checks whether an rv belongs to a range_check_ptr segment
+; range_check_ptr segment is from (2, >0)
+; we should probably do something smarter here to figure out exactly where
+; in case there are multiple builtins
+(define (israngechk r)
+  (tokamak:typed r rv?)
+  (tokamak:log "checking for rangechk ~a" r)
+  (equal? (rv-seg r) 2))
+
+(define (fromrv r)
+  (tokamak:typed r rv? integer?)
+  (if (integer? r)
+    r
+    ;; When tokamak:typed does nothing, return i for all non-ints
+    (rv-off r)))
+
 (define (rvadd self other)
-    (tokamak:typed self rv?)
+    (tokamak:typed self rv? integer?)
     (tokamak:typed other integer?)
     ; return
-    (rv (rv-seg self) (+ (rv-off self) other))
-)
+    (let ([self (torv self)])
+      (rv (rv-seg self) (+ (rv-off self) other))))
 
 (define (rvsub self other)
-    (tokamak:typed self rv?)
+    (tokamak:typed self rv? integer?)
     (tokamak:typed other rv? integer?)
-    (cond
-        [(integer? other) (rv (rv-seg self) (- (rv-off self) other))]
-        [else
-            ; other is also rv
-            (assert (equal? (rv-seg self) (rv-seg other)) "rv-sub segs mismatch")
-            (- (rv-off self) (rv-off other))
-        ]
-    )
-)
+    (let ([self (torv self)])
+      (cond
+          [(integer? other) (rv (rv-seg self) (- (rv-off self) other))]
+          [else
+              ; other is also rv
+              (assert (equal? (rv-seg self) (rv-seg other)) "rv-sub segs mismatch")
+              (- (rv-off self) (rv-off other))])))
 
 (define (rvmod self other)
-    (tokamak:typed self rv?)
+    (tokamak:typed self rv? integer?)
     (tokamak:typed other integer?)
     ; return
-    (rv (rv-seg self) (modulo (rv-off self) other))
-)
+    (let ([self (torv self)])
+      (rv (rv-seg self) (modulo (rv-off self) other))))
 
 (define (rveq self other)
     (tokamak:typed self rv?)
@@ -150,8 +171,42 @@
     )
 )
 
+(define (segment-print seg port mode)
+  (let* ([print-func
+           (case mode
+             [(#t) write]
+             [(#f) display]
+             [else (lambda (p port) (print p port mode))])]
+        [keys (segment-keys seg)]
+        [vals (map (curry segment-ref seg) keys)]
+        [kvpairs
+          (map (lambda (k v) (~a k "->" v)) keys vals)])
+    (print-func kvpairs port)))
+
+(struct segment
+  (access-function keys)
+  #:mutable
+  #:transparent
+  #:methods gen:custom-write
+  [(define write-proc segment-print)])
+
+(define (segment-ref seg i) ((segment-access-function seg) i))
+
+(define (segment-set! seg i v)
+  (let ([af (segment-access-function seg)]
+        [old-keys (segment-keys seg)])
+    ;; TODO can remove this for symexec
+    (when (not (member i old-keys))
+      (set-segment-keys!
+        seg
+        (cons i old-keys)))
+    (set-segment-access-function!
+      seg
+      (lambda (j)
+        (if (equal? i j) v (af j))))))
+
 ; helper function
-(define (make-default-segment) (list->vector (for/list ([_ (range config:offcap)]) null)))
+(define (make-default-segment) (segment (lambda (off) #f) empty))
 
 ; MemoryDict method, internal core method, refer to a memory slot (not segment)
 (define (data-ref p addr)
@@ -162,7 +217,7 @@
     (define l0 (vector-ref p seg0))
     ; (fixme) for l0, it's NOT ok to return null, since you need to initialize a segment first
     (when (null? l0) (tokamak:error "l0 is null, given addr: ~a." addr))
-    (define l1 (vector-ref l0 off0))
+    (define l1 (segment-ref l0 off0))
     ; (note) for l1 it's ok to return null, e.g., compute_operands allows pre-fetch of null
     ; (when (null? l1) (tokamak:error "l1 is null, given addr: ~a." addr))
     ; return
@@ -185,7 +240,7 @@
             [else t0]
         )
     ))
-    (vector-set! l0 off0 val)
+    (segment-set! l0 off0 val)
 )
 
 (define (seg-add! p ind)
@@ -224,7 +279,7 @@
     (define value (data-ref (memory-data p) addr))
     ; return
     (relocate-value value)
-)
+) 
 
 ; MemoryDict method
 (define (memory-set! p addr value)
@@ -232,6 +287,11 @@
     (tokamak:typed p memory?)
     (when (memory-frozen p)
         (tokamak:error "memory is frozen and cannot be changed."))
+    (when (israngechk addr)
+      (tokamak:log "adding range check constraints")
+      (tokamak:log "fromrv val: ~a" (fromrv value))
+      (assume (>= (fromrv value) 0))
+      (assume (< (fromrv value) 340282366920938463463374607431768211456)))
     (check-element addr "memory address")
     (check-element value "memory value")
     (when (&& (rv? addr) (< (rv-off addr) 0))
