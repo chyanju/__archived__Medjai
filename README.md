@@ -1,29 +1,29 @@
-# Papyrus: A Symbolic Execution Tool for Cairo
+# Medjai: A Symbolic Execution Tool for Cairo
 
-<div>Papyrus is an open-sourced general framework for reasoning about <img src="./docs/cairo-icon.png" width=24px> Cairo programs based on symbolic execution.</div>
+<div>Medjai is an open-sourced general framework for reasoning about <img src="./docs/cairo-icon.png" width=24px> Cairo programs based on symbolic execution.</div>
 
-***Note: Papyrus is still under active development. For development notes, please see [here](./DEV.md).***
+***Note: Medjai is still under active development. For development notes, please see [here](./DEV.md).***
 
 ## Features
 
-- [x] [Dev] **Program Exploration**: Papyrus can execute Cairo program with symbolic inputs and explore all its possible program states.
-- [x] [Dev] **Property Verification**: Papyrus can check whether certain properties hold on Cairo program.
-- [ ] [Dev] **Attack Synthesis**: Papyrus can automatically solve for concrete inputs that crash given Cairo program.
-- [ ] [Dev] **Integrations with <img src="./docs/veridise-icon.png" width=24px> Veridise Product Lines**: Papyrus integrates with [[V] specication language](https://github.com/Veridise/V) that allows developers to express correctness properties.
+- [x] [Dev] **Program Exploration**: Medjai can execute Cairo program with symbolic inputs and explore all its possible program states.
+- [x] [Dev] **Property Verification**: Medjai can check whether certain properties hold on Cairo program.
+- [ ] [Dev] **Attack Synthesis**: Medjai can automatically solve for concrete inputs that crash given Cairo program.
+- [ ] [Dev] **Integrations with <img src="./docs/veridise-icon.png" width=24px> Veridise Product Lines**: Medjai integrates with [[V] specication language](https://github.com/Veridise/V) that allows developers to express correctness properties.
 
 ## Running An ERC20 Demo (Docker)
 
 First you need to build the demo from the latest version. Make sure you have Docker installed, and then type in the following command to build an image:
 
 ```bash
-cd Papyrus/
-docker build -t papyrus:demo .
+cd Medjai/
+docker build -t medjai:demo .
 ```
 
 It should take a short time to set up the environment. Then use the following command to start a container:
 
 ```bash
-docker run -it --rm papyrus:demo bash
+docker run -it --rm medjai:demo bash
 ```
 
 Then you will enter a pre-set docker environment.
@@ -33,7 +33,7 @@ Then you will enter a pre-set docker environment.
 To test the buggy version, use the following command in the container:
 
 ```bash
-cd Papyrus/
+cd Medjai/
 racket ./cairo-run.rkt --cname ./benchmarks/overflowTest/erc20demo_bug_compiled.json
 ```
 
@@ -87,14 +87,14 @@ end
 where the user assigns two values `1000` and `2000` to corresponding memory addresses and assigns the result of adding them up to another memory address. By calling:
 
 ```bash
-./run-papyrus.sh ./examples/test0.cairo
+./run-medjai.sh ./examples/test0.cairo
 ```
 
-Papyrus can then execute the program and outputs the desired final memory states.
+Medjai can then execute the program and outputs the desired final memory states.
 
 ## Getting Started: Symbolic Reasoning (Dev)
 
-Papyrus also supports reasoning and you can utilize it to verify several properties of Cairo programs. For example:
+Medjai also supports reasoning and you can utilize it to verify several properties of Cairo programs. For example:
 
 ```cairo
 # examples/test1.cairo: symbolic reasoning
@@ -106,22 +106,22 @@ func main():
 end
 ```
 
-The above code snippet creates a symbolic integer `var0` and assigns it to a certain memory address. We would like to find out whether this piece of code is correct or not by asking Papyrus to find a counterexample of `var0` that would potentially crash the execution of the program. By calling:
+The above code snippet creates a symbolic integer `var0` and assigns it to a certain memory address. We would like to find out whether this piece of code is correct or not by asking Medjai to find a counterexample of `var0` that would potentially crash the execution of the program. By calling:
 
 ```bash
-./run-papyrus.sh ./examples/test0.cairo
+./run-medjai.sh ./examples/test0.cairo
 ```
 
-Papyrus will reason about all possible values of `var0` together with all program states, and return one of them that can compromise the program execution, which is `0` that would cause a "division by 0" error. 
+Medjai will reason about all possible values of `var0` together with all program states, and return one of them that can compromise the program execution, which is `0` that would cause a "division by 0" error. 
 
 As in the line of code after we create the symbolic variable, `var0` is immediately used as denominator of a division arithmetic operation `[ap] = [ap - 2] / [ap - 1]; ap++`, which will cause an "unknown value for memory cell"  exception if `var0` is set to `0`. This verifies the counterexample it found.
 
 ## Commands & Usages
 
-### Using `run-papyrus.sh`
+### Using `run-medjai.sh`
 
 ```bash
-usage: run-papyrus.sh <path-to-cairo-program>
+usage: run-medjai.sh <path-to-cairo-program>
 ```
 
 ### Using `cairo-run.rkt`

@@ -1,10 +1,10 @@
 #lang rosette
 ; a simplified version of cairo_run.py
 (require racket/cmdline
-    (prefix-in tokamak: "./papyrus/tokamak.rkt")
-    (prefix-in program: "./papyrus/program.rkt")
-    (prefix-in memory: "./papyrus/memory.rkt")
-    (prefix-in runner: "./papyrus/runner.rkt")
+    (prefix-in tokamak: "./medjai/tokamak.rkt")
+    (prefix-in program: "./medjai/program.rkt")
+    (prefix-in memory: "./medjai/memory.rkt")
+    (prefix-in runner: "./medjai/runner.rkt")
     rosette/lib/angelic
 )
 

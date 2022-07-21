@@ -1,8 +1,8 @@
-# Papyrus: Reasoning Cairo STARKs dApps
+# Medjai: Reasoning Cairo STARKs dApps
 
-<div>Papyrus is an open-sourced general framework for reasoning <img src="./docs/cairo-icon.png" width=24px>Cairo STARKs dApps. Papyrus performs reasoning using a builtin symbolic virtual machine based on Cairo bytecode.</div>
+<div>Medjai is an open-sourced general framework for reasoning <img src="./docs/cairo-icon.png" width=24px>Cairo STARKs dApps. Medjai performs reasoning using a builtin symbolic virtual machine based on Cairo bytecode.</div>
 
-***Note: Papyrus is still under active development.***
+***Note: Medjai is still under active development.***
 
 ## Dependencies (Building from Source)
 
@@ -28,16 +28,16 @@ end
 where the user assigns two values `1000` and `2000` to corresponding memory addresses and assigns the result of adding them up to another memory address. By calling:
 
 ```bash
-./run-papyrus.sh ./examples/test0.cairo
+./run-medjai.sh ./examples/test0.cairo
 ```
 
-Papyrus can then execute the program and outputs the desired final memory states.
+Medjai can then execute the program and outputs the desired final memory states.
 
 ## Getting Started: Symbolic Reasoning (Dev)
 
 ***Note: This section is under development.***
 
-Papyrus also supports reasoning and you can utilize it to verify several properties of Cairo programs. For example:
+Medjai also supports reasoning and you can utilize it to verify several properties of Cairo programs. For example:
 
 ```cairo
 # examples/test1.cairo: symbolic reasoning
@@ -49,22 +49,22 @@ func main():
 end
 ```
 
-The above code snippet creates a symbolic integer named `var0` and assigns it to a certain memory address. We would like to find out whether this piece of code is correct or not by asking Papyrus to find a counterexample of valuation of `var0` to fail the execution of the program. By calling:
+The above code snippet creates a symbolic integer named `var0` and assigns it to a certain memory address. We would like to find out whether this piece of code is correct or not by asking Medjai to find a counterexample of valuation of `var0` to fail the execution of the program. By calling:
 
 ```bash
-./run-papyrus.sh ./examples/test1.cairo
+./run-medjai.sh ./examples/test1.cairo
 ```
 
-Papyrus will reason about all possible values of `var0` and return one of them that can compromise the program execution, which is `0` that would cause a "division by 0" error. 
+Medjai will reason about all possible values of `var0` and return one of them that can compromise the program execution, which is `0` that would cause a "division by 0" error. 
 
 As in the line of code after we create the symbolic variable, `var0` is immediately used as denominator of a division arithmetic operation `[ap] = [ap - 2] / [ap - 1]; ap++`, which will cause an "unknown value for memory cell"  exception if `var0` is set to `0`. This verifies the counterexample found.
 
 ## Commands & Usages
 
-### Using `run-papyrus.sh`
+### Using `run-medjai.sh`
 
 ```bash
-usage: run-papyrus.sh <path-to-cairo-program>
+usage: run-medjai.sh <path-to-cairo-program>
 ```
 
 ### Using `cairo-run.rkt`
@@ -90,7 +90,7 @@ usage: cairo-run.rkt [ <option> ... ]
 ### Example Commands (Dev)
 
 ```bash
-# normal call to papyrus
+# normal call to medjai
 racket ./cairo-run.rkt --cname ./examples/test0_compiled.json
 
 # turn on error trace
