@@ -1,8 +1,8 @@
+***Note: Development of Medjai has been moved to Veridise ([https://github.com/Veridise/Medjai](https://github.com/Veridise/Medjai)). Maintenance of this (original) repo is temporarily suspended.***
+
 # Medjai: A Symbolic Execution Tool for Cairo
 
 <div>Medjai is an open-sourced general framework for reasoning about <img src="./docs/cairo-icon.png" width=24px> Cairo programs based on symbolic execution.</div>
-
-***Note: Medjai is still under active development. For development notes, please see [here](./DEV.md).***
 
 ## Features
 
